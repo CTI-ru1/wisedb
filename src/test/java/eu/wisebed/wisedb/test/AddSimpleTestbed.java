@@ -3,8 +3,6 @@ package eu.wisebed.wisedb.test;
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.SetupController;
 import eu.wisebed.wisedb.controller.TestbedController;
-import eu.wisebed.wisedb.importer.SetupImporter;
-import eu.wisebed.wisedb.importer.TestbedImporter;
 import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
@@ -30,40 +28,39 @@ public class AddSimpleTestbed {
 
     public static void main(final String[] args) throws IOException {
 
-        // Construct a TestbedImporter and a Setup Importer
-        final TestbedImporter tImp = new TestbedImporter();
-        final SetupImporter sImp = new SetupImporter();
 
         // read from keyboard.
         BufferedReader br;
         br = new BufferedReader(new InputStreamReader(System.in));
 
         try {
+            Testbed testbed = new Testbed();
             LOGGER.info("Provide Testbed Name");
             final String testbedName = br.readLine();
-            tImp.setName(testbedName);
+            testbed.setName(testbedName);
 
             LOGGER.info("Provide Testbed Description");
             final String testbedDescription = br.readLine();
-            tImp.setDescription(testbedDescription);
+            testbed.setDescription(testbedDescription);
 
             LOGGER.info("Provide Testbed's web page URL");
             final String testbedWebPageUrl = br.readLine();
-            tImp.setWebPageUrl(testbedWebPageUrl);
+            testbed.setUrl(testbedWebPageUrl);
 
             LOGGER.info("Provide Testbed's urnPrefix");
             final String urnPrefix = br.readLine();
-            tImp.setUrnPrefix(urnPrefix);
+            testbed.setUrnPrefix(urnPrefix);
 
             LOGGER.info("Using your default TimeZone : " + TimeZone.getDefault().getDisplayName());
-            tImp.setTimeZone(TimeZone.getDefault());
+            testbed.setTimeZone(TimeZone.getDefault());
 
             // Initialize hibernate and begin transaction
             HibernateUtil.connectEntityManagers();
             Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
 
             // import to db
-            tImp.convert();
+            TestbedController.getInstance().add(testbed);
+//            tImp.convert();
 
             // commmit transaction
             tx.commit();
@@ -72,7 +69,7 @@ public class AddSimpleTestbed {
             // begin transaction
             LOGGER.info("For testbed : " + testbedName + " the default setup will be added");
             tx = HibernateUtil.getInstance().getSession().beginTransaction();
-            Testbed testbed = TestbedController.getInstance().getByUrnPrefix(urnPrefix);
+            Testbed theTestbed = TestbedController.getInstance().getByUrnPrefix(urnPrefix);
 
             // set the testbed of the setup to be imported
             Setup setup = new Setup();

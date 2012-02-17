@@ -19,9 +19,9 @@ import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.NodeReading;
 import eu.wisebed.wisedb.model.Origin;
+import eu.wisebed.wisedb.model.Position;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
-import eu.wisebed.wiseml.model.setup.Position;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
@@ -375,7 +375,7 @@ public class NodeController extends AbstractController<Node> {
         description.setValue(descriptionBuffer.toString());
         entry.setDescription(description);
 
-        eu.wisebed.wiseml.model.setup.Position nodePos = NodeController.getInstance().getPosition(node);
+        Position nodePos = NodeController.getInstance().getPosition(node);
 
         // set the GeoRSS module and add it
         final GeoRSSModule geoRSSModule = new SimpleModuleImpl();

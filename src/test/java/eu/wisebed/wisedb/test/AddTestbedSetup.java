@@ -3,8 +3,6 @@ package eu.wisebed.wisedb.test;
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.SetupController;
 import eu.wisebed.wisedb.controller.TestbedController;
-import eu.wisebed.wisedb.importer.SetupImporter;
-import eu.wisebed.wisedb.importer.TestbedImporter;
 import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
@@ -28,10 +26,6 @@ public class AddTestbedSetup {
 
 
     public static void main(final String[] args) throws IOException {
-
-        // Construct a TestbedImporter and a Setup Importer
-        final TestbedImporter tImp = new TestbedImporter();
-        final SetupImporter sImp = new SetupImporter();
 
         // read from keyboard.
         BufferedReader br;
