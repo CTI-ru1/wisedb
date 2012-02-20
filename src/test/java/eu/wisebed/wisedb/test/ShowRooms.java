@@ -1,12 +1,12 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.CapabilityController;
-import eu.wisebed.wisedb.controller.NodeCapabilityController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.CapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -33,14 +33,14 @@ public class ShowRooms {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         final int id = 1;
         try {
-            // look up testbed
-            final Testbed testbed = TestbedController.getInstance().getByID(id);
+            // look up setup
+            final Setup setup = TestbedControllerImpl.getInstance().getByID(id).getSetup();
 
-            final Capability capability = CapabilityController.getInstance().getByID("room");
+            final Capability capability = CapabilityControllerImpl.getInstance().getByID("room");
 
 
-            // get a list of node last readings from testbed
-            List<NodeCapability> nodeCapabilities = NodeCapabilityController.getInstance().list(testbed, capability);
+            // get a list of node last readings from setup
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().list(setup, capability);
 
             final Map<String, Integer> uniqueRooms = new HashMap<String, Integer>();
 

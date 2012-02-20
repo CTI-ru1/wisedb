@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * CRUD operations for Setup entities.
  */
-public class SetupController extends AbstractController<Setup> {
+public class SetupControllerImpl extends AbstractController<Setup> implements SetupController {
 
     /**
      * static instance(ourInstance) initialized as null.
@@ -18,12 +18,12 @@ public class SetupController extends AbstractController<Setup> {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(SetupController.class);
+    private static final Logger LOGGER = Logger.getLogger(SetupControllerImpl.class);
 
     /**
      * Public constructor .
      */
-    public SetupController() {
+    public SetupControllerImpl() {
         // Does nothing
         super();
     }
@@ -36,13 +36,24 @@ public class SetupController extends AbstractController<Setup> {
      * @return ourInstance
      */
     public static SetupController getInstance() {
-        synchronized (SetupController.class) {
+        synchronized (SetupControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new SetupController();
+                ourInstance = new SetupControllerImpl();
             }
         }
 
         return ourInstance;
+    }
+
+
+    /**
+     * Delete the input Node from the database.
+     *
+     * @param setupId the Node tha we want to delete
+     */
+    public void delete(final int setupId) {
+        LOGGER.info("delete(" + setupId + ")");
+        super.delete(new Setup(), setupId);
     }
 
     /**
@@ -56,26 +67,6 @@ public class SetupController extends AbstractController<Setup> {
         return super.getByID(new Setup(), entityID);
     }
 
-    /**
-     * Delete the input Node from the database.
-     *
-     * @param value the Node tha we want to delete
-     */
-    public void delete(final Setup value) {
-        LOGGER.info("delete(" + value + ")");
-        super.delete(value, value.getId());
-    }
-
-
-    /**
-     * Delete the input Node from the database.
-     *
-     * @param setupId the Node tha we want to delete
-     */
-    public void delete(final int setupId) {
-        LOGGER.info("delete(" + setupId + ")");
-        super.delete(new Setup(), setupId);
-    }
 
     /**
      * Listing all the Setups from the database.

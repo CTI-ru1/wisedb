@@ -1,7 +1,7 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeController;
+import eu.wisebed.wisedb.controller.NodeControllerImpl;
 import eu.wisebed.wisedb.model.Node;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
@@ -25,19 +25,21 @@ public class GetNode {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         final int id = 1;
         try {
-            final Node node = NodeController.getInstance().getByID("urn:wisebed:ctitestbed:0x9979");
+            final Node node = NodeControllerImpl.getInstance().getByID("urn:qopbot:destiny");
             if (node != null) {
                 LOGGER.info("id: " + node.getId());
-                LOGGER.info("description: " + NodeController.getInstance().getDescription(node));
-                LOGGER.info("Position :" + NodeController.getInstance().getPosition(node));
-                LOGGER.info("Origin :" + NodeController.getInstance().getOrigin(node));
+                LOGGER.info("description: " + NodeControllerImpl.getInstance().getDescription(node));
+//                LOGGER.info("Position :" + NodeControllerImpl.getInstance().getPosition(node));
+//                LOGGER.info("Origin :" + NodeControllerImpl.getInstance().getOrigin(node));
+                LOGGER.info("Setup : " + node.getSetup());
             } else {
-                LOGGER.error("testbed " + id + " does not exist!");
+                LOGGER.error("node " + id + " does not exist!");
             }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
             LOGGER.fatal(e);
+            e.printStackTrace();
             System.exit(-1);
         } finally {
             // always close session

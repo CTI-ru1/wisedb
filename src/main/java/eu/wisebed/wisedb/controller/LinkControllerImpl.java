@@ -19,7 +19,7 @@ import java.util.List;
  * CRUD operations for Link entities.
  */
 @SuppressWarnings("unchecked")
-public class LinkController extends AbstractController<Link> {
+public class LinkControllerImpl extends AbstractController<Link> implements LinkController {
 
     /**
      * static instance(ourInstance) initialized as null.
@@ -47,13 +47,13 @@ public class LinkController extends AbstractController<Link> {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(LinkController.class);
+    private static final Logger LOGGER = Logger.getLogger(LinkControllerImpl.class);
 
 
     /**
      * Public constructor .
      */
-    public LinkController() {
+    public LinkControllerImpl() {
         // Does nothing
         super();
     }
@@ -66,9 +66,9 @@ public class LinkController extends AbstractController<Link> {
      * @return ourInstance
      */
     public static LinkController getInstance() {
-        synchronized (LinkController.class) {
+        synchronized (LinkControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LinkController();
+                ourInstance = new LinkControllerImpl();
             }
         }
 
@@ -83,7 +83,7 @@ public class LinkController extends AbstractController<Link> {
      * @param targetId , a target node id.
      * @return returns the inserted link instance.
      */
-    Link prepareInsertLink(final Testbed testbed, final String sourceId, final String targetId) {
+    public Link prepareInsertLink(final Testbed testbed, final String sourceId, final String targetId) {
         LOGGER.info("prepareInsertLink(" + testbed + "," + sourceId + "," + targetId + ")");
 
         final Link link = new Link();
@@ -93,7 +93,7 @@ public class LinkController extends AbstractController<Link> {
 //        link.setEncrypted(false);
 //        link.setVirtual(false);
         link.setSetup(testbed.getSetup());
-        LinkController.getInstance().add(link);
+        add(link);
 
         return link;
     }
@@ -143,21 +143,7 @@ public class LinkController extends AbstractController<Link> {
         return super.list(new Link());
     }
 
-    /**
-     * Listing all the links from the database belonging to a selected testbed.
-     *
-     * @param testbed a selected testbed.
-     * @return a list of testbed links.
-     */
-    public List<Link> list(final Testbed testbed) {
-        LOGGER.info("list(" + testbed + ")");
-        final Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(Link.class);
-        criteria.add(Restrictions.eq(SETUP, testbed.getSetup()));
-        return (List<Link>) criteria.list();
-    }
-
-    public List<Link> list(Setup setup) {
+    public List<Link> list(final Setup setup) {
         LOGGER.debug("list(" + setup + ")");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(Link.class);
@@ -166,16 +152,16 @@ public class LinkController extends AbstractController<Link> {
     }
 
     /**
-     * Count all the links from the database belonging to a selected testbed.
+     * Count all the links from the database belonging to a selected setup.
      *
-     * @param testbed , a selected testbed.
+     * @param setup , a selected setup.
      * @return the number of links.
      */
-    public Long count(final Testbed testbed) {
-        LOGGER.debug("count(" + testbed + ")");
+    public Long count(final Setup setup) {
+        LOGGER.debug("count(" + setup + ")");
         final org.hibernate.classic.Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(Link.class);
-        criteria.add(Restrictions.eq(SETUP, testbed.getSetup()));
+        criteria.add(Restrictions.eq(SETUP, setup));
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
@@ -184,31 +170,31 @@ public class LinkController extends AbstractController<Link> {
      * Listing all links that have the given capability.
      *
      * @param capability a capability.
-     * @param testbed    a testbed.
-     * @return a list of links that share the given capability belonging to the same testbed.
+     * @param setup      a setup.
+     * @return a list of links that share the given capability belonging to the same setup.
      */
-    public List<Link> listCapabilityLinks(final Capability capability, final Testbed testbed) {
-        LOGGER.info("listCapabilityLinks(" + capability + "," + testbed + ")");
+    public List<Link> listCapabilityLinks(final Capability capability, final Setup setup) {
+        LOGGER.info("listCapabilityLinks(" + capability + "," + setup + ")");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(Link.class);
-        criteria.add(Restrictions.eq(SETUP, testbed.getSetup()));
+        criteria.add(Restrictions.eq(SETUP, setup));
         criteria.createAlias(CAPABILITIES, "caps")
                 .add(Restrictions.eq("caps.name", capability.getName()));
         criteria.addOrder(Order.asc(SOURCE));
         return (List<Link>) criteria.list();
     }
 
-    public boolean isAssociated(Capability capability, Testbed testbed, Link link) {
-        final org.hibernate.Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(Link.class);
-        criteria.add(Restrictions.eq(SETUP, testbed.getSetup()));
-        criteria.createAlias(CAPABILITIES, "caps").add(Restrictions.eq("caps.name", capability.getName()));
-        criteria.add(Restrictions.eq(SOURCE, link.getSource()));
-        criteria.add(Restrictions.eq(TARGET, link.getTarget()));
-        return criteria.list().size() > 0;
-    }
+//    public boolean isAssociated(Capability capability, Testbed testbed, Link link) {
+//        final org.hibernate.Session session = getSessionFactory().getCurrentSession();
+//        final Criteria criteria = session.createCriteria(Link.class);
+//        criteria.add(Restrictions.eq(SETUP, testbed.getSetup()));
+//        criteria.createAlias(CAPABILITIES, "caps").add(Restrictions.eq("caps.name", capability.getName()));
+//        criteria.add(Restrictions.eq(SOURCE, link.getSource()));
+//        criteria.add(Restrictions.eq(TARGET, link.getTarget()));
+//        return criteria.list().size() > 0;
+//    }
 
-    public List<String> listLinkCapabilities(Link link) {
+    public List<String> listLinkCapabilities(final Link link) {
         final org.hibernate.Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(LinkCapability.class);
         criteria.add(Restrictions.eq(SOURCE, link.getSource()));
@@ -218,11 +204,11 @@ public class LinkController extends AbstractController<Link> {
     }
 
 
-    public List<Link> list(final Testbed testbed, final Capability capability) {
-        final List<Link> links = LinkController.getInstance().list(testbed);
+    public List<Link> list(final Setup setup, final Capability capability) {
+        final List<Link> links = list(setup);
         final List<Link> result = new ArrayList<Link>();
         for (final Link link : links) {
-            if (LinkCapabilityController.getInstance().isAssociated(link, capability)) {
+            if (LinkCapabilityControllerImpl.getInstance().isAssociated(link, capability)) {
                 result.add(link);
             }
         }

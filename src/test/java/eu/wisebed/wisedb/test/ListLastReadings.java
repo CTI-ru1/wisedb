@@ -2,10 +2,10 @@ package eu.wisebed.wisedb.test;
 
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.CapabilityController;
-import eu.wisebed.wisedb.controller.LastLinkReadingController;
-import eu.wisebed.wisedb.controller.LastNodeReadingController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.CapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.LastLinkReadingControllerImpl;
+import eu.wisebed.wisedb.controller.LastNodeReadingControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.LastNodeReading;
@@ -31,11 +31,11 @@ public class ListLastReadings {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
 
-            final Testbed testbed = TestbedController.getInstance().getByID(18);
+            final Testbed testbed = TestbedControllerImpl.getInstance().getByID(18);
 
-            final Capability capability = CapabilityController.getInstance().getByID("temp");
+            final Capability capability = CapabilityControllerImpl.getInstance().getByID("temp");
 
-            final List<LastNodeReading> lastNodeReadings = LastNodeReadingController.getInstance().getByCapability(testbed, capability);
+            final List<LastNodeReading> lastNodeReadings = LastNodeReadingControllerImpl.getInstance().getByCapability(testbed.getSetup(), capability);
 
             LOGGER.info("Total Last Node Readings : " + lastNodeReadings.size());
 
@@ -47,9 +47,9 @@ public class ListLastReadings {
                 );
             }
 
-            final Capability capability2 = CapabilityController.getInstance().getByID("blah3");
+            final Capability capability2 = CapabilityControllerImpl.getInstance().getByID("blah3");
 
-            final List<LastLinkReading> lastLinkReadings = LastLinkReadingController.getInstance().getByCapability(testbed, capability2);
+            final List<LastLinkReading> lastLinkReadings = LastLinkReadingControllerImpl.getInstance().getByCapability(testbed.getSetup(), capability2);
 
             LOGGER.info("Total Last Link Readings : " + lastLinkReadings.size());
 

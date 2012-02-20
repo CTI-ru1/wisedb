@@ -1,8 +1,8 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.SetupController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.SetupControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
@@ -40,7 +40,7 @@ public class AddTestbedSetup {
             // begin transaction
             LOGGER.info("For testbed : " + testbedName + " the default setup will be added");
             tx = HibernateUtil.getInstance().getSession().beginTransaction();
-            Testbed testbed = TestbedController.getInstance().getByName(testbedName);
+            Testbed testbed = TestbedControllerImpl.getInstance().getByName(testbedName);
 
             // set the testbed of the setup to be imported
             Setup setup = new Setup();
@@ -56,7 +56,7 @@ public class AddTestbedSetup {
             setup.setCoordinateType("Absolute");
             setup.setDescription("My testbed setup");
             // import by the convert method
-            SetupController.getInstance().add(setup);
+            SetupControllerImpl.getInstance().add(setup);
 
             tx.commit();
 

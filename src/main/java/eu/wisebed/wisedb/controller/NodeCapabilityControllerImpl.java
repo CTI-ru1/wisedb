@@ -4,7 +4,7 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -18,7 +18,7 @@ import java.util.List;
  * CRUD operations for NodeCapabilities entities.
  */
 @SuppressWarnings("unchecked")
-public class NodeCapabilityController extends AbstractController<NodeCapability> {
+public class NodeCapabilityControllerImpl extends AbstractController<NodeCapability> implements NodeCapabilityController {
 
 
     /**
@@ -43,12 +43,12 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(NodeCapabilityController.class);
+    private static final Logger LOGGER = Logger.getLogger(NodeCapabilityControllerImpl.class);
 
     /**
      * Public constructor .
      */
-    public NodeCapabilityController() {
+    public NodeCapabilityControllerImpl() {
         // Does nothing
         super();
     }
@@ -61,9 +61,9 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
      * @return ourInstance
      */
     public static NodeCapabilityController getInstance() {
-        synchronized (NodeCapabilityController.class) {
+        synchronized (NodeCapabilityControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new NodeCapabilityController();
+                ourInstance = new NodeCapabilityControllerImpl();
             }
         }
 
@@ -76,15 +76,15 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
      * @param capabilityName , a capability name.
      * @return returns the inserted capability instance.
      */
-    NodeCapability prepareInsertNodeCapability(final String capabilityName, final String nodeId) {
+    public NodeCapability prepareInsertNodeCapability(final String capabilityName, final String nodeId) {
         LOGGER.info("prepareInsertNodeCapability(" + capabilityName + "," + nodeId + ")");
 
-        Capability capability = CapabilityController.getInstance().getByID(capabilityName);
+        Capability capability = CapabilityControllerImpl.getInstance().getByID(capabilityName);
         if (capability == null) {
-            capability = CapabilityController.getInstance().prepareInsertCapability(capabilityName);
+            capability = CapabilityControllerImpl.getInstance().prepareInsertCapability(capabilityName);
         }
 
-        final Node node = NodeController.getInstance().getByID(nodeId);
+        final Node node = NodeControllerImpl.getInstance().getByID(nodeId);
 
         final NodeCapability nodeCapability = new NodeCapability();
 
@@ -96,11 +96,11 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
 
         nodeCapability.setLastNodeReading(lastNodeReading);
 
-        NodeCapabilityController.getInstance().add(nodeCapability);
+        add(nodeCapability);
 
 //        NodeCapabilityController.getInstance().update(nodeCapability);
 
-        LastNodeReadingController.getInstance().add(lastNodeReading);
+        LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
 
 
         return nodeCapability;
@@ -136,21 +136,22 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
 
     public NodeCapability getByID(int id) {
         LOGGER.info("getByID(" + id + ")");
-        final Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(NodeCapability.class);
-        criteria.add(Restrictions.eq(ID, id));
-        Object obj = criteria.list().get(0);
-
-        if (obj instanceof NodeCapability) {
-
-            return (NodeCapability) obj;
-        }
-
-        return null;
+        return super.getByID(new NodeCapability(), id);
+//        final Session session = getSessionFactory().getCurrentSession();
+//        final Criteria criteria = session.createCriteria(NodeCapability.class);
+//        criteria.add(Restrictions.eq(ID, id));
+//        Object obj = criteria.list().get(0);
+//
+//        if (obj instanceof NodeCapability) {
+//
+//            return (NodeCapability) obj;
+//        }
+//
+//        return null;
     }
 
     public NodeCapability getByID(final Node node, final String capabilityName) {
-        final Capability capability = CapabilityController.getInstance().getByID(capabilityName);
+        final Capability capability = CapabilityControllerImpl.getInstance().getByID(capabilityName);
         LOGGER.debug("getByID(" + node.getId() + "," + capabilityName + ")");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeCapability.class);
@@ -198,11 +199,11 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
         return capabilities;
     }
 
-    public List<NodeCapability> list(final Testbed testbed) {
-        LOGGER.debug("list(" + testbed + ")");
-        final List<Node> nodes = NodeController.getInstance().list(testbed.getSetup());
+    public List<NodeCapability> list(final Setup setup) {
+        LOGGER.debug("list(" + setup + ")");
+        final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
         final List<NodeCapability> capabilities = new ArrayList<NodeCapability>();
-        if (nodes.size()>0) {
+        if (nodes.size() > 0) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
@@ -216,9 +217,9 @@ public class NodeCapabilityController extends AbstractController<NodeCapability>
         return capabilities;
     }
 
-    public List<NodeCapability> list(final Testbed testbed, final Capability capability) {
-        LOGGER.debug("list(" + testbed + "," + capability + ")");
-        final List<Node> nodes = NodeController.getInstance().list(testbed.getSetup());
+    public List<NodeCapability> list(final Setup setup, final Capability capability) {
+        LOGGER.debug("list(" + setup + "," + capability + ")");
+        final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
         final List<NodeCapability> capabilities = new ArrayList<NodeCapability>();
 
         final Session session = getSessionFactory().getCurrentSession();

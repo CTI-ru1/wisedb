@@ -1,7 +1,7 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeReadingController;
+import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -49,7 +49,7 @@ public class AddNodeReading {
             LOGGER.info("Timestamp : " + timestamp.toString());
 
             // insert reading
-            NodeReadingController.getInstance().insertReading(nodeId, capabilityName, testbedId, readingValue, stringReading, timestamp);
+            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, testbedId, readingValue, stringReading, timestamp);
 
 
             tx.commit();

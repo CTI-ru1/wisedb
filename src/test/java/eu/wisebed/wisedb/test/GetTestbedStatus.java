@@ -1,12 +1,12 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.LinkCapabilityController;
-import eu.wisebed.wisedb.controller.NodeCapabilityController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.LinkCapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -35,25 +35,25 @@ public class GetTestbedStatus {
 
         try {
 
-            // a specific testbed is requested by testbed Id
+            // a specific setup is requested by setup Id
             int testbedId;
 
             testbedId = 1;
 
 
-            // look up testbed
-            final Testbed testbed = TestbedController.getInstance().getByID(3);
-            LOGGER.info(testbed);
-            // get a list of node last readings from testbed
-            final List<NodeCapability> nodeCapabilities = NodeCapabilityController.getInstance().list(testbed);
+            // look up setup
+            final Setup setup = TestbedControllerImpl.getInstance().getByID(3).getSetup();
+            LOGGER.info(setup);
+            // get a list of node last readings from setup
+            final List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().list(setup);
             LOGGER.info("nodeCapabilities");
-            // get a list of link statistics from testbed
-            final List<LinkCapability> linkCapabilities = LinkCapabilityController.getInstance().list(testbed);
+            // get a list of link statistics from setup
+            final List<LinkCapability> linkCapabilities = LinkCapabilityControllerImpl.getInstance().list(setup);
             LOGGER.info("linkCapabilities");
 
             // Prepare data to pass to jsp
             final Map<String, Object> refData = new HashMap<String, Object>();
-            refData.put("testbed", testbed);
+            refData.put("setup", setup);
             refData.put("lastNodeReadings", nodeCapabilities);
             refData.put("lastLinkReadings", linkCapabilities);
 

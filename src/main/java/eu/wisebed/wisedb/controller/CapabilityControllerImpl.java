@@ -5,7 +5,7 @@ import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -21,7 +21,7 @@ import java.util.Map;
  * CRUD operations for Capability entities.
  */
 @SuppressWarnings("unchecked")
-public class CapabilityController extends AbstractController<Capability> {
+public class CapabilityControllerImpl extends AbstractController<Capability> implements CapabilityController {
     /**
      * Unit literal.
      */
@@ -61,12 +61,12 @@ public class CapabilityController extends AbstractController<Capability> {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(CapabilityController.class);
+    private static final Logger LOGGER = Logger.getLogger(CapabilityControllerImpl.class);
 
     /**
      * Public constructor .
      */
-    public CapabilityController() {
+    public CapabilityControllerImpl() {
         // Does nothing
         super();
     }
@@ -79,9 +79,9 @@ public class CapabilityController extends AbstractController<Capability> {
      * @return ourInstance
      */
     public static CapabilityController getInstance() {
-        synchronized (CapabilityController.class) {
+        synchronized (CapabilityControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new CapabilityController();
+                ourInstance = new CapabilityControllerImpl();
             }
         }
         return ourInstance;
@@ -93,7 +93,7 @@ public class CapabilityController extends AbstractController<Capability> {
      * @param capabilityName , a capability name.
      * @return returns the inserted capability instance.
      */
-    Capability prepareInsertCapability(final String capabilityName) {
+    public Capability prepareInsertCapability(final String capabilityName) {
 
         LOGGER.info("prepareInsertCapability(" + capabilityName + ")");
         final Capability capability = new Capability();
@@ -101,7 +101,7 @@ public class CapabilityController extends AbstractController<Capability> {
         capability.setDatatype(DATATYPE);
         capability.setDefaultvalue(DEFAULT_VALUE);
         capability.setUnit(UNIT);
-        CapabilityController.getInstance().add(capability);
+        add(capability);
 
         return capability;
     }
@@ -142,16 +142,6 @@ public class CapabilityController extends AbstractController<Capability> {
     }
 
     /**
-     * Delete the input Capability from the database.
-     *
-     * @param value the Capability tha we want to delete
-     */
-    public void delete(final Capability value) {
-        LOGGER.info("delete(" + value + ")");
-        super.delete(value, value.getName());
-    }
-
-    /**
      * Deleting a capability entry from the database.
      *
      * @param entityID the id of the Entity object.
@@ -173,16 +163,16 @@ public class CapabilityController extends AbstractController<Capability> {
 
 
     /**
-     * Listing all the capabilities from the database belonging to a selected testbed.
+     * Listing all the capabilities from the database belonging to a selected setup.
      *
-     * @param testbed a selected testbed instance.
-     * @return a list of testbed capabilities.
+     * @param setup a selected setup instance.
+     * @return a list of setup capabilities.
      */
-    public List<Capability> list(final Testbed testbed) {
-        LOGGER.info("list(" + testbed + ")");
+    public List<Capability> list(final Setup setup) {
+        LOGGER.info("list(" + setup + ")");
         final List<Capability> capabilities = new ArrayList<Capability>();
-        final List<Capability> nodeCapabilities = listNodeCapabilities(testbed);
-        final List<Capability> linkCapabilities = listLinkCapabilities(testbed);
+        final List<Capability> nodeCapabilities = listNodeCapabilities(setup);
+        final List<Capability> linkCapabilities = listLinkCapabilities(setup);
         capabilities.addAll(nodeCapabilities);
         capabilities.addAll(linkCapabilities);
         return capabilities;
@@ -235,17 +225,17 @@ public class CapabilityController extends AbstractController<Capability> {
     }
 
     /**
-     * Listing all the nodeCapabilities as Capabilities from the database belonging to a selected testbed.
+     * Listing all the nodeCapabilities as Capabilities from the database belonging to a selected setup.
      *
-     * @param testbed a selected testbed instance.
+     * @param setup a selected setup instance.
      * @return a list of capabilities.
      */
-    public List<Capability> listNodeCapabilities(final Testbed testbed) {
-        LOGGER.info("listNodeCapabilities(" + testbed + ")");
-        List<Node> nodes = NodeController.getInstance().list(testbed.getSetup());
+    public List<Capability> listNodeCapabilities(final Setup setup) {
+        LOGGER.info("listNodeCapabilities(" + setup + ")");
+        List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
         final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
 
-        if (nodes.size()>0) {
+        if (nodes.size() > 0) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
@@ -264,16 +254,16 @@ public class CapabilityController extends AbstractController<Capability> {
     }
 
     /**
-     * Listing all the linkCapabilities as Capabilities from the database belonging to a selected testbed.
+     * Listing all the linkCapabilities as Capabilities from the database belonging to a selected setup.
      *
-     * @param testbed a selected testbed instance.
+     * @param setup a selected setup instance.
      * @return a list of capabilities.
      */
-    public List<Capability> listLinkCapabilities(final Testbed testbed) {
-        LOGGER.info("listLinkCapabilities(" + testbed + ")");
-        final List<Link> links = LinkController.getInstance().list(testbed.getSetup());
+    public List<Capability> listLinkCapabilities(final Setup setup) {
+        LOGGER.info("listLinkCapabilities(" + setup + ")");
+        final List<Link> links = LinkControllerImpl.getInstance().list(setup);
         final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
-        if (links.size()>0) {
+        if (links.size() > 0) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(LinkCapability.class);
             criteria.add(Restrictions.in(LINK, links));
@@ -293,17 +283,17 @@ public class CapabilityController extends AbstractController<Capability> {
     }
 
     /**
-     * Listing all the nodeCapabilities from the database belonging to a selected testbed.
+     * Listing all the nodeCapabilities from the database belonging to a selected setup.
      *
-     * @param testbed a selected testbed instance.
+     * @param setup a selected setup instance.
      * @return a list of nodeCapabilities.
      */
-    public List<NodeCapability> listNodeCapabilities(final Testbed testbed, final Capability capability) {
-        LOGGER.info("listNodeCapabilities(" + testbed + "," + capability + ")");
-        List<Node> nodes = NodeController.getInstance().list(testbed.getSetup());
+    public List<NodeCapability> listNodeCapabilities(final Setup setup, final Capability capability) {
+        LOGGER.info("listNodeCapabilities(" + setup + "," + capability + ")");
+        List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
         final List<NodeCapability> result = new ArrayList<NodeCapability>();
 
-        if (nodes.size()>0) {
+        if (nodes.size() > 0) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
@@ -319,14 +309,14 @@ public class CapabilityController extends AbstractController<Capability> {
     }
 
     /**
-     * Listing all the linkCapabilities as Capabilities from the database belonging to a selected testbed.
+     * Listing all the linkCapabilities as Capabilities from the database belonging to a selected setup.
      *
-     * @param testbed a selected testbed instance.
+     * @param setup a selected setup instance.
      * @return a list of linkCapabilities.
      */
-    public List<LinkCapability> listLinkCapabilities(final Testbed testbed, final Capability capability) {
-        LOGGER.info("listLinkCapabilities(" + testbed + "," + capability + ")");
-        List<Link> links = LinkController.getInstance().list(testbed.getSetup());
+    public List<LinkCapability> listLinkCapabilities(final Setup setup, final Capability capability) {
+        LOGGER.info("listLinkCapabilities(" + setup + "," + capability + ")");
+        List<Link> links = LinkControllerImpl.getInstance().list(setup);
         final List<LinkCapability> result = new ArrayList<LinkCapability>();
 
 

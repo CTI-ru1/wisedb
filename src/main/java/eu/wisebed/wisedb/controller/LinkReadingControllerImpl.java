@@ -20,42 +20,13 @@ import java.util.List;
  * CRUD operations for LinkReading entities.
  */
 @SuppressWarnings("unchecked")
-public class LinkReadingController extends AbstractController<LinkReading> {
+public class LinkReadingControllerImpl extends AbstractController<LinkReading> implements LinkReadingController {
 
     /**
      * static instance(ourInstance) initialized as null.
      */
     private static LinkReadingController ourInstance = null;
-    /**
-     * Description literal.
-     */
-    private static final String DESCRIPTION = "DESCRIPTION";
-    /**
-     * Program details literal.
-     */
-    private static final String PROGRAM_DETAILS = "PROGRAM_DETAILS";
-    /**
-     * Unit literal.
-     */
-    private static final String UNIT = "UNIT";
-    /**
-     * Zero literal.
-     */
-    private static final String ZERO = "0.0";
-    /**
-     * Datatype literal.
-     */
-    private static final String DATATYPE = "DATATYPE";
 
-    /**
-     * Default value literal.
-     */
-    private static final String DEFAULT_VALUE = "DEFAULT_VALUE";
-
-    /**
-     * Link value literal.
-     */
-    private static final String LINK = "link";
     /**
      * Source literal.
      */
@@ -68,13 +39,13 @@ public class LinkReadingController extends AbstractController<LinkReading> {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(LinkReadingController.class);
+    private static final Logger LOGGER = Logger.getLogger(LinkReadingControllerImpl.class);
     private static final String CAPABILITY = "capability";
 
     /**
      * Public constructor .
      */
-    public LinkReadingController() {
+    public LinkReadingControllerImpl() {
         // Does nothing
         super();
     }
@@ -87,9 +58,9 @@ public class LinkReadingController extends AbstractController<LinkReading> {
      * @return ourInstance
      */
     public static LinkReadingController getInstance() {
-        synchronized (LinkReadingController.class) {
+        synchronized (LinkReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LinkReadingController();
+                ourInstance = new LinkReadingControllerImpl();
             }
         }
 
@@ -106,7 +77,7 @@ public class LinkReadingController extends AbstractController<LinkReading> {
         return super.list(new LinkReading());
     }
 
-    public List<LinkReading> list(Link link) {
+    public List<LinkReading> list(final Link link) {
         LOGGER.info("list(" + link.getSource() + "--" + link.getTarget() + ")");
         final org.hibernate.Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(LinkReading.class);
@@ -147,25 +118,25 @@ public class LinkReadingController extends AbstractController<LinkReading> {
                 + "," + doubleReading + "," + stringReading + "," + timestamp + ")");
 
         // look for testbed
-        final Testbed testbed = TestbedController.getInstance().getByID(testbedId);
+        final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
         if (testbed == null) {
             throw new UnknownTestbedException(Integer.toString(testbedId));
         }
 
         // look for source
-        final Node source = NodeController.getInstance().getByID(sourceId);
+        final Node source = NodeControllerImpl.getInstance().getByID(sourceId);
         if (source == null) {
             // if source node not found in db make it and store it
             LOGGER.info("Node [" + sourceId + "] was not found in db . Storing it");
-            NodeController.getInstance().prepareInsertNode(testbed, sourceId);
+            NodeControllerImpl.getInstance().prepareInsertNode(testbed, sourceId);
         }
 
         // look for target
-        final Node target = NodeController.getInstance().getByID(targetId);
+        final Node target = NodeControllerImpl.getInstance().getByID(targetId);
         if (target == null) {
             // if target node not found in db make it and store it
             LOGGER.info("Node [" + targetId + "] was not found in db . Storing it");
-            NodeController.getInstance().prepareInsertNode(testbed, targetId);
+            NodeControllerImpl.getInstance().prepareInsertNode(testbed, targetId);
         }
 //
 //        // look for link
@@ -193,17 +164,17 @@ public class LinkReadingController extends AbstractController<LinkReading> {
 //            LinkController.getInstance().update(link);
 //        }
 
-        Link link = LinkController.getInstance().getByID(sourceId, targetId);
+        Link link = LinkControllerImpl.getInstance().getByID(sourceId, targetId);
         LinkCapability linkCapability;
         if (link == null) {
             LOGGER.debug("link==null");
-            link = LinkController.getInstance().prepareInsertLink(testbed, sourceId, targetId);
-            linkCapability = LinkCapabilityController.getInstance().prepareInsertLinkCapability(link, capabilityName);
+            link = LinkControllerImpl.getInstance().prepareInsertLink(testbed, sourceId, targetId);
+            linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
         } else {
-            linkCapability = LinkCapabilityController.getInstance().getByID(link, capabilityName);
+            linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
             if (linkCapability == null) {
-                linkCapability = LinkCapabilityController.getInstance().prepareInsertLinkCapability(link, capabilityName);
-                LinkController.getInstance().update(link);
+                linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
+                LinkControllerImpl.getInstance().update(link);
             }
         }
 
@@ -232,7 +203,7 @@ public class LinkReadingController extends AbstractController<LinkReading> {
 
         linkCapability.setLastLinkReading(lastLinkReading);
 
-        LinkCapabilityController.getInstance().update(linkCapability);
+        LinkCapabilityControllerImpl.getInstance().update(linkCapability);
     }
 
     /**
@@ -241,11 +212,11 @@ public class LinkReadingController extends AbstractController<LinkReading> {
      * @param link , a link .
      * @return the count of this link.
      */
-    public int getLinkReadingsCount(final Link link) {
-        LOGGER.info("getLinkReadingsCount(" + link + ")");
-        final List<LinkCapability> linkCapabilities = LinkCapabilityController.getInstance().list(link);
+    public int count(final Link link) {
+        LOGGER.info("count(" + link + ")");
+        final List<LinkCapability> linkCapabilities = LinkCapabilityControllerImpl.getInstance().list(link);
         Integer result = 0;
-        if (linkCapabilities.size()>0) {
+        if (linkCapabilities.size() > 0) {
             final org.hibernate.Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(LinkReading.class);
             criteria.add(Restrictions.in(CAPABILITY, linkCapabilities));

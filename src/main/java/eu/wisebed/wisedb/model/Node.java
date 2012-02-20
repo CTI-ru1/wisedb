@@ -1,11 +1,15 @@
 package eu.wisebed.wisedb.model;
 
-import org.hibernate.annotations.Entity;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -27,46 +31,11 @@ public class Node implements Serializable {
     /**
      * the id of an object Node.
      */
-    @Id
-    @Column(name = "node_id")
-    @Basic(fetch = FetchType.LAZY)
     private String id;
-
-//    /**
-//     * information about the type of the device.
-//     */
-//    @Column(name = "nodeType")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String nodeType;
-//
-//    /**
-//     * the description of an object node.
-//     */
-//    @Column(name = "description")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String description;
-//
-//    /**
-//     * the gateway of an object node.
-//     */
-//    @Column(name = "gateway")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String gateway;
-//
-//    /**
-//     * information describing the software image loaded on the node.
-//     */
-//    @Column(name = "programDetails")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String programDetails;
-
 
     /**
      * this node belongs to a setup.
      */
-    @ManyToOne(targetEntity = Setup.class)
-    @Column(name = "setup_id")
-    @Basic(fetch = FetchType.LAZY)
     private Setup setup;
 
     /**
@@ -74,6 +43,10 @@ public class Node implements Serializable {
      *
      * @return the id of the node.
      */
+    @Id
+    @Column(name = "node_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(fetch = FetchType.LAZY)
     public String getId() {
         return id;
     }
@@ -87,84 +60,13 @@ public class Node implements Serializable {
         this.id = id;
     }
 
-//    /**
-//     * this method returns the nodetype of a node.
-//     *
-//     * @return the nodetype of the node.
-//     */
-//    public String getNodeType() {
-//        return nodeType;
-//    }
-//
-//    /**
-//     * this method sets the nodetype of a node.
-//     *
-//     * @param nodeType the nodetype of the node.
-//     */
-//    public void setNodeType(final String nodeType) {
-//        this.nodeType = nodeType;
-//    }
-//
-//    /**
-//     * this method returns the program details of a node.
-//     *
-//     * @return the program details of the node.
-//     */
-//    public String getProgramDetails() {
-//        return programDetails;
-//    }
-//
-//    /**
-//     * this method sets the program details of a node.
-//     *
-//     * @param programDetails the program details of the node.
-//     */
-//    public void setProgramDetails(final String programDetails) {
-//        this.programDetails = programDetails;
-//    }
-//
-//    /**
-//     * this method returns the description of a node.
-//     *
-//     * @return the description of the node.
-//     */
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    /**
-//     * this method sets the description of a node.
-//     *
-//     * @param description the description of the node.
-//     */
-//    public void setDescription(final String description) {
-//        this.description = description;
-//    }
-//
-//    /**
-//     * this method returns the gateway of a node.
-//     *
-//     * @return gateway the gateway of the node.
-//     */
-//    public String getGateway() {
-//        return gateway;
-//    }
-//
-//    /**
-//     * this method sets the gateway of a node.
-//     *
-//     * @param gateway the gateway of the node.
-//     */
-//    public void setGateway(final String gateway) {
-//        this.gateway = gateway;
-//    }
-
-
     /**
      * returns the setup this node belongs to.
      *
      * @return the setup this node belongs to.
      */
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Setup.class)
+    @JoinColumn(name = "setup_id", insertable = false, updatable = false,referencedColumnName = "setup_id")
     public Setup getSetup() {
         return setup;
     }
@@ -178,4 +80,10 @@ public class Node implements Serializable {
         this.setup = setup;
     }
 
+    @Override
+    public String toString() {
+        return "Node{" +
+                "id='" + id + '\'' +
+                '}';
+    }
 }

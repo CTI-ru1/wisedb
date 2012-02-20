@@ -6,6 +6,7 @@ import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.NodeReading;
+import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -19,7 +20,7 @@ import java.util.List;
  * CRUD operations for LastNodeReading entities.
  */
 @SuppressWarnings("unchecked")
-public class LastNodeReadingController extends AbstractController<LastNodeReading> {
+public class LastNodeReadingControllerImpl extends AbstractController<LastNodeReading> implements LastNodeReadingController {
 
     /**
      * static instance(ourInstance) initialized as null.
@@ -33,13 +34,13 @@ public class LastNodeReadingController extends AbstractController<LastNodeReadin
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(LastNodeReadingController.class);
+    private static final Logger LOGGER = Logger.getLogger(LastNodeReadingControllerImpl.class);
 
 
     /**
      * Public constructor .
      */
-    public LastNodeReadingController() {
+    public LastNodeReadingControllerImpl() {
         // Does nothing
         super();
     }
@@ -52,9 +53,9 @@ public class LastNodeReadingController extends AbstractController<LastNodeReadin
      * @return ourInstance
      */
     public static LastNodeReadingController getInstance() {
-        synchronized (LastNodeReadingController.class) {
+        synchronized (LastNodeReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LastNodeReadingController();
+                ourInstance = new LastNodeReadingControllerImpl();
             }
         }
         return ourInstance;
@@ -76,11 +77,11 @@ public class LastNodeReadingController extends AbstractController<LastNodeReadin
         return (LastNodeReading) criteria.uniqueResult();
     }
 
-    public List<LastNodeReading> getByCapability(final Testbed testbed, final Capability capability) {
+    public List<LastNodeReading> getByCapability(final Setup setup, final Capability capability) {
 
-        LOGGER.info("getByCapability(" + testbed + "," + capability + ")");
+        LOGGER.info("getByCapability(" + setup + "," + capability + ")");
 
-        final List<NodeCapability> nodeCapabilities = CapabilityController.getInstance().listNodeCapabilities(testbed, capability);
+        final List<NodeCapability> nodeCapabilities = CapabilityControllerImpl.getInstance().listNodeCapabilities(setup, capability);
 
         List<LastNodeReading> result = new ArrayList<LastNodeReading>();
 
@@ -104,7 +105,7 @@ public class LastNodeReadingController extends AbstractController<LastNodeReadin
     }
 
     public LastNodeReading getLast(final Node node, final String capabilityName) {
-        final NodeCapability nodeCapability = NodeCapabilityController.getInstance().getByID(node, capabilityName);
+        final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
         return nodeCapability.getLastNodeReading();
     }
 }

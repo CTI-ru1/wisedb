@@ -2,11 +2,11 @@ package eu.wisebed.wisedb.test;
 
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.LinkController;
-import eu.wisebed.wisedb.controller.LinkReadingController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.LinkControllerImpl;
+import eu.wisebed.wisedb.controller.LinkReadingControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Link;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -23,10 +23,10 @@ public class LinkReadingCount {
         Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
             final String urnPrefix = "urn:prefix:";
-            final Testbed testbed = TestbedController.getInstance().getByUrnPrefix(urnPrefix);
-            Link link = LinkController.getInstance().list(testbed).iterator().next();
+            final Setup setup = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix).getSetup();
+            Link link = LinkControllerImpl.getInstance().list(setup).iterator().next();
             LOGGER.info("Selected Link : [" + link.getSource() + "," + link.getTarget() + "]");
-            int readingsCount = LinkReadingController.getInstance().getLinkReadingsCount(link);
+            int readingsCount = LinkReadingControllerImpl.getInstance().count(link);
             LOGGER.info("Selected Link : [" + link.getSource() + "," + link.getTarget() + "] readings count :" + readingsCount);
             tx.commit();
         } catch (Exception e) {

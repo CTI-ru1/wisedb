@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import com.googlecode.ehcache.annotations.Cacheable;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
 import com.sun.syndication.feed.module.georss.SimpleModuleImpl;
 import com.sun.syndication.feed.module.georss.geometries.Position;
@@ -40,7 +39,7 @@ import java.util.Map;
 /**
  * CRUD operations for Testbed entities.
  */
-public class TestbedController extends AbstractController<Testbed> {
+public class TestbedControllerImpl extends AbstractController<Testbed> implements TestbedController {
 
     /**
      * static instance(ourInstance) initialized as null.
@@ -64,13 +63,13 @@ public class TestbedController extends AbstractController<Testbed> {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(TestbedController.class);
+    private static final Logger LOGGER = Logger.getLogger(TestbedControllerImpl.class);
 
 
     /**
      * Public constructor .
      */
-    public TestbedController() {
+    public TestbedControllerImpl() {
         // Does nothing
         super();
     }
@@ -83,34 +82,22 @@ public class TestbedController extends AbstractController<Testbed> {
      * @return ourInstance
      */
     public static TestbedController getInstance() {
-        synchronized (TestbedController.class) {
+        synchronized (TestbedControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new TestbedController();
+                ourInstance = new TestbedControllerImpl();
             }
         }
         return ourInstance;
     }
 
     /**
-     * get the Testbed from the database that corresponds to the input id.
-     *
-     * @param entityID the id of the Entity object.
-     * @return an Entity object.
-     */
-    @Cacheable(cacheName = "getById")
-    public Testbed getByID(final int entityID) {
-        LOGGER.info("getByID(" + entityID + ")");
-        return super.getByID(new Testbed(), entityID);
-    }
-
-    /**
      * Delete the input Testbed from the database.
      *
-     * @param value the Testbed tha we want to delete
+     * @param id the Testbed id that we want to delete
      */
-    public void delete(final Testbed value) {
-        LOGGER.info("delete(" + value + ")");
-        super.delete(value, value.getId());
+    public void delete(final int id) {
+        LOGGER.info("delete(" + id + ")");
+        super.delete(new Testbed(), id);
     }
 
     /**
@@ -120,10 +107,18 @@ public class TestbedController extends AbstractController<Testbed> {
      */
     public List<Testbed> list() {
         LOGGER.info("list()");
-        final Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(Testbed.class);
-        final List z = criteria.list();
-        return z;
+        return super.list(new Testbed());
+    }
+
+    /**
+     * get the Testbed from the database that corresponds to the input id.
+     *
+     * @param entityID the id of the Entity object.
+     * @return an Entity object.
+     */
+    public Testbed getByID(final int entityID) {
+        LOGGER.info("getByID(" + entityID + ")");
+        return super.getByID(new Testbed(), entityID);
     }
 
     /**
@@ -132,8 +127,6 @@ public class TestbedController extends AbstractController<Testbed> {
      * @param urnPrefix the Urn prefix of the Testbed object.
      * @return a Testbed object.
      */
-    @SuppressWarnings("unchecked")
-    @Cacheable(cacheName = "testbedbyprefix")
     public Testbed getByUrnPrefix(final String urnPrefix) {
         LOGGER.info("getByUrnPrefix(" + urnPrefix + ")");
         final Session session = getSessionFactory().getCurrentSession();
@@ -186,7 +179,7 @@ public class TestbedController extends AbstractController<Testbed> {
             final Object[] obj = (Object[]) iter.next();
             final Setup setup = (Setup) obj[0];
             final long count = (Long) obj[1];
-            resultsMap.put(getBySetup(setup).getName(), count);
+            resultsMap.put(setup.getTestbed().getName(), count);
 
         }
 
@@ -219,21 +212,11 @@ public class TestbedController extends AbstractController<Testbed> {
             final Object[] obj = (Object[]) iter.next();
             final Setup setup = (Setup) obj[0];
             final long count = (Long) obj[1];
-            resultsMap.put(getBySetup(setup).getName(), count);
+            resultsMap.put(setup.getTestbed().getName(), count);
 
         }
 
         return resultsMap;
-    }
-
-    /**
-     * Get the testbed related to the given setup.
-     *
-     * @param setup the setup in question.
-     * @return the testbed requested.
-     */
-    public Testbed getBySetup(final Setup setup) {
-        return setup.getTestbed();
     }
 
     public String getGeoRssFeed(final Testbed testbed, final String baseUrl, final String syndFeedLink, final String syndEntryLink) {
@@ -245,38 +228,38 @@ public class TestbedController extends AbstractController<Testbed> {
             feed.setDescription(testbed.getDescription());
             final List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-            // convert testbed origin from long/lat position to xyz if needed
+// convert testbed origin from long/lat position to xyz if needed
             Coordinate properOrigin = null;
             if (!(testbed.getSetup().getCoordinateType().equals("Absolute"))) {
-                // determine testbed origin by the type of coordinates given
+// determine testbed origin by the type of coordinates given
                 final Origin origin = testbed.getSetup().getOrigin();
                 final Coordinate originCoordinate = new Coordinate((double) origin.getX(), (double) origin.getY(),
                         (double) origin.getZ(), (double) origin.getPhi(), (double) origin.getTheta());
                 properOrigin = Coordinate.blh2xyz(originCoordinate);
             }
 
-            // list of nodes
-            final List<Node> nodes = NodeController.getInstance().list(testbed);
+// list of nodes
+            final List<Node> nodes = NodeControllerImpl.getInstance().list(testbed.getSetup());
 
-            // make an entry and it
+// make an entry and it
             for (Node node : nodes) {
                 final SyndEntry entry = new SyndEntryImpl();
 
-                // set entry's title,link and publishing date
+// set entry's title,link and publishing date
                 entry.setTitle(node.getId());
                 entry.setLink(new StringBuilder().append(baseUrl).append("/rest/testbed/")
                         .append(testbed.getId()).append("/node/").append(node.getId()).toString());
                 entry.setPublishedDate(new Date());
 
-                // set entry's description (HTML list)
+// set entry's description (HTML list)
                 final SyndContent description = new SyndContentImpl();
                 final StringBuilder descriptionBuffer = new StringBuilder();
-                descriptionBuffer.append("<p>").append(NodeController.getInstance().getDescription(node)).append("</p>");
+                descriptionBuffer.append("<p>").append(NodeControllerImpl.getInstance().getDescription(node)).append("</p>");
                 descriptionBuffer.append("<p><a href=\"").append(baseUrl).append("/uberdust/rest/testbed/")
                         .append(testbed.getId()).append("/node/").append(node.getId()).append("/georss").append("\">")
                         .append("GeoRSS feed").append("</a></p>");
                 descriptionBuffer.append("<ul>");
-                for (NodeCapability capability : (List<NodeCapability>) NodeCapabilityController.getInstance().list(node)) {
+                for (NodeCapability capability : (List<NodeCapability>) NodeCapabilityControllerImpl.getInstance().list(node)) {
                     descriptionBuffer.append("<li>").append(capability.getCapability().getName())
                             .append(capability.getCapability().getName()).append("</li>");
                 }
@@ -286,14 +269,14 @@ public class TestbedController extends AbstractController<Testbed> {
                 entry.setDescription(description);
 
 
-                // set the GeoRSS module and add it to entry
+// set the GeoRSS module and add it to entry
                 final GeoRSSModule geoRSSModule = new SimpleModuleImpl();
                 if (!(testbed.getSetup().getCoordinateType().equals("Absolute"))) {
                     // convert node position from xyz to long/lat
 
                     Origin npos;
                     try {
-                        npos = NodeController.getInstance().getOrigin(node);
+                        npos = NodeControllerImpl.getInstance().getOrigin(node);
                     } catch (NullPointerException e) {
                         npos = testbed.getSetup().getOrigin();
                     }
@@ -305,7 +288,7 @@ public class TestbedController extends AbstractController<Testbed> {
                     final Coordinate nodePosition = Coordinate.xyz2blh(absolute);
                     geoRSSModule.setPosition(new Position(nodePosition.getX(), nodePosition.getY()));
                 } else {
-                    geoRSSModule.setPosition(new Position(NodeController.getInstance().getOrigin(node).getX(), NodeController.getInstance().getOrigin(node).getY()));
+                    geoRSSModule.setPosition(new Position(NodeControllerImpl.getInstance().getOrigin(node).getX(), NodeControllerImpl.getInstance().getOrigin(node).getY()));
                 }
                 entry.getModules().add(geoRSSModule);
                 entries.add(entry);
@@ -314,7 +297,7 @@ public class TestbedController extends AbstractController<Testbed> {
             // add entries to feed
             feed.setEntries(entries);
 
-            // the feed output goes to response
+// the feed output goes to response
             final SyndFeedOutput output = new SyndFeedOutput();
             StringWriter writer = new StringWriter();
             try {

@@ -1,10 +1,9 @@
 package eu.wisebed.wisedb.controller;
 
-import com.mysql.jdbc.NotImplemented;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * CRUD operations for LastLinkReading entities.
  */
 @SuppressWarnings("unchecked")
-public class LastLinkReadingController extends AbstractController<LastLinkReading> {
+public class LastLinkReadingControllerImpl extends AbstractController<LastLinkReading> implements LastLinkReadingController {
 
     /**
      * static instance(ourInstance) initialized as null.
@@ -23,19 +22,14 @@ public class LastLinkReadingController extends AbstractController<LastLinkReadin
     private static LastLinkReadingController ourInstance = null;
 
     /**
-     * Capability literal.
-     */
-    private static final String CAPABILITY = "id";
-
-    /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(LastLinkReadingController.class);
+    private static final Logger LOGGER = Logger.getLogger(LastLinkReadingControllerImpl.class);
 
     /**
      * Public constructor .
      */
-    public LastLinkReadingController() {
+    public LastLinkReadingControllerImpl() {
         // Does nothing
         super();
     }
@@ -48,9 +42,9 @@ public class LastLinkReadingController extends AbstractController<LastLinkReadin
      * @return ourInstance
      */
     public static LastLinkReadingController getInstance() {
-        synchronized (LastLinkReadingController.class) {
+        synchronized (LastLinkReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LastLinkReadingController();
+                ourInstance = new LastLinkReadingControllerImpl();
             }
         }
 
@@ -70,28 +64,28 @@ public class LastLinkReadingController extends AbstractController<LastLinkReadin
         lastLinkReading.setLinkCapability(linkCapability);
         return (LastLinkReading) session.get(LastLinkReading.class, lastLinkReading);
     }
-
-    /**
-     * Returns a list of last node reading entries for the nodes of a testbed.
-     *
-     * @param testbed , a testbed instance.
-     * @return a list last node readings from a testbed's nodes
-     */
-    public List<LastLinkReading> getByTestbed(final Testbed testbed) throws NotImplemented {
-        LOGGER.info("getByTestbed(" + testbed + ")");
-        throw new NotImplemented();
-//        // retrieve testbed nodes from setup
-//        final Setup setup = SetupController.getInstance().getByID(testbed.getSetup().getId());
-//        List<Link> links = LinkController.getInstance().list(TestbedController.getInstance().getBySetup(setup));
-//        if (links == null || links.isEmpty()) {
-//            return null;
-//        }
 //
-//        final Session session = this.getSessionFactory().getCurrentSession();
-//        final Criteria criteria = session.createCriteria(LastLinkReading.class);
-//        criteria.add(Restrictions.in(LINK, links));
-//        return (List<LastLinkReading>) criteria.list();
-    }
+//    /**
+//     * Returns a list of last node reading entries for the nodes of a testbed.
+//     *
+//     * @param testbed , a testbed instance.
+//     * @return a list last node readings from a testbed's nodes
+//     */
+//    public List<LastLinkReading> getByTestbed(final Testbed testbed) throws NotImplemented {
+//        LOGGER.info("getByTestbed(" + testbed + ")");
+//        throw new NotImplemented();
+////        // retrieve testbed nodes from setup
+////        final Setup setup = SetupController.getInstance().getByID(testbed.getSetup().getId());
+////        List<Link> links = LinkController.getInstance().list(TestbedController.getInstance().getBySetup(setup));
+////        if (links == null || links.isEmpty()) {
+////            return null;
+////        }
+////
+////        final Session session = this.getSessionFactory().getCurrentSession();
+////        final Criteria criteria = session.createCriteria(LastLinkReading.class);
+////        criteria.add(Restrictions.in(LINK, links));
+////        return (List<LastLinkReading>) criteria.list();
+//    }
 //
 //    /**
 //     * Returns a list of last reading rows inserted in the persistence for a specific capability.
@@ -116,10 +110,10 @@ public class LastLinkReadingController extends AbstractController<LastLinkReadin
 //        return (List<LastLinkReading>) criteria.list();
 //    }
 
-    public List<LastLinkReading> getByCapability(Testbed testbed, Capability capability) {
-        LOGGER.info("getByCapability(" + testbed + "," + capability + ")");
+    public List<LastLinkReading> getByCapability(final Setup setup, Capability capability) {
+        LOGGER.info("getByCapability(" + setup + "," + capability + ")");
 
-        final List<LinkCapability> linkCapabilities = CapabilityController.getInstance().listLinkCapabilities(testbed, capability);
+        final List<LinkCapability> linkCapabilities = CapabilityControllerImpl.getInstance().listLinkCapabilities(setup, capability);
 
         List<LastLinkReading> result = new ArrayList<LastLinkReading>();
 

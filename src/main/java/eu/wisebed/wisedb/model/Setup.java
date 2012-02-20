@@ -3,6 +3,8 @@ package eu.wisebed.wisedb.model;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -10,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -30,45 +34,32 @@ public class Setup implements Serializable {
     /**
      * id of setup.
      */
-    @Id
-    @Column(name = "setup_id")
     private int id;
 
     /**
      * the origin of node.
      */
-    @Basic(fetch = FetchType.LAZY)
-    @Embedded
     private Origin origin;
 
     /**
      * the information of time used in the experiment.
      */
-    @Basic(fetch = FetchType.LAZY)
-    @Embedded
     private TimeInfo timeinfo;
 
     /**
      * the description of the experiment.
      */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "description", unique = true, nullable = false)
     private String description;
 
     /**
      * the type of the coordinate system.
      */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "coordinateType", unique = true, nullable = false)
     private String coordinateType;
 
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name="testbed_id")
-    @GeneratedValue(generator = "foreign")
-    @GenericGenerator(name = "foreign", strategy = "foreign", parameters = {
-            @Parameter(name = "property", value = "testbed_id")})
     private Testbed testbed;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     public Testbed getTestbed() {
         return testbed;
     }
@@ -91,6 +82,11 @@ public class Setup implements Serializable {
      *
      * @return the id of the setup.
      */
+    @GenericGenerator(name = "generator", strategy = "foreign",
+            parameters = @Parameter(name = "property", value = "testbed"))
+    @Id
+    @GeneratedValue(generator = "generator")
+    @Column(name = "setup_id", unique = true, nullable = false)
     public int getId() {
         return id;
     }
@@ -109,6 +105,15 @@ public class Setup implements Serializable {
      *
      * @return the nodes origin
      */
+    @Basic(fetch = FetchType.LAZY)
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "x", column = @Column(name = "position_x")),
+            @AttributeOverride(name = "y", column = @Column(name = "position_y")),
+            @AttributeOverride(name = "z", column = @Column(name = "position_z")),
+            @AttributeOverride(name = "theta", column = @Column(name = "position_theta")),
+            @AttributeOverride(name = "phi", column = @Column(name = "position_phi"))
+    })
     public Origin getOrigin() {
         return origin;
     }
@@ -134,6 +139,14 @@ public class Setup implements Serializable {
      *
      * @return the information time
      */
+    @Basic(fetch = FetchType.LAZY)
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "duration", column = @Column(name = "timeinfo_duration")),
+            @AttributeOverride(name = "start", column = @Column(name = "timeinfo_start")),
+            @AttributeOverride(name = "end", column = @Column(name = "timeinfo_end")),
+            @AttributeOverride(name = "unit", column = @Column(name = "timeinfo_unit"))
+    })
     public TimeInfo getTimeinfo() {
         return timeinfo;
     }
@@ -152,6 +165,8 @@ public class Setup implements Serializable {
      *
      * @return the description
      */
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "description", unique = true, nullable = false)
     public String getDescription() {
         return description;
     }
@@ -170,6 +185,8 @@ public class Setup implements Serializable {
      *
      * @return the coordinate type
      */
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "coordinateType", unique = true, nullable = false)
     public String getCoordinateType() {
         return coordinateType;
     }

@@ -22,7 +22,7 @@ import java.util.List;
  * CRUD operations for NodeReadings entities.
  */
 @SuppressWarnings("unchecked")
-public class NodeReadingController extends AbstractController<NodeReading> {
+public class NodeReadingControllerImpl extends AbstractController<NodeReading> implements NodeReadingController {
 
     /**
      * static instance(ourInstance) initialized as null.
@@ -44,12 +44,12 @@ public class NodeReadingController extends AbstractController<NodeReading> {
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(NodeReadingController.class);
+    private static final Logger LOGGER = Logger.getLogger(NodeReadingControllerImpl.class);
 
     /**
      * Public constructor .
      */
-    public NodeReadingController() {
+    public NodeReadingControllerImpl() {
         // Does nothing
         super();
     }
@@ -62,9 +62,9 @@ public class NodeReadingController extends AbstractController<NodeReading> {
      * @return ourInstance
      */
     public static NodeReadingController getInstance() {
-        synchronized (NodeReadingController.class) {
+        synchronized (NodeReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new NodeReadingController();
+                ourInstance = new NodeReadingControllerImpl();
             }
         }
 
@@ -119,22 +119,22 @@ public class NodeReadingController extends AbstractController<NodeReading> {
                 + stringReading + "," + timestamp + ")");
 
         // Retrieve testbed by urn
-        final Testbed testbed = TestbedController.getInstance().getByID(testbedId);
+        final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
         if (testbed == null) {
             throw new UnknownTestbedException(Integer.toString(testbedId));
         }
 
-        Node node = NodeController.getInstance().getByID(nodeId);
+        Node node = NodeControllerImpl.getInstance().getByID(nodeId);
         NodeCapability nodeCapability;
         if (node == null) {
             LOGGER.debug("node==null");
-            node = NodeController.getInstance().prepareInsertNode(testbed, nodeId);
-            nodeCapability = NodeCapabilityController.getInstance().prepareInsertNodeCapability(capabilityName, node.getId());
+            node = NodeControllerImpl.getInstance().prepareInsertNode(testbed, nodeId);
+            nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node.getId());
         } else {
-            nodeCapability = NodeCapabilityController.getInstance().getByID(node, capabilityName);
+            nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
             if (nodeCapability == null) {
-                nodeCapability = NodeCapabilityController.getInstance().prepareInsertNodeCapability(capabilityName, node.getId());
-                NodeController.getInstance().update(node);
+                nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node.getId());
+                NodeControllerImpl.getInstance().update(node);
             }
         }
 
@@ -161,7 +161,7 @@ public class NodeReadingController extends AbstractController<NodeReading> {
 
         nodeCapability.setLastNodeReading(lastNodeReading);
 
-        NodeCapabilityController.getInstance().update(nodeCapability);
+        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
 
     }
 
@@ -176,7 +176,7 @@ public class NodeReadingController extends AbstractController<NodeReading> {
     @SuppressWarnings("unchecked")
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + ")");
-        final NodeCapability nodeCapability = NodeCapabilityController.getInstance().getByID(node, capability);
+        final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
 
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeReading.class);
@@ -196,7 +196,7 @@ public class NodeReadingController extends AbstractController<NodeReading> {
     @SuppressWarnings("unchecked")
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final int limit) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
-        final NodeCapability nodeCapability = NodeCapabilityController.getInstance().getByID(node, capability);
+        final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
 
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeReading.class);
@@ -212,12 +212,12 @@ public class NodeReadingController extends AbstractController<NodeReading> {
      * @param node , a node .
      * @return the count of this node.
      */
-    public Long getNodeReadingsCount(final Node node) {
-        LOGGER.info("getNodeReadingsCount(" + node + ")");
-        final List<NodeCapability> nodeCapabilities = NodeCapabilityController.getInstance().list(node);
+    public Long count(final Node node) {
+        LOGGER.info("count(" + node + ")");
+        final List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().list(node);
 
         Integer result = 0;
-        if (nodeCapabilities.size()>0) {
+        if (nodeCapabilities.size() > 0) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeReading.class);
             criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
@@ -239,7 +239,7 @@ public class NodeReadingController extends AbstractController<NodeReading> {
         LOGGER.info("getNodeReadingsCountMap(" + node + ")");
         final HashMap<Capability, Integer> resultMap = new HashMap<Capability, Integer>();
 
-        final List<NodeCapability> nodeCapabilities = NodeCapabilityController.getInstance().list(node);
+        final List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().list(node);
         for (NodeCapability nodeCapability : nodeCapabilities) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeReading.class);
@@ -257,6 +257,7 @@ public class NodeReadingController extends AbstractController<NodeReading> {
 
         LOGGER.info("getByID(" + id + ")");
         final Session session = getSessionFactory().getCurrentSession();
+        if (session==null)LOGGER.info("nulllllllllllllllll");
         final Criteria criteria = session.createCriteria(NodeReading.class);
         criteria.add(Restrictions.eq(ID, id));
         criteria.setMaxResults(1);

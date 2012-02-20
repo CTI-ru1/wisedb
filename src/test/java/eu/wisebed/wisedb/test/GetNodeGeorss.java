@@ -1,7 +1,7 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeController;
+import eu.wisebed.wisedb.controller.NodeControllerImpl;
 import eu.wisebed.wisedb.model.Node;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
@@ -26,10 +26,10 @@ public class GetNodeGeorss {
 
         try {
 
-            final Node node = NodeController.getInstance().getByID("urn:wisebed:ctitestbed:0x9979");
+            final Node node = NodeControllerImpl.getInstance().getByID("urn:wisebed:ctitestbed:0x9979");
 
-            final String geooRssFeed = NodeController.getInstance().getGeooRssFeed(node, "", "");
-            LOGGER.info(geooRssFeed);
+//            final String geooRssFeed = NodeControllerImpl.getInstance().getGeooRssFeed(node, "", "");
+//            LOGGER.info(geooRssFeed);
 
             tx.commit();
         } catch (Exception e) {

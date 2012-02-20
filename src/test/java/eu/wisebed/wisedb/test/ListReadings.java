@@ -2,8 +2,8 @@ package eu.wisebed.wisedb.test;
 
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.LinkReadingController;
-import eu.wisebed.wisedb.controller.NodeReadingController;
+import eu.wisebed.wisedb.controller.LinkReadingControllerImpl;
+import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
 import eu.wisebed.wisedb.model.LinkReading;
 import eu.wisebed.wisedb.model.NodeReading;
 import org.apache.log4j.Logger;
@@ -27,18 +27,18 @@ public class ListReadings {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
 
-            final Long nodeReadingsCount = NodeReadingController.getInstance().count();
+            final Long nodeReadingsCount = NodeReadingControllerImpl.getInstance().count();
             LOGGER.info("Total Node Readings : " + nodeReadingsCount);
 
-            final List<NodeReading> nodeReadings = NodeReadingController.getInstance().list();
+            final List<NodeReading> nodeReadings = NodeReadingControllerImpl.getInstance().list();
             for (final NodeReading nodeReading : nodeReadings) {
                 LOGGER.info("NodeReading : " + nodeReading.getCapability().getCapability().getName() + "," + nodeReading.getReading());
             }
 
-            final Long linkReadingsCount = LinkReadingController.getInstance().count();
+            final Long linkReadingsCount = LinkReadingControllerImpl.getInstance().count();
             LOGGER.info("Total Link Readings : " + linkReadingsCount);
 
-            final List<LinkReading> linkReadings = LinkReadingController.getInstance().list();
+            final List<LinkReading> linkReadings = LinkReadingControllerImpl.getInstance().list();
             for (final LinkReading linkReading : linkReadings) {
                 LOGGER.info("LinkReading : " + linkReading.getCapability().getCapability().getName() + "," + linkReading.getReading());
             }

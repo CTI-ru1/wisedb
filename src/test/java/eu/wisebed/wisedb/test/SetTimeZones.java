@@ -1,7 +1,7 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Testbed;
 import org.hibernate.Transaction;
 
@@ -15,10 +15,10 @@ public class SetTimeZones {
         try {
 
             // get Testbeds
-            final Testbed testbedWisebedCTI = TestbedController.getInstance().getByID(1);
-            final Testbed testbedSantander = TestbedController.getInstance().getByID(2);
-            final Testbed testbedCTINetwork = TestbedController.getInstance().getByID(3);
-            final Testbed testbedCTIBuilding = TestbedController.getInstance().getByID(4);
+            final Testbed testbedWisebedCTI = TestbedControllerImpl.getInstance().getByID(1);
+            final Testbed testbedSantander = TestbedControllerImpl.getInstance().getByID(2);
+            final Testbed testbedCTINetwork = TestbedControllerImpl.getInstance().getByID(3);
+            final Testbed testbedCTIBuilding = TestbedControllerImpl.getInstance().getByID(4);
 
             // set their timezone
             testbedCTINetwork.setTimeZone(TimeZone.getTimeZone("GMT+2"));

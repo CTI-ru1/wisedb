@@ -1,8 +1,7 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Testbed;
 import net.sf.ehcache.CacheManager;
 import org.apache.log4j.Logger;
@@ -43,9 +42,9 @@ public class GetTestbed {
             //A testbed name
             final String name = "dsafg";
             Testbed testbed = null;
-            testbed = TestbedController.getInstance().getByID(1);
+            testbed = TestbedControllerImpl.getInstance().getByID(1);
             for (int i = 0; i < 100; i++) {
-                NodeController.getInstance().test(1);
+                testbed = TestbedControllerImpl.getInstance().getByID(1);
             }
 
             LOGGER.info("nodeslist cache exists : " + CacheManager.getInstance().cacheExists("nodeslist"));
@@ -76,7 +75,6 @@ public class GetTestbed {
 
 
             LOGGER.info(CacheManager.getInstance().getActiveConfigurationText());
-
 
 
             tx.commit();

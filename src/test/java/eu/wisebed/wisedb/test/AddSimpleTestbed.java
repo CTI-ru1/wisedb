@@ -1,8 +1,8 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.SetupController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.SetupControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
@@ -59,7 +59,7 @@ public class AddSimpleTestbed {
             Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
 
             // import to db
-            TestbedController.getInstance().add(testbed);
+            TestbedControllerImpl.getInstance().add(testbed);
 //            tImp.convert();
 
             // commmit transaction
@@ -69,7 +69,7 @@ public class AddSimpleTestbed {
             // begin transaction
             LOGGER.info("For testbed : " + testbedName + " the default setup will be added");
             tx = HibernateUtil.getInstance().getSession().beginTransaction();
-            Testbed theTestbed = TestbedController.getInstance().getByUrnPrefix(urnPrefix);
+            Testbed theTestbed = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix);
 
             // set the testbed of the setup to be imported
             Setup setup = new Setup();
@@ -86,9 +86,9 @@ public class AddSimpleTestbed {
 //            setup.setTestbed(testbed);
             testbed.setSetup(setup);
             //update testbed
-            TestbedController.getInstance().update(testbed);
+            TestbedControllerImpl.getInstance().update(testbed);
             // import by the convert method
-            SetupController.getInstance().add(setup);
+            SetupControllerImpl.getInstance().add(setup);
 
             tx.commit();
 

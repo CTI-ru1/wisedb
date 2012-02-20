@@ -1,11 +1,11 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.LinkCapabilityController;
-import eu.wisebed.wisedb.controller.LinkController;
-import eu.wisebed.wisedb.controller.NodeCapabilityController;
-import eu.wisebed.wisedb.controller.NodeController;
-import eu.wisebed.wisedb.controller.TestbedController;
+import eu.wisebed.wisedb.controller.LinkCapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.LinkControllerImpl;
+import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.NodeControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Node;
@@ -35,7 +35,7 @@ public class ListTestbeds {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
 
         try {
-            final List<Testbed> testbeds = TestbedController.getInstance().list();
+            final List<Testbed> testbeds = TestbedControllerImpl.getInstance().list();
             LOGGER.info("Testbeds: " + testbeds.size());
 
             for (final Testbed testbed : testbeds) {
@@ -45,22 +45,22 @@ public class ListTestbeds {
                 final Setup setup = testbed.getSetup();
                 LOGGER.info("\t\tSetup:" + setup.getId() + ", description:" + setup.getDescription());
 
-                final Long nodesCount = NodeController.getInstance().count(testbed);
-                final Long linksCount = LinkController.getInstance().count(testbed);
+                final Long nodesCount = NodeControllerImpl.getInstance().count(testbed.getSetup());
+                final Long linksCount = LinkControllerImpl.getInstance().count(testbed.getSetup());
                 LOGGER.info("\t\tNodes:" + nodesCount + ", Links:" + linksCount);
 
-                final List<Node> nodes = NodeController.getInstance().list(setup);
-                final List<Link> links = LinkController.getInstance().list(setup);
+                final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
+                final List<Link> links = LinkControllerImpl.getInstance().list(setup);
 
                 for (final Node node : nodes) {
-                    LOGGER.info("\t\t\t" + node.getId() + " des: " + NodeController.getInstance().getDescription(node));
-                    final List<NodeCapability> nodeCapabilities = NodeCapabilityController.getInstance().list(node);
+                    LOGGER.info("\t\t\t" + node.getId() + " des: " + NodeControllerImpl.getInstance().getDescription(node));
+                    final List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().list(node);
                     LOGGER.info("\t\t\t\t" + node.getId() + " " + nodeCapabilities.size() + " nodeCaps");
                 }
 
                 for (final Link link : links) {
                     LOGGER.info("\t\t\t" + link.getSource() + "--" + link.getTarget());
-                    List<LinkCapability> linkCapabilities = LinkCapabilityController.getInstance().list(link);
+                    List<LinkCapability> linkCapabilities = LinkCapabilityControllerImpl.getInstance().list(link);
                     LOGGER.info("\t\t\t\t" + link.getSource() + "--" + link.getTarget() + " " + linkCapabilities.size() + " LinkCaps");
                 }
             }

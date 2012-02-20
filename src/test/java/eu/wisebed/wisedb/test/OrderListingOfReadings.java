@@ -1,7 +1,7 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeController;
+import eu.wisebed.wisedb.controller.NodeControllerImpl;
 import eu.wisebed.wisedb.model.Node;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
@@ -18,7 +18,7 @@ public class OrderListingOfReadings {
         Transaction trans = HibernateUtil.getInstance().getSession().beginTransaction();
 
         // get first node
-        Node thisNode = (Node) NodeController.getInstance().list().iterator().next();
+        Node thisNode = (Node) NodeControllerImpl.getInstance().list().iterator().next();
 
         // get nodes capability
 //        for (Object thisC : thisNode.getCapabilities().toArray()) {
