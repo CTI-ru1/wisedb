@@ -1,0 +1,19 @@
+How to add this project to your own:
+
+ For maven use: 
+
+      <dependencies>
+        <dependency>
+            <groupId>uberdust</groupId>
+            <artifactId>wisedb</artifactId>
+            <version>1.0</version>
+        </dependency>
+      </dependencies>
+      <repository>
+        <id>repository.ru1</id>
+        <url>http://ru1.cti.gr/maven</url>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+        <layout>default</layout>
+      </repository>
