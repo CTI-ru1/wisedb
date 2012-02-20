@@ -1,8 +1,8 @@
-package eu.wisebed.wisedb.test;
+package eu.wisebed.wisedb.test.get;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.SetupControllerImpl;
-import eu.wisebed.wisedb.model.Setup;
+import eu.wisebed.wisedb.controller.NodeControllerImpl;
+import eu.wisebed.wisedb.model.Node;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -10,12 +10,12 @@ import org.hibernate.Transaction;
  * Searches for a testbed in the database using its name.
  * Then displays all the testbed related information or an error message.
  */
-public class GetSetup {
+public class GetNodeGeorss {
 
     /**
      * a log4j logger to print messages.
      */
-    private static final Logger LOGGER = Logger.getLogger(GetSetup.class);
+    private static final Logger LOGGER = Logger.getLogger(GetNodeGeorss.class);
 
 
     public static void main(final String[] args) {
@@ -23,16 +23,14 @@ public class GetSetup {
         // Initialize hibernate
         HibernateUtil.connectEntityManagers();
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
-        final int id = 1;
+
         try {
-            final Setup setup = SetupControllerImpl.getInstance().getByID(id);
-            if (setup != null) {
-                LOGGER.info("id: " + setup.getId());
-                LOGGER.info("description: " + setup.getDescription());
-                LOGGER.info("testbed.name: " + setup.getTestbed().getName());
-            } else {
-                LOGGER.error("testbed " + id + " does not exist!");
-            }
+
+            final Node node = NodeControllerImpl.getInstance().getByID("urn:wisebed:ctitestbed:0x9979");
+
+//            final String geooRssFeed = NodeControllerImpl.getInstance().getGeooRssFeed(node, "", "");
+//            LOGGER.info(geooRssFeed);
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();

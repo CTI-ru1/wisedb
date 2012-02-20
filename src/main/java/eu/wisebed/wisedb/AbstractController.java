@@ -1,4 +1,4 @@
-package eu.wisebed.wisedb.controller;
+package eu.wisebed.wisedb;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;

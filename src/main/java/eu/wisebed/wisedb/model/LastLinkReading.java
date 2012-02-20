@@ -1,7 +1,15 @@
 package eu.wisebed.wisedb.model;
 
-import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -46,6 +54,8 @@ public final class LastLinkReading implements Serializable {
         // empty constructor
     }
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     public LinkCapability getLinkCapability() {
         return linkCapability;
     }
@@ -54,6 +64,11 @@ public final class LastLinkReading implements Serializable {
         this.linkCapability = linkCapability;
     }
 
+    @GenericGenerator(name = "generator", strategy = "foreign",
+            parameters = @Parameter(name = "property", value = "linkCapability"))
+    @Id
+    @GeneratedValue(generator = "generator")
+    @Column(name = "link_capability")
     public int getId() {
         return id;
     }
@@ -67,6 +82,7 @@ public final class LastLinkReading implements Serializable {
      *
      * @return timestamp of the reading.
      */
+    @Column(name = "timestamp")
     public Date getTimestamp() {
         return timestamp;
     }
@@ -85,6 +101,7 @@ public final class LastLinkReading implements Serializable {
      *
      * @return this reading value.
      */
+    @Column(name = "reading")
     public Double getReading() {
         return reading;
     }
@@ -103,6 +120,7 @@ public final class LastLinkReading implements Serializable {
      *
      * @return string reading.
      */
+    @Column(name = "stringReading")
     public String getStringReading() {
         return stringReading;
     }

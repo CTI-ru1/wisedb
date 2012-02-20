@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
@@ -64,7 +65,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
     public static NodeReadingController getInstance() {
         synchronized (NodeReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new NodeReadingControllerImpl();
+                ourInstance = (NodeReadingController) new NodeReadingControllerImpl();
             }
         }
 
@@ -138,6 +139,8 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             }
         }
 
+        nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
+
         // make a new node reading entity
         final NodeReading reading = new NodeReading();
         reading.setReading(doubleReading);
@@ -146,18 +149,22 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         reading.setCapability(nodeCapability);
 
         // add reading
-        add(reading);
+        NodeReadingControllerImpl.getInstance().add(reading);
+
+        LOGGER.info("nodeCapability id is : " + nodeCapability.getId());
 
         // get lastNodeReading if not found create one
         LastNodeReading lastNodeReading = nodeCapability.getLastNodeReading();
         if (lastNodeReading == null) {
-            LOGGER.info("Last node reading for NodeCapability [" + nodeCapability.toString() + "] created");
+            LOGGER.info("Last node reading for NodeCapability [" + nodeCapability + "] created");
             lastNodeReading = new LastNodeReading();
         }
+
+
         lastNodeReading.setReading(doubleReading);
         lastNodeReading.setStringReading(stringReading);
         lastNodeReading.setTimestamp(timestamp);
-        lastNodeReading.setId(nodeCapability.getId());
+        lastNodeReading.setNodeCapability(nodeCapability);
 
         nodeCapability.setLastNodeReading(lastNodeReading);
 
@@ -257,7 +264,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
 
         LOGGER.info("getByID(" + id + ")");
         final Session session = getSessionFactory().getCurrentSession();
-        if (session==null)LOGGER.info("nulllllllllllllllll");
+        if (session == null) LOGGER.info("nulllllllllllllllll");
         final Criteria criteria = session.createCriteria(NodeReading.class);
         criteria.add(Restrictions.eq(ID, id));
         criteria.setMaxResults(1);

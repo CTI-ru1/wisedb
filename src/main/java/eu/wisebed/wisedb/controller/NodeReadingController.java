@@ -18,6 +18,8 @@ import java.util.List;
  */
 public interface NodeReadingController {
 
+    public void add(final NodeReading reading);
+
     public void delete(final String readingId);
 
     public NodeReading getByID(final int id);

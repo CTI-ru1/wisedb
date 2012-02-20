@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -60,11 +61,15 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
     public static LinkReadingController getInstance() {
         synchronized (LinkReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LinkReadingControllerImpl();
+                ourInstance = (LinkReadingController) new LinkReadingControllerImpl();
             }
         }
 
         return ourInstance;
+    }
+
+    public LinkReading getByID(final int id) {
+        return super.getByID(new LinkReading(), id);
     }
 
     /**

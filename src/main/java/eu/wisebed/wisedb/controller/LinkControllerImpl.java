@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -87,8 +88,8 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         LOGGER.info("prepareInsertLink(" + testbed + "," + sourceId + "," + targetId + ")");
 
         final Link link = new Link();
-        link.setSource(sourceId);
-        link.setTarget(targetId);
+        link.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
+        link.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
         //TODO
 //        link.setEncrypted(false);
 //        link.setVirtual(false);
@@ -109,11 +110,23 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
 
         LOGGER.info("getByID(" + sourceId + "," + targetId + ")");
 
-        final Session session = this.getSessionFactory().getCurrentSession();
+        final Session session = getSessionFactory().getCurrentSession();
         final Link linkWithId = new Link();
-        linkWithId.setSource(sourceId);
-        linkWithId.setTarget(targetId);
+        linkWithId.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
+        linkWithId.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
         return (Link) session.get(Link.class, linkWithId);
+    }
+
+    /**
+     * Get the entry from the link that corresponds to the input id, Source & Target node ids.
+     *
+     * @param id, The link id.
+     * @return the link object persisted with the specific id
+     */
+    public Link getByID(final int id) {
+
+        LOGGER.info("getByID(" + id + ")");
+        return super.getByID(new Link(), id);
     }
 
     /**
@@ -126,10 +139,10 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
 
         LOGGER.info("delete(" + sourceId + "," + targetId + ")");
 
-        final Session session = this.getSessionFactory().getCurrentSession();
+        final Session session = getSessionFactory().getCurrentSession();
         final Link linkWithId = new Link();
-        linkWithId.setSource(sourceId);
-        linkWithId.setTarget(targetId);
+        linkWithId.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
+        linkWithId.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
         session.delete(linkWithId);
     }
 

@@ -11,6 +11,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.Coordinate;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.Node;

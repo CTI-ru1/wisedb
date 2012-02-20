@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface LinkController {
 
+    public Link getByID(final int id);
+
     public Link getByID(final String sourceId, final String targetId);
 
     public void delete(final String sourceId, final String targetId);

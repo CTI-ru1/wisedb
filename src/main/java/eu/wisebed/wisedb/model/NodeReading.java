@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -85,10 +84,7 @@ public final class NodeReading implements Serializable {
      * @return capability persistent object.
      */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "node_capabilities",
-            joinColumns = @JoinColumn(name = "capability_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
+    @JoinColumn(name = "capability_id", referencedColumnName = "id")
     public NodeCapability getCapability() {
         return capability;
     }

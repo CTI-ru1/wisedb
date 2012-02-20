@@ -1,13 +1,6 @@
 package eu.wisebed.wisedb.model;
 
-import org.hibernate.annotations.Entity;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -24,54 +17,14 @@ public class LinkCapability implements Serializable {
 
     private static final long serialVersionUID = -3419203591130581062L;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false)
-    @Basic(fetch = FetchType.LAZY)
     private int id;
 
     private Capability capability;
-
-    public Capability getCapability() {
-        return capability;
-    }
-
-    public void setCapability(Capability capability) {
-        this.capability = capability;
-    }
-
-    /**
-     * the name of the object source.
-     */
-    @Column(name = "source_id")
-    @Basic(fetch = FetchType.LAZY)
-    private String source;
-    /**
-     * the name of the object target.
-     */
-    @Column(name = "target_id")
-    @Basic(fetch = FetchType.LAZY)
-    private String target;
-
-    public Link getLink() {
-        return link;
-    }
-
-    public void setLink(Link link) {
-        this.link = link;
-    }
 
     private Link link;
 
     private LastLinkReading lastLinkReading;
 
-    public LastLinkReading getLastLinkReading() {
-        return lastLinkReading;
-    }
-
-    public void setLastLinkReading(LastLinkReading lastLinkReading) {
-        this.lastLinkReading = lastLinkReading;
-    }
     //    /**
 //     * the datatype of the capability.
 //     */
@@ -100,7 +53,9 @@ public class LinkCapability implements Serializable {
 //    @Basic(fetch = FetchType.LAZY)
 //    private String description;
 
-
+    @Id
+    @Column(name = "id", nullable = false)
+    @Basic(fetch = FetchType.LAZY)
     public int getId() {
         return id;
     }
@@ -109,22 +64,35 @@ public class LinkCapability implements Serializable {
         this.id = id;
     }
 
-
-    public String getSource() {
-        return source;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "capability_id", referencedColumnName = "capability_id")
+    public Capability getCapability() {
+        return capability;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setCapability(Capability capability) {
+        this.capability = capability;
     }
 
-    public String getTarget() {
-        return target;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "link_id", referencedColumnName = "id")
+    public Link getLink() {
+        return link;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setLink(Link link) {
+        this.link = link;
     }
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "linkCapability", cascade = CascadeType.ALL)
+    public LastLinkReading getLastLinkReading() {
+        return lastLinkReading;
+    }
+
+    public void setLastLinkReading(LastLinkReading lastLinkReading) {
+        this.lastLinkReading = lastLinkReading;
+    }
+
 
 //    /**
 //     * this method returns the datatype of the capability.

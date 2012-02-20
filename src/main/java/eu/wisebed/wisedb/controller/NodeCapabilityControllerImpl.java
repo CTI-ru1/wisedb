@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -85,28 +86,36 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         }
 
         final Node node = NodeControllerImpl.getInstance().getByID(nodeId);
+        NodeCapability nodeCapability = null;
+        try {
+            nodeCapability = new NodeCapability();
 
-        final NodeCapability nodeCapability = new NodeCapability();
+            nodeCapability.setCapability(capability);
+            nodeCapability.setNode(node);
 
-        nodeCapability.setCapability(capability);
-        nodeCapability.setNode(node);
+            final LastNodeReading lastNodeReading = new LastNodeReading();
+//        lastNodeReading.setNodeCapability(nodeCapability);
 
-        final LastNodeReading lastNodeReading = new LastNodeReading();
-        lastNodeReading.setNodeCapability(nodeCapability);
+            nodeCapability.setLastNodeReading(lastNodeReading);
 
-        nodeCapability.setLastNodeReading(lastNodeReading);
+            NodeCapabilityControllerImpl.getInstance().add(nodeCapability);
 
-        add(nodeCapability);
+//        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
 
-//        NodeCapabilityController.getInstance().update(nodeCapability);
+            LOGGER.info("setting id to " + nodeCapability.getId());
+            lastNodeReading.setId(nodeCapability.getId());
 
-        LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
+            LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
+        } catch (Exception e) {
 
+            LOGGER.fatal(e);
+            e.printStackTrace();
+        }
 
         return nodeCapability;
     }
 
-
+    @SuppressWarnings("unchecked")
     public long count() {
         LOGGER.info("count()");
         final Session session = getSessionFactory().getCurrentSession();

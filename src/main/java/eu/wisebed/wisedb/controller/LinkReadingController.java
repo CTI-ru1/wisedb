@@ -18,6 +18,8 @@ public interface LinkReadingController {
 
     public void delete(final int readingId);
 
+    public LinkReading getByID(final int id);
+
     public List<LinkReading> list();
 
     public List<LinkReading> list(final Link link);

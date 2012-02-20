@@ -51,12 +51,15 @@
         <mapping class="eu.wisebed.wisedb.model.Setup"/>
         <!--<mapping class="eu.wisebed.wisedb.model.Origin"/>-->
         <!--<mapping class="eu.wisebed.wisedb.model.TimeInfo"/>-->
+        <mapping class="eu.wisebed.wisedb.model.Capability"/>
         <mapping class="eu.wisebed.wisedb.model.Node"/>
-        <!--<mapping class="eu.wisebed.wisedb.model.NodeCapability"/>-->
-        <!--<mapping class="eu.wisebed.wisedb.model.NodeReading"/>-->
-        <!--<mapping class="eu.wisebed.wisedb.model.Link"/>-->
-        <!--<mapping class="eu.wisebed.wisedb.model.LinkCapability"/>-->
-        <!--<mapping class="eu.wisebed.wisedb.model.LinkReading"/>-->
+        <mapping class="eu.wisebed.wisedb.model.NodeCapability"/>
+        <mapping class="eu.wisebed.wisedb.model.NodeReading"/>
+        <mapping class="eu.wisebed.wisedb.model.LastNodeReading"/>
+        <mapping class="eu.wisebed.wisedb.model.Link"/>
+        <mapping class="eu.wisebed.wisedb.model.LinkCapability"/>
+        <mapping class="eu.wisebed.wisedb.model.LinkReading"/>
+        <mapping class="eu.wisebed.wisedb.model.LastLinkReading"/>
 
 
         <!--<mapping resource="eu/wisebed/wisedb/model/Testbed.hbm.xml"/>-->

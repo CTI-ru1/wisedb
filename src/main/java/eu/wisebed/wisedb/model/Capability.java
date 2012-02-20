@@ -1,5 +1,9 @@
 package eu.wisebed.wisedb.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -7,6 +11,8 @@ import java.io.Serializable;
  * properties of a capability. In the class there are
  * getter and setter methods for the properties.
  */
+@Entity
+@Table(name = "capabilities")
 public class Capability implements Serializable {
 
     /**
@@ -44,6 +50,8 @@ public class Capability implements Serializable {
      *
      * @return the name of the capability.
      */
+    @Id
+    @Column(name = "capability_id")
     public String getName() {
         return name;
     }
@@ -62,6 +70,7 @@ public class Capability implements Serializable {
      *
      * @return the datatype of the capability.
      */
+    @Column(name = "datatype")
     public String getDatatype() {
         return datatype;
     }
@@ -80,6 +89,7 @@ public class Capability implements Serializable {
      *
      * @return the unit of the capability.
      */
+    @Column(name = "unit")
     public String getUnit() {
         return unit;
     }
@@ -98,6 +108,7 @@ public class Capability implements Serializable {
      *
      * @return default value.
      */
+    @Column(name = "defaultvalue")
     public String getDefaultvalue() {
         return defaultvalue;
     }
@@ -117,6 +128,7 @@ public class Capability implements Serializable {
      *
      * @return this capability's description.
      */
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }

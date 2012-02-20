@@ -1,4 +1,4 @@
-package eu.wisebed.wisedb.test;
+package eu.wisebed.wisedb.test.get;
 
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.TestbedControllerImpl;

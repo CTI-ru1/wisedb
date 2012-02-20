@@ -15,6 +15,7 @@ import java.util.List;
  * Time: 12:21 PM
  */
 public interface NodeCapabilityController {
+    public void add(final NodeCapability nodeCapability);
 
     public void update(final NodeCapability nodeCapability);
 

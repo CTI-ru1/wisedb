@@ -1,8 +1,8 @@
-package eu.wisebed.wisedb.test;
+package eu.wisebed.wisedb.test.get;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeControllerImpl;
-import eu.wisebed.wisedb.model.Node;
+import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
+import eu.wisebed.wisedb.model.NodeReading;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -10,12 +10,12 @@ import org.hibernate.Transaction;
  * Searches for a testbed in the database using its name.
  * Then displays all the testbed related information or an error message.
  */
-public class GetNode {
+public class GetNodeReading {
 
     /**
      * a log4j logger to print messages.
      */
-    private static final Logger LOGGER = Logger.getLogger(GetNode.class);
+    private static final Logger LOGGER = Logger.getLogger(GetNodeReading.class);
 
 
     public static void main(final String[] args) {
@@ -25,15 +25,19 @@ public class GetNode {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         final int id = 1;
         try {
-            final Node node = NodeControllerImpl.getInstance().getByID("urn:qopbot:destiny");
-            if (node != null) {
-                LOGGER.info("id: " + node.getId());
-                LOGGER.info("description: " + NodeControllerImpl.getInstance().getDescription(node));
-//                LOGGER.info("Position :" + NodeControllerImpl.getInstance().getPosition(node));
+            final NodeReading reading = NodeReadingControllerImpl.getInstance().getByID(1);
+            if (reading != null) {
+                LOGGER.info("getId: " + reading.getId());
+                LOGGER.info("getTimestamp: " + reading.getTimestamp());
+                LOGGER.info("getReading: " + reading.getReading());
+                LOGGER.info("getStringReading: " + reading.getStringReading());
+                LOGGER.info("getCapability: " + reading.getCapability());
+
+                //                LOGGER.info("Position :" + NodeControllerImpl.getInstance().getPosition(node));
 //                LOGGER.info("Origin :" + NodeControllerImpl.getInstance().getOrigin(node));
-                LOGGER.info("Setup : " + node.getSetup());
+
             } else {
-                LOGGER.error("node " + id + " does not exist!");
+                LOGGER.error("NodeReading " + id + " does not exist!");
             }
             tx.commit();
         } catch (Exception e) {

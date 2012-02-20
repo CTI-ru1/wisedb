@@ -32,7 +32,7 @@ public class AddLinkReading {
         try {
 
             // an id for testbed
-            final int testbedId = 18;
+            final int testbedId = 1;
 
             // source node id
             final Iterator<Node> nodeIt = NodeControllerImpl.getInstance().list().iterator();

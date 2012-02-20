@@ -266,6 +266,11 @@
             <artifactId>georss-rome</artifactId>
             <version>0.9.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.hp.hpl.jena</groupId>
+            <artifactId>json-jena</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

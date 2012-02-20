@@ -1,7 +1,12 @@
 package eu.wisebed.wisedb.model;
 
-import org.hibernate.annotations.Entity;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -28,7 +33,7 @@ public final class LinkReading implements Serializable {
     /**
      * Capability.
      */
-    private LinkCapability  capability;
+    private LinkCapability capability;
 
     /**
      * Timestamp of the reading.
@@ -58,6 +63,9 @@ public final class LinkReading implements Serializable {
      *
      * @return this reading id.
      */
+    @Id
+    @GeneratedValue
+    @Column(name = "reading_id")
     public int getId() {
         return id;
     }
@@ -76,6 +84,7 @@ public final class LinkReading implements Serializable {
      *
      * @return Link's capability reading
      */
+    @Column(name = "reading")
     public Double getReading() {
         return reading;
     }
@@ -94,6 +103,7 @@ public final class LinkReading implements Serializable {
      *
      * @return Link's reading timestamp
      */
+    @Column(name = "timestamp")
     public Date getTimestamp() {
         return timestamp;
     }
@@ -112,6 +122,8 @@ public final class LinkReading implements Serializable {
      *
      * @return the capability associated with this LinkReading.
      */
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "capability_id", referencedColumnName = "id")
     public LinkCapability getCapability() {
         return capability;
     }
@@ -130,6 +142,7 @@ public final class LinkReading implements Serializable {
      *
      * @return string reading.
      */
+    @Column(name = "stringReading")
     public String getStringReading() {
         return stringReading;
     }

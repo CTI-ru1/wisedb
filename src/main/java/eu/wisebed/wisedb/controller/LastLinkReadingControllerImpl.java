@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -44,7 +45,7 @@ public class LastLinkReadingControllerImpl extends AbstractController<LastLinkRe
     public static LastLinkReadingController getInstance() {
         synchronized (LastLinkReadingControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LastLinkReadingControllerImpl();
+                ourInstance = (LastLinkReadingController) new LastLinkReadingControllerImpl();
             }
         }
 
@@ -59,7 +60,7 @@ public class LastLinkReadingControllerImpl extends AbstractController<LastLinkRe
      */
     public LastLinkReading getByID(final LinkCapability linkCapability) {
         LOGGER.info("add(" + linkCapability + ")");
-        final Session session = this.getSessionFactory().getCurrentSession();
+        final Session session = getSessionFactory().getCurrentSession();
         final LastLinkReading lastLinkReading = new LastLinkReading();
         lastLinkReading.setLinkCapability(linkCapability);
         return (LastLinkReading) session.get(LastLinkReading.class, lastLinkReading);

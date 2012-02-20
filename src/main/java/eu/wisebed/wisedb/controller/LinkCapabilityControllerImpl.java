@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -66,7 +67,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
     public static LinkCapabilityController getInstance() {
         synchronized (LinkCapabilityControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new LinkCapabilityControllerImpl();
+                ourInstance = (LinkCapabilityController) new LinkCapabilityControllerImpl();
             }
         }
 
@@ -97,7 +98,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
         linkCapability.setLastLinkReading(lastLinkReading);
 
-        add(linkCapability);
+        LinkCapabilityControllerImpl.getInstance().add(linkCapability.getLink(), linkCapability.getCapability());
 
         LastLinkReadingControllerImpl.getInstance().add(lastLinkReading);
 
@@ -123,11 +124,10 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
         LOGGER.info("delete(" + link.getSource() + "--" + link.getTarget() + "," + capability.getName() + ")");
 
-        final Session session = this.getSessionFactory().getCurrentSession();
+        final Session session = getSessionFactory().getCurrentSession();
         final LinkCapability linkCapabilities = new LinkCapability();
         linkCapabilities.setCapability(capability);
-        linkCapabilities.setSource(link.getSource());
-        linkCapabilities.setTarget(link.getTarget());
+        linkCapabilities.setLink(link);
         session.delete(linkCapabilities);
     }
 
@@ -135,11 +135,10 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
         LOGGER.info("add(" + link.getSource() + "--" + link.getTarget() + "," + capability.getName() + ")");
 
-        final Session session = this.getSessionFactory().getCurrentSession();
+        final Session session = getSessionFactory().getCurrentSession();
         final LinkCapability linkCapabilities = new LinkCapability();
         linkCapabilities.setCapability(capability);
-        linkCapabilities.setSource(link.getSource());
-        linkCapabilities.setTarget(link.getTarget());
+        linkCapabilities.setLink(link);
         session.delete(linkCapabilities);
     }
 
@@ -173,23 +172,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
     public LinkCapability getByID(int id) {
         LOGGER.info("getByID(" + id + ")");
-        try {
-            final Session session = getSessionFactory().getCurrentSession();
-            final Criteria criteria = session.createCriteria(LinkCapability.class);
-            criteria.add(Restrictions.eq(ID, id));
-            Object obj = criteria.list().get(0);
-
-            if (obj instanceof LinkCapability) {
-
-                return (LinkCapability) obj;
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            LOGGER.error(e.getStackTrace().toString());
-        }
-        return null;
+        return super.getByID(new LinkCapability(), id);
     }
 
     public LinkCapability getByID(final Link link, final Capability capability) {

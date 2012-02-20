@@ -25,14 +25,14 @@ public class AddNodeReading {
         try {
 
             // a valid urnPrefix for the testbed
-            final String urnPrefix = "urn:prefix:";
 
-            final int testbedId = 18;
+
+            final int testbedId = 1;
             // a node id for the testbed
-            final String nodeId = urnPrefix + "NODETEST1";
+            final String nodeId =  "urn:wisebed:ctitestbed:0xddba";
 
             // get that nodes capability name
-            final String capabilityName = "temp";
+            final String capabilityName = "temp2";
 
             // reading value
             final double readingValue = 24.0;
