@@ -25,7 +25,7 @@ public class GetLink {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         final int id = 1;
         try {
-            final Link link = LinkControllerImpl.getInstance().getByID(1);
+            final Link link = LinkControllerImpl.getInstance().getByID(32);
             if (link != null) {
                 LOGGER.info("id: " + link.getId());
                 LOGGER.info("src: " + link.getSource());

@@ -4,7 +4,6 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Setup;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public interface LinkCapabilityController {
 
-    public void add(final Link link, final Capability capability);
+    public void add(final LinkCapability linkCapability);
 
     public void delete(final Link link, final Capability capability);
 
@@ -40,5 +39,5 @@ public interface LinkCapabilityController {
 
     public void update(final LinkCapability linkCapability);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 }

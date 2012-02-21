@@ -1,17 +1,7 @@
 package eu.wisebed.wisedb.model;
 
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -31,7 +21,9 @@ public class Node implements Serializable {
     /**
      * the id of an object Node.
      */
-    private String id;
+    private int id;
+
+    private String name;
 
     /**
      * this node belongs to a setup.
@@ -44,10 +36,10 @@ public class Node implements Serializable {
      * @return the id of the node.
      */
     @Id
-    @Column(name = "node_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(fetch = FetchType.LAZY)
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -56,8 +48,17 @@ public class Node implements Serializable {
      *
      * @param id the id of the node.
      */
-    public void setId(final String id) {
+    public void setId(final int id) {
         this.id = id;
+    }
+
+    @Column(name = "node_id")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -66,7 +67,7 @@ public class Node implements Serializable {
      * @return the setup this node belongs to.
      */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Setup.class)
-    @JoinColumn(name = "setup_id", insertable = false, updatable = false,referencedColumnName = "setup_id")
+    @JoinColumn(name = "setup_id", insertable = true, updatable = false, referencedColumnName = "setup_id")
     public Setup getSetup() {
         return setup;
     }
@@ -84,6 +85,7 @@ public class Node implements Serializable {
     public String toString() {
         return "Node{" +
                 "id='" + id + '\'' +
+                "name='" + name + '\'' +
                 '}';
     }
 }

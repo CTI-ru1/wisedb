@@ -10,6 +10,8 @@ import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class LinkReadingCount {
     /**
      * a log4j logger to print messages.
@@ -22,12 +24,16 @@ public class LinkReadingCount {
         HibernateUtil.connectEntityManagers();
         Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
-            final String urnPrefix = "urn:prefix:";
+            final String urnPrefix = "urn:wisebed:ctitestbed:";
             final Setup setup = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix).getSetup();
-            Link link = LinkControllerImpl.getInstance().list(setup).iterator().next();
-            LOGGER.info("Selected Link : [" + link.getSource() + "," + link.getTarget() + "]");
-            int readingsCount = LinkReadingControllerImpl.getInstance().count(link);
-            LOGGER.info("Selected Link : [" + link.getSource() + "," + link.getTarget() + "] readings count :" + readingsCount);
+            final List<Link> links = LinkControllerImpl.getInstance().list(setup);
+            LOGGER.info("Links size :  " + links.size());
+            for (final Link link : links) {
+                LOGGER.info("Selected Link : [" + link.getSource() + "," + link.getTarget() + "]");
+                int readingsCount = LinkReadingControllerImpl.getInstance().count(link);
+                LOGGER.info("Selected " + link + " readings count :" + readingsCount);
+
+            }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();

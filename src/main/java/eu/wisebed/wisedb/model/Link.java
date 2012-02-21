@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -50,7 +51,7 @@ public class Link implements Serializable {
     private Node target;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return id;
@@ -140,7 +141,7 @@ public class Link implements Serializable {
      * @return the related setup instance
      */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Setup.class)
-    @JoinColumn(name = "setup_id", insertable = false, updatable = false, referencedColumnName = "setup_id")
+    @JoinColumn(name = "setup_id", insertable = true, updatable = false, referencedColumnName = "setup_id")
     public Setup getSetup() {
         return setup;
     }
@@ -152,5 +153,13 @@ public class Link implements Serializable {
      */
     public void setSetup(final Setup setup) {
         this.setup = setup;
+    }
+
+    @Override
+    public String toString() {
+        return "Link{" +
+                "source=" + source +
+                ", target=" + target +
+                '}';
     }
 }

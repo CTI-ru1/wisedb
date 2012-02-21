@@ -4,7 +4,6 @@ import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeReading;
-import org.hibernate.SessionFactory;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -40,7 +39,7 @@ public interface NodeReadingController {
 
     public HashMap<Capability, Integer> getNodeReadingsCountMap(final Node node);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 
 
 }

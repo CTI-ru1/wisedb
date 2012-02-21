@@ -1,6 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -49,6 +49,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
     private static final String LINK = "link";
 
 
+
     /**
      * Public constructor .
      */
@@ -88,17 +89,17 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
             capability = CapabilityControllerImpl.getInstance().prepareInsertCapability(capabilityName);
         }
 
-        final LinkCapability linkCapability = new LinkCapability();
+        LinkCapability linkCapability = new LinkCapability();
 
         linkCapability.setCapability(capability);
         linkCapability.setLink(link);
 
         final LastLinkReading lastLinkReading = new LastLinkReading();
+
+        LinkCapabilityControllerImpl.getInstance().add(linkCapability);
+        linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
+
         lastLinkReading.setLinkCapability(linkCapability);
-
-        linkCapability.setLastLinkReading(lastLinkReading);
-
-        LinkCapabilityControllerImpl.getInstance().add(linkCapability.getLink(), linkCapability.getCapability());
 
         LastLinkReadingControllerImpl.getInstance().add(lastLinkReading);
 
@@ -130,24 +131,24 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         linkCapabilities.setLink(link);
         session.delete(linkCapabilities);
     }
-
-    public void add(final Link link, final Capability capability) {
-
-        LOGGER.info("add(" + link.getSource() + "--" + link.getTarget() + "," + capability.getName() + ")");
-
-        final Session session = getSessionFactory().getCurrentSession();
-        final LinkCapability linkCapabilities = new LinkCapability();
-        linkCapabilities.setCapability(capability);
-        linkCapabilities.setLink(link);
-        session.delete(linkCapabilities);
-    }
+//
+//    public void add(final Link link, final Capability capability) {
+//
+//        LOGGER.info("add(" + link + "," + capability + ")");
+//
+//        final Session session = getSessionFactory().getCurrentSession();
+//        final LinkCapability linkCapability = new LinkCapability();
+//        linkCapability.setCapability(capability);
+//        linkCapability.setLink(link);
+//        add(linkCapability);
+//    }
 
     public int count() {
         LOGGER.info("count()");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(LinkCapability.class);
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.list().get(0);
+        return (Integer) criteria.uniqueResult();
     }
 
     public List<Capability> list() {

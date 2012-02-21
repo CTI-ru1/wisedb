@@ -22,5 +22,5 @@ public interface LastLinkReadingController {
 
     public void add(LastLinkReading lastLinkReading);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 }

@@ -1,16 +1,6 @@
 package eu.wisebed.wisedb;
 
-import eu.wisebed.wisedb.controller.CapabilityControllerImpl;
-import eu.wisebed.wisedb.controller.LastLinkReadingControllerImpl;
-import eu.wisebed.wisedb.controller.LastNodeReadingControllerImpl;
-import eu.wisebed.wisedb.controller.LinkCapabilityControllerImpl;
-import eu.wisebed.wisedb.controller.LinkControllerImpl;
-import eu.wisebed.wisedb.controller.LinkReadingControllerImpl;
-import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
-import eu.wisebed.wisedb.controller.NodeControllerImpl;
-import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
-import eu.wisebed.wisedb.controller.SetupControllerImpl;
-import eu.wisebed.wisedb.controller.TestbedControllerImpl;
+import eu.wisebed.wisedb.controller.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -145,22 +135,22 @@ public final class HibernateUtil {
         // main controllers
         TestbedControllerImpl.getInstance().setSessionFactory(thisFactory);
 
-        SetupControllerImpl.getInstance().setSessionFactory(thisFactory);
-
-        NodeControllerImpl.getInstance().setSessionFactory(thisFactory);
-        LinkControllerImpl.getInstance().setSessionFactory(thisFactory);
-
-        CapabilityControllerImpl.getInstance().setSessionFactory(thisFactory);
-
-        NodeCapabilityControllerImpl.getInstance().setSessionFactory(thisFactory);
-        LinkCapabilityControllerImpl.getInstance().setSessionFactory(thisFactory);
-
-
-        NodeReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
-        LinkReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
-
-        LastNodeReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
-        LastLinkReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
+//        SetupControllerImpl.getInstance().setSessionFactory(thisFactory);
+//
+//        NodeControllerImpl.getInstance().setSessionFactory(thisFactory);
+//        LinkControllerImpl.getInstance().setSessionFactory(thisFactory);
+//
+//        CapabilityControllerImpl.getInstance().setSessionFactory(thisFactory);
+//
+//        NodeCapabilityControllerImpl.getInstance().setSessionFactory(thisFactory);
+//        LinkCapabilityControllerImpl.getInstance().setSessionFactory(thisFactory);
+//
+//
+//        NodeReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
+//        LinkReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
+//
+//        LastNodeReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
+//        LastLinkReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
     }
 
     /**

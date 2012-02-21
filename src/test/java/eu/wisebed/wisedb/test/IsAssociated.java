@@ -35,7 +35,7 @@ public class IsAssociated {
             final Capability capability1 = CapabilityControllerImpl.getInstance().getByID("temp");
             final Capability capability2 = CapabilityControllerImpl.getInstance().getByID("blah3");
 
-            final Link link = LinkControllerImpl.getInstance().getByID(node1.getId(), node2.getId());
+            final Link link = LinkControllerImpl.getInstance().getByID(node1.getName(), node2.getName());
 
 
             LOGGER.info(NodeCapabilityControllerImpl.getInstance().isAssociated(node1, capability1));

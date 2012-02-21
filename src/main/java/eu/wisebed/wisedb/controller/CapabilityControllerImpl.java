@@ -1,6 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -234,6 +234,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
     public List<Capability> listNodeCapabilities(final Setup setup) {
         LOGGER.info("listNodeCapabilities(" + setup + ")");
         List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
+
         final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
 
         if (nodes.size() > 0) {
@@ -320,12 +321,13 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
         List<Link> links = LinkControllerImpl.getInstance().list(setup);
         final List<LinkCapability> result = new ArrayList<LinkCapability>();
 
-
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(LinkCapability.class);
-        criteria.add(Restrictions.eq(LINK, links));
+        criteria.add(Restrictions.in(LINK, links));
         criteria.add(Restrictions.eq(CAPABILITY, capability));
         final List resList = criteria.list();
+        LOGGER.info("nodesC=" + resList.size());
+
         for (Object item : resList) {
             if (item instanceof LinkCapability) {
                 result.add((LinkCapability) item);

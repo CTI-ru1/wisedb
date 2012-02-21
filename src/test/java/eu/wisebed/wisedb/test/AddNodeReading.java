@@ -29,13 +29,13 @@ public class AddNodeReading {
 
             final int testbedId = 1;
             // a node id for the testbed
-            final String nodeId =  "urn:wisebed:ctitestbed:0xddba";
+            final String nodeId =  "urn:wisebed:ctitestbed:0x2";
 
             // get that nodes capability name
             final String capabilityName = "temp2";
 
             // reading value
-            final double readingValue = 24.0;
+            final double readingValue = 23.0;
             // string reading value
             final String stringReading = null;
 

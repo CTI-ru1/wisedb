@@ -31,9 +31,9 @@ public class ListLastReadings {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
 
-            final Testbed testbed = TestbedControllerImpl.getInstance().getByID(18);
+            final Testbed testbed = TestbedControllerImpl.getInstance().getByID(1);
 
-            final Capability capability = CapabilityControllerImpl.getInstance().getByID("temp");
+            final Capability capability = CapabilityControllerImpl.getInstance().getByID("temp2");
 
             final List<LastNodeReading> lastNodeReadings = LastNodeReadingControllerImpl.getInstance().getByCapability(testbed.getSetup(), capability);
 
@@ -67,6 +67,7 @@ public class ListLastReadings {
         } catch (Exception e) {
             tx.rollback();
             LOGGER.fatal(e);
+            e.printStackTrace();
             System.exit(-1);
         } finally {
             // always close session

@@ -1,6 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -173,7 +173,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         LinkCapability linkCapability;
         if (link == null) {
             LOGGER.debug("link==null");
-            link = LinkControllerImpl.getInstance().prepareInsertLink(testbed, sourceId, targetId);
+            link = LinkControllerImpl.getInstance().prepareInsertLink(testbed.getSetup(), sourceId, targetId);
             linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
         } else {
             linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
@@ -195,20 +195,31 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
 
 
         // get last link reading for link and capability if not found create one
-        LastLinkReading lastLinkReading = linkCapability.getLastLinkReading();
-        if (lastLinkReading == null) {
+        LastLinkReading lastLinkReading;
+        if (linkCapability.getLastLinkReading() == null) {
             // if last link reading was not found
             LOGGER.info("Last link reading for LinkCapability [" + linkCapability.toString() + "] created");
             lastLinkReading = new LastLinkReading();
+            lastLinkReading.setReading(doubleReading);
+            lastLinkReading.setStringReading(stringReading);
+            lastLinkReading.setTimestamp(timestamp);
+            lastLinkReading.setId(linkCapability.getId());
+
+            linkCapability.setLastLinkReading(lastLinkReading);
+
+            LinkCapabilityControllerImpl.getInstance().update(linkCapability);
+        } else {
+            lastLinkReading = linkCapability.getLastLinkReading();
+            lastLinkReading.setReading(doubleReading);
+            lastLinkReading.setStringReading(stringReading);
+            lastLinkReading.setTimestamp(timestamp);
+            lastLinkReading.setLinkCapability(linkCapability);
+
+            linkCapability.setLastLinkReading(lastLinkReading);
+
+            LinkCapabilityControllerImpl.getInstance().update(linkCapability);
         }
-        lastLinkReading.setReading(doubleReading);
-        lastLinkReading.setStringReading(stringReading);
-        lastLinkReading.setTimestamp(timestamp);
-        lastLinkReading.setId(linkCapability.getId());
 
-        linkCapability.setLastLinkReading(lastLinkReading);
-
-        LinkCapabilityControllerImpl.getInstance().update(linkCapability);
     }
 
     /**

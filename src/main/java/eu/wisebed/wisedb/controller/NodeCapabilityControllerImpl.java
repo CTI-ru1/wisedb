@@ -1,6 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -77,40 +77,38 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
      * @param capabilityName , a capability name.
      * @return returns the inserted capability instance.
      */
-    public NodeCapability prepareInsertNodeCapability(final String capabilityName, final String nodeId) {
-        LOGGER.info("prepareInsertNodeCapability(" + capabilityName + "," + nodeId + ")");
+    public NodeCapability prepareInsertNodeCapability(final String capabilityName, final Node node) {
+        LOGGER.info("prepareInsertNodeCapability(" + capabilityName + "," + node + ")");
 
         Capability capability = CapabilityControllerImpl.getInstance().getByID(capabilityName);
         if (capability == null) {
             capability = CapabilityControllerImpl.getInstance().prepareInsertCapability(capabilityName);
         }
 
-        final Node node = NodeControllerImpl.getInstance().getByID(nodeId);
         NodeCapability nodeCapability = null;
-        try {
-            nodeCapability = new NodeCapability();
 
-            nodeCapability.setCapability(capability);
-            nodeCapability.setNode(node);
+        nodeCapability = new NodeCapability();
 
-            final LastNodeReading lastNodeReading = new LastNodeReading();
+        nodeCapability.setCapability(capability);
+        nodeCapability.setNode(node);
+
+        final LastNodeReading lastNodeReading = new LastNodeReading();
 //        lastNodeReading.setNodeCapability(nodeCapability);
 
-            nodeCapability.setLastNodeReading(lastNodeReading);
+//            nodeCapability.setLastNodeReading(lastNodeReading);
 
-            NodeCapabilityControllerImpl.getInstance().add(nodeCapability);
+        NodeCapabilityControllerImpl.getInstance().add(nodeCapability);
 
 //        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
+        //        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
+        nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
 
-            LOGGER.info("setting id to " + nodeCapability.getId());
-            lastNodeReading.setId(nodeCapability.getId());
+        lastNodeReading.setNodeCapability(nodeCapability);
 
-            LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
-        } catch (Exception e) {
+        LOGGER.info("setting id to " + nodeCapability.getId());
 
-            LOGGER.fatal(e);
-            e.printStackTrace();
-        }
+        LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
+
 
         return nodeCapability;
     }
@@ -233,7 +231,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
 
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeCapability.class);
-        criteria.add(Restrictions.eq(NODE, nodes));
+        criteria.add(Restrictions.in(NODE, nodes));
         criteria.add(Restrictions.eq(CAPABILITY, capability));
         List list = criteria.list();
         for (Object obj : criteria.list()) {

@@ -26,7 +26,7 @@ public class NodeReadingCount {
         HibernateUtil.connectEntityManagers();
         Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
-            final NodeReading nr = NodeReadingControllerImpl.getInstance().getByID(10);
+            final NodeReading nr = NodeReadingControllerImpl.getInstance().list().iterator().next();
             LOGGER.info("Reading : " + nr.getReading() + ", node : " + nr.getCapability().getNode().getId());
 
             final String urnPrefix = "urn:qopbot:";

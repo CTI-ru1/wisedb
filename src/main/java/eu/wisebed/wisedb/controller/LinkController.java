@@ -3,8 +3,6 @@ package eu.wisebed.wisedb.controller;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.Setup;
-import eu.wisebed.wisedb.model.Testbed;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -34,9 +32,9 @@ public interface LinkController {
 
     public List<Link> list(final Setup setup, final Capability capability);
 
-    public Link prepareInsertLink(final Testbed testbed, final String sourceId, final String targetId);
+    public Link prepareInsertLink(final Setup setup, final String sourceId, final String targetId);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 
     public void update(final Link link);
 

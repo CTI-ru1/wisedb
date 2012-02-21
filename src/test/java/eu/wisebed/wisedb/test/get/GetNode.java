@@ -23,9 +23,9 @@ public class GetNode {
         // Initialize hibernate
         HibernateUtil.connectEntityManagers();
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
-        final String id = "urn:wisebed:ctitestbed:0xddba";
+        final String name = "urn:wisebed:ctitestbed:0xddba";
         try {
-            final Node node = NodeControllerImpl.getInstance().getByID(id);
+            final Node node = NodeControllerImpl.getInstance().getByID(name);
             if (node != null) {
                 LOGGER.info("id: " + node.getId());
                 LOGGER.info("description: " + NodeControllerImpl.getInstance().getDescription(node));
@@ -34,7 +34,7 @@ public class GetNode {
                 LOGGER.info("Setup : " + node.getSetup());
                 LOGGER.info("Testbed : " + node.getSetup().getTestbed());
             } else {
-                LOGGER.error("node " + id + " does not exist!");
+                LOGGER.error("node " + name + " does not exist!");
             }
             tx.commit();
         } catch (Exception e) {

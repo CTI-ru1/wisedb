@@ -3,7 +3,9 @@ package eu.wisebed.wisedb.test;
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.LinkReadingControllerImpl;
 import eu.wisebed.wisedb.controller.NodeControllerImpl;
+import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Node;
+import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -33,15 +35,16 @@ public class AddLinkReading {
 
             // an id for testbed
             final int testbedId = 1;
+            final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
 
             // source node id
-            final Iterator<Node> nodeIt = NodeControllerImpl.getInstance().list().iterator();
+            final Iterator<Node> nodeIt = NodeControllerImpl.getInstance().list(testbed.getSetup()).iterator();
             final Node source = nodeIt.next();
-            final String sourceId = source.getId();
+            final String sourceId = source.getName();
 
             // target node id
             final Node target = nodeIt.next();
-            final String targetId = target.getId();
+            final String targetId = target.getName();
 
             // link capability name
             final String capabilityName = "blah3";

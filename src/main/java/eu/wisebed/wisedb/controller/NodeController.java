@@ -6,7 +6,6 @@ import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Position;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public interface NodeController  {
 
     Node prepareInsertNode(final Testbed testbed, final String nodeId);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Node node);
 

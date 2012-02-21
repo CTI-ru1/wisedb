@@ -10,7 +10,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.Coordinate;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
@@ -50,9 +50,14 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
     private static final String SETUP = "setup";
 
     /**
+     * ID literal.
+     */
+    private static final String ID = "id";
+
+    /**
      * Node ID literal.
      */
-    private static final String NODE_ID = "id";
+    private static final String NODE_ID = "name";
 
     /**
      * Logger.
@@ -120,7 +125,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
     public Node prepareInsertNode(final Testbed testbed, final String nodeId) {
         LOGGER.info("prepareInsertNode(" + testbed + "," + nodeId + ")");
         final Node node = new Node();
-        node.setId(nodeId);
+        node.setName(nodeId);
         node.setSetup(testbed.getSetup());
         add(node);
 
@@ -135,7 +140,10 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
      */
     public Node getByID(final String entityID) {
         LOGGER.debug("getByID(" + entityID + ")");
-        return super.getByID(new Node(), entityID);
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(Node.class);
+        criteria.add(Restrictions.eq(NODE_ID, entityID));
+        return (Node) criteria.uniqueResult();
     }
 
 
@@ -282,7 +290,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
 
         // set entry's title,link and publishing date
         final SyndEntry entry = new SyndEntryImpl();
-        entry.setTitle(node.getId());
+        entry.setTitle(node.getName());
         entry.setLink(syndEntryLink);
         entry.setPublishedDate(new Date());
 

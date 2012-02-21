@@ -11,7 +11,6 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
-import eu.wisebed.wisedb.AbstractController;
 import eu.wisebed.wisedb.Coordinate;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.Node;
@@ -85,7 +84,7 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
     public static TestbedController getInstance() {
         synchronized (TestbedControllerImpl.class) {
             if (ourInstance == null) {
-                ourInstance = new TestbedControllerImpl();
+                ourInstance = (TestbedController) new TestbedControllerImpl();
             }
         }
         return ourInstance;
@@ -98,7 +97,10 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
      */
     public void delete(final int id) {
         LOGGER.info("delete(" + id + ")");
-        super.delete(new Testbed(), id);
+//        super.delete(new Testbed(), id);
+        final Session session = getSessionFactory().getCurrentSession();
+        final Object entity2 = session.load(Testbed.class, id);
+        session.delete(entity2);
     }
 
     /**
@@ -108,7 +110,16 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
      */
     public List<Testbed> list() {
         LOGGER.info("list()");
-        return super.list(new Testbed());
+        final Session session = getSessionFactory().getCurrentSession();
+        LOGGER.info("entitynames length " + getSessionFactory().getStatistics().getEntityNames().length);
+        LOGGER.info("ename 1 : " + getSessionFactory().getStatistics().getEntityNames()[0]);
+        if (session == null) {
+            LOGGER.info("session is nul!!!");
+        }
+        final Criteria criteria = session.createCriteria(Testbed.class);
+        List testbeds = criteria.list();
+        LOGGER.info("returning " + testbeds.size() + " testbeds");
+        return (List<Testbed>) testbeds;
     }
 
     /**
@@ -119,7 +130,9 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
      */
     public Testbed getByID(final int entityID) {
         LOGGER.info("getByID(" + entityID + ")");
-        return super.getByID(new Testbed(), entityID);
+//        return super.getByID(new Testbed(), entityID);
+        final Session session = getSessionFactory().getCurrentSession();
+        return (Testbed) session.get(Testbed.class, entityID);
     }
 
     /**
@@ -247,7 +260,7 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
                 final SyndEntry entry = new SyndEntryImpl();
 
 // set entry's title,link and publishing date
-                entry.setTitle(node.getId());
+                entry.setTitle(node.getName());
                 entry.setLink(new StringBuilder().append(baseUrl).append("/rest/testbed/")
                         .append(testbed.getId()).append("/node/").append(node.getId()).toString());
                 entry.setPublishedDate(new Date());

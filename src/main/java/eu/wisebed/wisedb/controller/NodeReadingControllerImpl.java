@@ -1,6 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
@@ -126,15 +126,16 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         }
 
         Node node = NodeControllerImpl.getInstance().getByID(nodeId);
+
         NodeCapability nodeCapability;
         if (node == null) {
             LOGGER.debug("node==null");
             node = NodeControllerImpl.getInstance().prepareInsertNode(testbed, nodeId);
-            nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node.getId());
+            nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
         } else {
             nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
             if (nodeCapability == null) {
-                nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node.getId());
+                nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
                 NodeControllerImpl.getInstance().update(node);
             }
         }
@@ -154,21 +155,33 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         LOGGER.info("nodeCapability id is : " + nodeCapability.getId());
 
         // get lastNodeReading if not found create one
-        LastNodeReading lastNodeReading = nodeCapability.getLastNodeReading();
-        if (lastNodeReading == null) {
-            LOGGER.info("Last node reading for NodeCapability [" + nodeCapability + "] created");
+        LastNodeReading lastNodeReading;
+        if (nodeCapability.getLastNodeReading() == null) {
+
+            LOGGER.info("created lastNodeReading for " + nodeCapability);
             lastNodeReading = new LastNodeReading();
+            lastNodeReading.setReading(doubleReading);
+            lastNodeReading.setStringReading(stringReading);
+            lastNodeReading.setTimestamp(timestamp);
+            lastNodeReading.setId(nodeCapability.getId());
+
+            nodeCapability.setLastNodeReading(lastNodeReading);
+
+            NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
+
+        } else {
+            LOGGER.info("found lastNodeReading for " + nodeCapability);
+            lastNodeReading = nodeCapability.getLastNodeReading();
+            lastNodeReading.setReading(doubleReading);
+            lastNodeReading.setStringReading(stringReading);
+            lastNodeReading.setTimestamp(timestamp);
+            lastNodeReading.setNodeCapability(nodeCapability);
+
+            nodeCapability.setLastNodeReading(lastNodeReading);
+
+            NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
         }
 
-
-        lastNodeReading.setReading(doubleReading);
-        lastNodeReading.setStringReading(stringReading);
-        lastNodeReading.setTimestamp(timestamp);
-        lastNodeReading.setNodeCapability(nodeCapability);
-
-        nodeCapability.setLastNodeReading(lastNodeReading);
-
-        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
 
     }
 

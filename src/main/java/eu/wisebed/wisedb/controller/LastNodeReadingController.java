@@ -4,7 +4,6 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.Setup;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -22,5 +21,5 @@ public interface LastNodeReadingController {
 
     public void add(final LastNodeReading lastNodeReading);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 }

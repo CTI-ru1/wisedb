@@ -3,7 +3,6 @@ package eu.wisebed.wisedb.controller;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkReading;
-import org.hibernate.SessionFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -32,5 +31,5 @@ public interface LinkReadingController {
 
     public int count(final Link link);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 }

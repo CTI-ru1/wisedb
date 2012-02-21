@@ -53,10 +53,10 @@ public final class NodeReadingDistributer extends Thread {
                 final NodeReading lastReading = queue.take();
                 // LOGGER.info("New Reading: " + lastReading.toString());
 
-                if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getId(),
+                if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getName(),
                         lastReading.getCapability().getCapability().getName())) {
                     UberLogger.getInstance().log(lastReading, "T4");
-                    LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getId(),
+                    LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(),
                             lastReading.getCapability().getCapability().getName()).update(lastReading);
                     LOGGER.info("Updating.... : " + lastReading.toString());
                     UberLogger.getInstance().log(lastReading, "T41");

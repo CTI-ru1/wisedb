@@ -1,7 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.wisebed.wisedb.model.Setup;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface SetupController {
 
     public List<Setup> list();
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Setup setup);
 }

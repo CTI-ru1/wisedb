@@ -1,11 +1,11 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.AbstractController;
+import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
+import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.Setup;
-import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -79,21 +79,19 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
     /**
      * Prepares and inserts a link to the testbed setup  with the provided ids as source and target.
      *
-     * @param testbed  , a testbed instance.
+     * @param setup    , a setup instance.
      * @param sourceId , a source node id.
      * @param targetId , a target node id.
      * @return returns the inserted link instance.
      */
-    public Link prepareInsertLink(final Testbed testbed, final String sourceId, final String targetId) {
-        LOGGER.info("prepareInsertLink(" + testbed + "," + sourceId + "," + targetId + ")");
+    public Link prepareInsertLink(final Setup setup, final String sourceId, final String targetId) {
+        LOGGER.info("prepareInsertLink(" + setup + "," + sourceId + "," + targetId + ")");
 
         final Link link = new Link();
         link.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
         link.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
-        //TODO
-//        link.setEncrypted(false);
-//        link.setVirtual(false);
-        link.setSetup(testbed.getSetup());
+        LOGGER.info(setup);
+        link.setSetup(setup);
         add(link);
 
         return link;
@@ -111,10 +109,13 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         LOGGER.info("getByID(" + sourceId + "," + targetId + ")");
 
         final Session session = getSessionFactory().getCurrentSession();
-        final Link linkWithId = new Link();
-        linkWithId.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
-        linkWithId.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
-        return (Link) session.get(Link.class, linkWithId);
+        final Criteria criteria = session.createCriteria(Link.class);
+        final Node source = NodeControllerImpl.getInstance().getByID(sourceId);
+        final Node target = NodeControllerImpl.getInstance().getByID(targetId);
+        criteria.add(Restrictions.eq("source", source));
+        criteria.add(Restrictions.eq("target", target));
+
+        return (Link) criteria.uniqueResult();
     }
 
     /**

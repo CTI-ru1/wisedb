@@ -4,7 +4,6 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.Setup;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -37,8 +36,8 @@ public interface NodeCapabilityController {
 
     public boolean isAssociated(final Node node, final Capability capability);
 
-    public NodeCapability prepareInsertNodeCapability(final String capabilityName, final String nodeId);
+    public NodeCapability prepareInsertNodeCapability(final String capabilityName, final Node node);
 
-    public void setSessionFactory(final SessionFactory factory);
+//    public void setSessionFactory(final SessionFactory factory);
 
 }
