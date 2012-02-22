@@ -10,15 +10,13 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 11:48 AM
  */
-public interface SetupController {
+public interface SetupController  extends AbstractControllerInterface{
 
     public void delete(final int id);
 
     public Setup getByID(final int id);
 
     public List<Setup> list();
-
-//    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Setup setup);
 }

@@ -34,6 +34,10 @@ public class AddSimpleTestbed {
         br = new BufferedReader(new InputStreamReader(System.in));
 
         try {
+            // Initialize hibernate and begin transaction
+            HibernateUtil.connectEntityManagers();
+            Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
+
             Testbed testbed = new Testbed();
             LOGGER.info("Provide Testbed Name");
             final String testbedName = br.readLine();
@@ -54,10 +58,8 @@ public class AddSimpleTestbed {
             LOGGER.info("Using your default TimeZone : " + TimeZone.getDefault().getDisplayName());
             testbed.setTimeZone(TimeZone.getDefault());
 
-            // Initialize hibernate and begin transaction
-            HibernateUtil.connectEntityManagers();
-            Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
 
+            testbed.setFederated(false);
             // import to db
             TestbedControllerImpl.getInstance().add(testbed);
 //            tImp.convert();
@@ -71,6 +73,8 @@ public class AddSimpleTestbed {
             tx = HibernateUtil.getInstance().getSession().beginTransaction();
             Testbed theTestbed = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix);
 
+            LOGGER.info(theTestbed.getId());
+
             // set the testbed of the setup to be imported
             Setup setup = new Setup();
             Origin origin = new Origin();
@@ -83,10 +87,10 @@ public class AddSimpleTestbed {
             setup.setTimeinfo(new TimeInfo());
             setup.setCoordinateType("Absolute");
             setup.setDescription("description");
-//            setup.setTestbed(testbed);
-            testbed.setSetup(setup);
+
+            setup.setTestbed(theTestbed);
             //update testbed
-            TestbedControllerImpl.getInstance().update(testbed);
+//            TestbedControllerImpl.getInstance().update(testbed);
             // import by the convert method
             SetupControllerImpl.getInstance().add(setup);
 

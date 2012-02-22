@@ -74,7 +74,7 @@ public class GetTestbed {
             }
 
 
-            LOGGER.info(CacheManager.getInstance().getActiveConfigurationText());
+//            LOGGER.info(CacheManager.getInstance().getActiveConfigurationText());
 
 
             tx.commit();

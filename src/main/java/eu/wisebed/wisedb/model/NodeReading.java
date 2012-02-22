@@ -154,4 +154,14 @@ public final class NodeReading implements Serializable {
     public void setStringReading(final String stringReading) {
         this.stringReading = stringReading;
     }
+
+    @Override
+    public String toString() {
+        return "NodeReading{" +
+                "capability=" + capability +
+                ", timestamp=" + timestamp +
+                ", reading=" + reading +
+                ", stringReading='" + stringReading + '\'' +
+                '}';
+    }
 }

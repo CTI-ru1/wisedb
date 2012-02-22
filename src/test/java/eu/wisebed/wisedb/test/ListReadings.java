@@ -32,7 +32,7 @@ public class ListReadings {
 
             final List<NodeReading> nodeReadings = NodeReadingControllerImpl.getInstance().list();
             for (final NodeReading nodeReading : nodeReadings) {
-                LOGGER.info("NodeReading : " + nodeReading.getCapability().getCapability().getName() + "," + nodeReading.getReading());
+                LOGGER.info("NodeReading : " + nodeReading);
             }
 
             final Long linkReadingsCount = LinkReadingControllerImpl.getInstance().count();
@@ -40,7 +40,7 @@ public class ListReadings {
 
             final List<LinkReading> linkReadings = LinkReadingControllerImpl.getInstance().list();
             for (final LinkReading linkReading : linkReadings) {
-                LOGGER.info("LinkReading : " + linkReading.getCapability().getCapability().getName() + "," + linkReading.getReading());
+                LOGGER.info("LinkReading : " + linkReading);
             }
 
             tx.commit();

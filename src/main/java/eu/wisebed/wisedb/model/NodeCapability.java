@@ -27,6 +27,7 @@ public class NodeCapability implements Serializable {
     private LastNodeReading lastNodeReading;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     @Basic(fetch = FetchType.LAZY)
     public int getId() {

@@ -26,7 +26,7 @@
         <!--Properties needed for the Project-->
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <mysql.connector.version>5.1.16</mysql.connector.version>
-        <hibernate.version>3.6.9.Final</hibernate.version>
+        <hibernate.version>3.5.6-Final</hibernate.version>
         <slf4j.version>1.6.4</slf4j.version>
     </properties>
 
@@ -153,33 +153,49 @@
 
 
         <!-- database related dependencies -->
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-core</artifactId>-->
+        <!--<version>${hibernate.version}</version>-->
+        <!--<exclusions>-->
+        <!--<exclusion>-->
+        <!--<groupId>ehcache</groupId>-->
+        <!--<artifactId>ehcache</artifactId>-->
+        <!--</exclusion>-->
+        <!--</exclusions>-->
+
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-annotations</artifactId>-->
+        <!--<version>3.5.6-Final</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-validator</artifactId>-->
+        <!--<version>3.1.0.GA</version>-->
+        <!--</dependency>-->
+        <!-- Hibernate framework -->
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>ehcache</groupId>
-                    <artifactId>ehcache</artifactId>
-                </exclusion>
-            </exclusions>
-
+            <artifactId>hibernate</artifactId>
+            <version>3.2.1.ga</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.5.6-Final</version>
+            <version>3.2.0.ga</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>3.1.0.GA</version>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
-        <groupId>javassist</groupId>
-        <artifactId>javassist</artifactId>
-        <version>3.4.GA</version>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.4.GA</version>
         </dependency>
 
         <dependency>
@@ -294,27 +310,27 @@
             </plugin>
 
             <!--<plugin>-->
-                <!--<groupId>org.jibx</groupId>-->
-                <!--<artifactId>maven-jibx-plugin</artifactId>-->
-                <!--<version>1.2.3</version>-->
-                <!--<configuration>-->
-                    <!--<directory>src/main/jibx</directory>-->
-                    <!--<includes>-->
-                        <!--<includes>*-binding.xml</includes>-->
-                    <!--</includes>-->
-                    <!--<excludes>-->
-                        <!--<exclude>template-binding.xml</exclude>-->
-                    <!--</excludes>-->
-                    <!--<verbose>true</verbose>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>process-classes</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>bind</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.jibx</groupId>-->
+            <!--<artifactId>maven-jibx-plugin</artifactId>-->
+            <!--<version>1.2.3</version>-->
+            <!--<configuration>-->
+            <!--<directory>src/main/jibx</directory>-->
+            <!--<includes>-->
+            <!--<includes>*-binding.xml</includes>-->
+            <!--</includes>-->
+            <!--<excludes>-->
+            <!--<exclude>template-binding.xml</exclude>-->
+            <!--</excludes>-->
+            <!--<verbose>true</verbose>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<phase>process-classes</phase>-->
+            <!--<goals>-->
+            <!--<goal>bind</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
 
             <plugin>

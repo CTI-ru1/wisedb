@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:06 PM
  */
-public interface LinkController {
+public interface LinkController  extends AbstractControllerInterface{
 
     public Link getByID(final int id);
 
@@ -33,8 +33,6 @@ public interface LinkController {
     public List<Link> list(final Setup setup, final Capability capability);
 
     public Link prepareInsertLink(final Setup setup, final String sourceId, final String targetId);
-
-//    public void setSessionFactory(final SessionFactory factory);
 
     public void update(final Link link);
 

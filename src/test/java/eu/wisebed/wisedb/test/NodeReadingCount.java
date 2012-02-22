@@ -29,7 +29,7 @@ public class NodeReadingCount {
             final NodeReading nr = NodeReadingControllerImpl.getInstance().list().iterator().next();
             LOGGER.info("Reading : " + nr.getReading() + ", node : " + nr.getCapability().getNode().getId());
 
-            final String urnPrefix = "urn:qopbot:";
+            final String urnPrefix = "urn:test:";
             final Testbed testbed = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix);
             final Node node = NodeControllerImpl.getInstance().getByID(urnPrefix + "destiny");
             LOGGER.info("Selected Node : " + node.getId());

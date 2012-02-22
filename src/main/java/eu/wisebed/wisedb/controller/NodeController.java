@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 11:58 AM
  */
-public interface NodeController  {
+public interface NodeController   extends AbstractControllerInterface{
 
     public void update(final Node node);
 
@@ -40,8 +40,6 @@ public interface NodeController  {
     public Origin getOrigin(final Node node);
 
     Node prepareInsertNode(final Testbed testbed, final String nodeId);
-
-//    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Node node);
 

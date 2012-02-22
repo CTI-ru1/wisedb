@@ -54,6 +54,7 @@ public class LinkCapability implements Serializable {
 //    private String description;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     @Basic(fetch = FetchType.LAZY)
     public int getId() {

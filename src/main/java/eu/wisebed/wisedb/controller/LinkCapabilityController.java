@@ -13,7 +13,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:37 PM
  */
-public interface LinkCapabilityController {
+public interface LinkCapabilityController  extends AbstractControllerInterface{
 
     public void add(final LinkCapability linkCapability);
 
@@ -38,6 +38,4 @@ public interface LinkCapabilityController {
     public LinkCapability prepareInsertLinkCapability(final Link link, final String capabilityName);
 
     public void update(final LinkCapability linkCapability);
-
-//    public void setSessionFactory(final SessionFactory factory);
 }

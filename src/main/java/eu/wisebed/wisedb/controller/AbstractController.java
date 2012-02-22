@@ -1,8 +1,11 @@
 package eu.wisebed.wisedb.controller;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -17,8 +20,13 @@ import java.util.List;
  * @param <E> Generic type of AbstractController
  */
 @SuppressWarnings("unchecked")
-public class AbstractController<E> {
+@Repository
+public class AbstractController<E> implements AbstractControllerInterface {
 
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(AbstractController.class);
     /**
      * The SessionFactory which opens a new session to the persistence store.
      */
@@ -29,7 +37,11 @@ public class AbstractController<E> {
      *
      * @param factory a sessionFactory instance.
      */
+    @Autowired
     public final void setSessionFactory(final SessionFactory factory) {
+        LOGGER.info("setting sessionFactorty");
+
+        LOGGER.info("entitynames length " + factory.getStatistics().getEntityNames().length);
         this.sessionFactory = factory;
     }
 

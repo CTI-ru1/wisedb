@@ -11,7 +11,7 @@ import java.util.Map;
  * Date: 2/19/12
  * Time: 11:29 AM
  */
-public interface TestbedController2 extends AbstractControllerInterface {
+public interface TestbedController extends AbstractControllerInterface {
 
     public void delete(final int id);
 

@@ -29,10 +29,10 @@ public class IsAssociated {
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
 
-            final Node node1 = NodeControllerImpl.getInstance().getByID("urn:prefix:NODETEST3");
-            final Node node2 = NodeControllerImpl.getInstance().getByID("urn:prefix:NODETEST1");
+            final Node node1 = NodeControllerImpl.getInstance().getByID("urn:test:0x1");
+            final Node node2 = NodeControllerImpl.getInstance().getByID("urn:test:0x2");
 
-            final Capability capability1 = CapabilityControllerImpl.getInstance().getByID("temp");
+            final Capability capability1 = CapabilityControllerImpl.getInstance().getByID("temp2");
             final Capability capability2 = CapabilityControllerImpl.getInstance().getByID("blah3");
 
             final Link link = LinkControllerImpl.getInstance().getByID(node1.getName(), node2.getName());

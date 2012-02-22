@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * CRUD operations for Testbed entities.
  */
-public class TestbedController extends AbstractController<Testbed> {
+public class TestbedControllerImpl extends AbstractController<Testbed> implements TestbedController {
 
     /**
      * static instance(ourInstance) initialized as null.
