@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
@@ -125,7 +124,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             throw new UnknownTestbedException(Integer.toString(testbedId));
         }
 
-        Node node = NodeControllerImpl.getInstance().getByID(nodeId);
+        Node node = NodeControllerImpl.getInstance().getByName(nodeId);
 
         NodeCapability nodeCapability;
         if (node == null) {

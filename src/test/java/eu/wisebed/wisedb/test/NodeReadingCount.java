@@ -31,7 +31,7 @@ public class NodeReadingCount {
 
             final String urnPrefix = "urn:test:";
             final Testbed testbed = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix);
-            final Node node = NodeControllerImpl.getInstance().getByID(urnPrefix + "destiny");
+            final Node node = NodeControllerImpl.getInstance().getByName(urnPrefix + "destiny");
             LOGGER.info("Selected Node : " + node.getId());
             long now1 = System.currentTimeMillis();
             Long readingsCount = NodeReadingControllerImpl.getInstance().count(node);

@@ -38,8 +38,8 @@
         <property name="format_sql">false</property>
 
         <!-- Enable second level cache -->
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="hibernate.cache.use_query_cache">false</property>
         <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory
         </property>
 
@@ -47,34 +47,31 @@
         <!--<mapping package="eu.wisebed.wisedb.model"/>-->
 
 
-        <mapping class="eu.wisebed.wisedb.model.Testbed"/>
-        <mapping class="eu.wisebed.wisedb.model.Setup"/>
-        <!--<mapping class="eu.wisebed.wisedb.model.Origin"/>-->
-        <!--<mapping class="eu.wisebed.wisedb.model.TimeInfo"/>-->
-        <mapping class="eu.wisebed.wisedb.model.Capability"/>
-        <mapping class="eu.wisebed.wisedb.model.Node"/>
-        <mapping class="eu.wisebed.wisedb.model.NodeCapability"/>
-        <mapping class="eu.wisebed.wisedb.model.NodeReading"/>
-        <mapping class="eu.wisebed.wisedb.model.LastNodeReading"/>
-        <mapping class="eu.wisebed.wisedb.model.Link"/>
-        <mapping class="eu.wisebed.wisedb.model.LinkCapability"/>
-        <mapping class="eu.wisebed.wisedb.model.LinkReading"/>
-        <mapping class="eu.wisebed.wisedb.model.LastLinkReading"/>
+        <!--<mapping class="eu.wisebed.wisedb.model.Testbed"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.Setup"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.Capability"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.Node"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.NodeCapability"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.NodeReading"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.LastNodeReading"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.Link"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.LinkCapability"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.LinkReading"/>-->
+        <!--<mapping class="eu.wisebed.wisedb.model.LastLinkReading"/>-->
 
 
-        <!--<mapping resource="eu/wisebed/wisedb/model/Testbed.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/Setup.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/Link.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/Node.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/Capability.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/LinkCapability.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/NodeCapability.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/NodeReading.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/LinkReading.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/LastNodeReading.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/LastLinkReading.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/Slse.hbm.xml"/>-->
-        <!--<mapping resource="eu/wisebed/wisedb/model/Semantic.hbm.xml"/>-->
+        <mapping resource="eu/wisebed/wisedb/model/Testbed.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/Setup.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/Link.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/Node.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/Capability.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/LinkCapability.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/NodeCapability.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/NodeReading.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/LinkReading.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/LastNodeReading.hbm.xml"/>
+        <mapping resource="eu/wisebed/wisedb/model/LastLinkReading.hbm.xml"/>
+
 
     </session-factory>
 </hibernate-configuration>

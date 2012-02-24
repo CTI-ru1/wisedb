@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -88,8 +87,8 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         LOGGER.info("prepareInsertLink(" + setup + "," + sourceId + "," + targetId + ")");
 
         final Link link = new Link();
-        link.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
-        link.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
+        link.setSource(NodeControllerImpl.getInstance().getByName(sourceId));
+        link.setTarget(NodeControllerImpl.getInstance().getByName(targetId));
         LOGGER.info(setup);
         link.setSetup(setup);
         add(link);
@@ -110,8 +109,8 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
 
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(Link.class);
-        final Node source = NodeControllerImpl.getInstance().getByID(sourceId);
-        final Node target = NodeControllerImpl.getInstance().getByID(targetId);
+        final Node source = NodeControllerImpl.getInstance().getByName(sourceId);
+        final Node target = NodeControllerImpl.getInstance().getByName(targetId);
         criteria.add(Restrictions.eq("source", source));
         criteria.add(Restrictions.eq("target", target));
 
@@ -142,8 +141,8 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
 
         final Session session = getSessionFactory().getCurrentSession();
         final Link linkWithId = new Link();
-        linkWithId.setSource(NodeControllerImpl.getInstance().getByID(sourceId));
-        linkWithId.setTarget(NodeControllerImpl.getInstance().getByID(targetId));
+        linkWithId.setSource(NodeControllerImpl.getInstance().getByName(sourceId));
+        linkWithId.setTarget(NodeControllerImpl.getInstance().getByName(targetId));
         session.delete(linkWithId);
     }
 

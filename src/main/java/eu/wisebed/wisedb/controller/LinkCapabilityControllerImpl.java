@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -49,7 +48,6 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
     private static final String LINK = "link";
 
 
-
     /**
      * Public constructor .
      */
@@ -93,8 +91,9 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
         linkCapability.setCapability(capability);
         linkCapability.setLink(link);
-
         final LastLinkReading lastLinkReading = new LastLinkReading();
+
+        linkCapability.setLastLinkReading(lastLinkReading);
 
         LinkCapabilityControllerImpl.getInstance().add(linkCapability);
         linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);

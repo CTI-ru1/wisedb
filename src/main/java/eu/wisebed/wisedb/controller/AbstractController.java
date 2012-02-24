@@ -4,8 +4,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -20,7 +18,6 @@ import java.util.List;
  * @param <E> Generic type of AbstractController
  */
 @SuppressWarnings("unchecked")
-@Repository
 public class AbstractController<E> implements AbstractControllerInterface {
 
     /**
@@ -37,7 +34,6 @@ public class AbstractController<E> implements AbstractControllerInterface {
      *
      * @param factory a sessionFactory instance.
      */
-    @Autowired
     public final void setSessionFactory(final SessionFactory factory) {
         LOGGER.info("setting sessionFactorty");
 

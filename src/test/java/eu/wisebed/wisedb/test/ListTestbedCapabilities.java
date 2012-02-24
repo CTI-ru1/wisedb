@@ -50,6 +50,7 @@ public class ListTestbedCapabilities {
         } catch (Exception e) {
             tx.rollback();
             LOGGER.fatal(e);
+            e.printStackTrace();
             System.exit(-1);
         } finally {
             // always close session

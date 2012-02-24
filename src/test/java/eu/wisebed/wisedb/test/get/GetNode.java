@@ -23,12 +23,12 @@ public class GetNode {
         // Initialize hibernate
         HibernateUtil.connectEntityManagers();
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
-        final String name = "urn:wisebed:ctitestbed:0xddba";
+        final String name = "urn:test:0x1";
         try {
-            final Node node = NodeControllerImpl.getInstance().getByID(name);
+            final Node node = NodeControllerImpl.getInstance().getByID(1);
             if (node != null) {
                 LOGGER.info("id: " + node.getId());
-                LOGGER.info("description: " + NodeControllerImpl.getInstance().getDescription(node));
+//                LOGGER.info("description: " + NodeControllerImpl.getInstance().getDescription(node));
 //                LOGGER.info("Position :" + NodeControllerImpl.getInstance().getPosition(node));
 //                LOGGER.info("Origin :" + NodeControllerImpl.getInstance().getOrigin(node));
                 LOGGER.info("Setup : " + node.getSetup());

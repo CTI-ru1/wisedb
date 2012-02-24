@@ -12,10 +12,8 @@
             <generator class="native"/>
         </id>
 
-        <many-to-one name="link" class="eu.wisebed.wisedb.model.Link">
-            <column name="link_source" not-null="true"/>
-            <column name="link_target" not-null="true"/>
-        </many-to-one>
+        <many-to-one name="link" class="eu.wisebed.wisedb.model.Link" column="link_id" />
+
 
         <many-to-one name="capability" class="eu.wisebed.wisedb.model.Capability">
             <column name="capability_id" not-null="true"/>

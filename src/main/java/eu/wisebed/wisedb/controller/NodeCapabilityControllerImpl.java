@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -95,7 +94,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         final LastNodeReading lastNodeReading = new LastNodeReading();
 //        lastNodeReading.setNodeCapability(nodeCapability);
 
-//            nodeCapability.setLastNodeReading(lastNodeReading);
+            nodeCapability.setLastNodeReading(lastNodeReading);
 
         NodeCapabilityControllerImpl.getInstance().add(nodeCapability);
 

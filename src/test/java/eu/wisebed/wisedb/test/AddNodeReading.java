@@ -29,7 +29,7 @@ public class AddNodeReading {
 
             final int testbedId = 1;
             // a node id for the testbed
-            final String nodeId =  "urn:test:0x1";
+            final String nodeId =  "urn:test:0x3";
 
             // get that nodes capability name
             final String capabilityName = "temp2";
