@@ -4,55 +4,41 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * This is a persistant class for the object capability that has the
- * properties of a capability. In the class there are
- * getter and setter methods for the properties.
+ * This is a persistant class for the object {@link LinkCapability} that has the properties of a capability and
+ * refers to a {@link Link}.
+ * In the class there are getter and setter methods for the properties.
  */
 @Entity
 @Table(name = "link_capabilities")
 public class LinkCapability implements Serializable {
+
     /**
      * Serial Unique Version ID.
      */
-
     private static final long serialVersionUID = -3419203591130581062L;
 
+    /**
+     * The unique primary key of the object.
+     */
     private int id;
-
+    /**
+     * The {@link Capability} the object refers to.
+     */
     private Capability capability;
-
+    /**
+     * The {@link Link} the object refers to.
+     */
     private Link link;
-
+    /**
+     * The {@link LastLinkReading} of the {@link LinkCapability}.
+     */
     private LastLinkReading lastLinkReading;
 
-    //    /**
-//     * the datatype of the capability.
-//     */
-//    @Column(name = "datatype")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String datatype;
-//
-//    /**
-//     * the unit of the capability.
-//     */
-//    @Column(name = "unit")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String unit;
-//
-//    /**
-//     * the unit of the capability.
-//     */
-//    @Column(name = "defaultvalue")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String defaultvalue;
-//
-//    /**
-//     * Description.
-//     */
-//    @Column(name = "description")
-//    @Basic(fetch = FetchType.LAZY)
-//    private String description;
-
+    /**
+     * Getter for the primary key.
+     *
+     * @return the primary key.
+     */
     @Id
     @Column(name = "id", nullable = false)
     @Basic(fetch = FetchType.LAZY)
@@ -60,112 +46,73 @@ public class LinkCapability implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * Getter for the {@link Capability}.
+     *
+     * @return the {@link Capability}.
+     */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "capability_id", referencedColumnName = "capability_id")
     public Capability getCapability() {
         return capability;
     }
 
-    public void setCapability(Capability capability) {
-        this.capability = capability;
-    }
-
+    /**
+     * Getter for the {@link Link}.
+     *
+     * @return the {@link Link}.
+     */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "link_id", referencedColumnName = "id")
     public Link getLink() {
         return link;
     }
 
-    public void setLink(Link link) {
-        this.link = link;
-    }
-
+    /**
+     * Getter for the {@link LastLinkReading}.
+     *
+     * @return the {@link LastLinkReading}.
+     */
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "linkCapability", cascade = CascadeType.ALL)
     public LastLinkReading getLastLinkReading() {
         return lastLinkReading;
     }
 
+    /**
+     * Setter for the primary key.
+     *
+     * @param id the new id.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Setter for the {@link Capability}.
+     *
+     * @param capability the new {@link Capability}.
+     */
+    public void setCapability(Capability capability) {
+        this.capability = capability;
+    }
+
+    /**
+     * Setter for the {@link Link}.
+     *
+     * @param link the new {@link Link}.
+     */
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
+    /**
+     * Setter for the {@link LastLinkReading}.
+     *
+     * @param lastLinkReading the new {@link LastLinkReading}.
+     */
     public void setLastLinkReading(LastLinkReading lastLinkReading) {
         this.lastLinkReading = lastLinkReading;
     }
-
-
-//    /**
-//     * this method returns the datatype of the capability.
-//     *
-//     * @return the datatype of the capability.
-//     */
-//    public String getDatatype() {
-//        return datatype;
-//    }
-//
-//    /**
-//     * this method sets the datatype of the capability.
-//     *
-//     * @param datatype the datatype of the capability.
-//     */
-//    public void setDatatype(final String datatype) {
-//        this.datatype = datatype;
-//    }
-//
-//    /**
-//     * this method returns the unit of the capability.
-//     *
-//     * @return the unit of the capability.
-//     */
-//    public String getUnit() {
-//        return unit;
-//    }
-//
-//    /**
-//     * this method sets the unit of the capability.
-//     *
-//     * @param unit the unit of the capability.
-//     */
-//    public void setUnit(final String unit) {
-//        this.unit = unit;
-//    }
-//
-//    /**
-//     * Returns default value.
-//     *
-//     * @return default value.
-//     */
-//    public String getDefaultvalue() {
-//        return defaultvalue;
-//    }
-//
-//    /**
-//     * Sets default value.
-//     *
-//     * @param defaultvalue default value
-//     */
-//    public void setDefaultvalue(final String defaultvalue) {
-//        this.defaultvalue = defaultvalue;
-//    }
-//
-//
-//    /**
-//     * Returns this capability's description.
-//     *
-//     * @return this capability's description.
-//     */
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    /**
-//     * Set this capability's description.
-//     *
-//     * @param description description.
-//     */
-//    public void setDescription(final String description) {
-//        this.description = description;
-//    }
 
     @Override
     public String toString() {

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * This is a persistant class for the object capability that has the
- * properties of a capability. In the class there are
+ * properties of a {@link Capability} In the class there are
  * getter and setter methods for the properties.
  */
 @Entity
@@ -21,34 +21,34 @@ public class Capability implements Serializable {
     private static final long serialVersionUID = -3419203591130581062L;
 
     /**
-     * the name of the object Capability.
+     * the Name of the object {@link Capability}
      */
     private String name;
 
     /**
-     * the datatype of the capability.
+     * the Datatype of the {@link Capability}
      */
     private String datatype;
 
     /**
-     * the unit of the capability.
+     * the Unit of the {@link Capability}
      */
     private String unit;
 
     /**
-     * the unit of the capability.
+     * the DefaultValue of the {@link Capability}
      */
     private String defaultvalue;
 
     /**
-     * Description.
+     * the Description of the {@link Capability}
      */
     private String description;
 
     /**
-     * this method returns the name of the capability.
+     * this method returns the name of the {@link Capability}
      *
-     * @return the name of the capability.
+     * @return the name of the {@link Capability}
      */
     @Id
     @Column(name = "capability_id")
@@ -57,18 +57,9 @@ public class Capability implements Serializable {
     }
 
     /**
-     * this method sets the name of the capability.
+     * this method returns the datatype of the {@link Capability}
      *
-     * @param name the name of the capability.
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    /**
-     * this method returns the datatype of the capability.
-     *
-     * @return the datatype of the capability.
+     * @return the datatype of the {@link Capability}
      */
     @Column(name = "datatype")
     public String getDatatype() {
@@ -76,31 +67,13 @@ public class Capability implements Serializable {
     }
 
     /**
-     * this method sets the datatype of the capability.
+     * this method returns the unit of the {@link Capability}
      *
-     * @param datatype the datatype of the capability.
-     */
-    public void setDatatype(final String datatype) {
-        this.datatype = datatype;
-    }
-
-    /**
-     * this method returns the unit of the capability.
-     *
-     * @return the unit of the capability.
+     * @return the unit of the {@link Capability}
      */
     @Column(name = "unit")
     public String getUnit() {
         return unit;
-    }
-
-    /**
-     * this method sets the unit of the capability.
-     *
-     * @param unit the unit of the capability.
-     */
-    public void setUnit(final String unit) {
-        this.unit = unit;
     }
 
     /**
@@ -113,15 +86,6 @@ public class Capability implements Serializable {
         return defaultvalue;
     }
 
-    /**
-     * Sets default value.
-     *
-     * @param defaultvalue default value
-     */
-    public void setDefaultvalue(final String defaultvalue) {
-        this.defaultvalue = defaultvalue;
-    }
-
 
     /**
      * Returns this capability's description.
@@ -132,6 +96,45 @@ public class Capability implements Serializable {
     public String getDescription() {
         return description;
     }
+
+    /**
+     * this method sets the name of the {@link Capability}
+     *
+     * @param name the name of the {@link Capability}
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
+     * this method sets the datatype of the {@link Capability}
+     *
+     * @param datatype the datatype of the {@link Capability}
+     */
+    public void setDatatype(final String datatype) {
+        this.datatype = datatype;
+    }
+
+
+    /**
+     * this method sets the unit of the {@link Capability}
+     *
+     * @param unit the unit of the {@link Capability}
+     */
+    public void setUnit(final String unit) {
+        this.unit = unit;
+    }
+
+
+    /**
+     * Sets default value.
+     *
+     * @param defaultvalue default value
+     */
+    public void setDefaultvalue(final String defaultvalue) {
+        this.defaultvalue = defaultvalue;
+    }
+
 
     /**
      * Set this capability's description.

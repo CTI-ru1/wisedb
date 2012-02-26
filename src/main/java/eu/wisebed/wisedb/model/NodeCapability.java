@@ -16,14 +16,21 @@ public class NodeCapability implements Serializable {
      * Serial Unique Version ID.
      */
     private static final long serialVersionUID = -3419203591130581062L;
-
-
+    /**
+     * unique id for each NodeCapability.
+     */
     private int id;
-
+    /**
+     * The Capability of the NodeCapability.
+     */
     private Capability capability;
-
+    /**
+     * The Node of the NodeCapability.
+     */
     private Node node;
-
+    /**
+     * The LastNodeReading of the NodeCapability.
+     */
     private LastNodeReading lastNodeReading;
 
     @Id
@@ -32,7 +39,6 @@ public class NodeCapability implements Serializable {
     public int getId() {
         return id;
     }
-
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "capability_id", referencedColumnName = "capability_id")
@@ -55,15 +61,15 @@ public class NodeCapability implements Serializable {
         this.id = id;
     }
 
-    public void setCapability(Capability capability) {
+    public void setCapability(final Capability capability) {
         this.capability = capability;
     }
 
-    public void setNode(Node node) {
+    public void setNode(final Node node) {
         this.node = node;
     }
 
-    public void setLastNodeReading(LastNodeReading lastNodeReading) {
+    public void setLastNodeReading(final LastNodeReading lastNodeReading) {
         this.lastNodeReading = lastNodeReading;
     }
 

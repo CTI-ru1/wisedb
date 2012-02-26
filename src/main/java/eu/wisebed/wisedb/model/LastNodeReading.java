@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * This is a persistent class for the object LastNodeReading that has the
+ * This is a persistent class for the object {@link LastNodeReading} that has the
  * properties of a wisedb entry. In the class there are
  * getter and setter methods for the properties.
  */
@@ -28,34 +28,30 @@ public final class LastNodeReading implements Serializable {
      */
     private static final long serialVersionUID = 2824765230014359545L;
 
+    /**
+     * The id of the {@link NodeCapability} referring to.
+     */
     private int id;
 
     /**
-     * Timestamp.
+     * the Timestamp of the {@link LastNodeReading}.
      */
     private Date timestamp;
 
     /**
-     * Capability reading value for this node.
+     * the Reading of the {@link LastNodeReading}.
      */
     private Double reading;
 
     /**
-     * String reading value.
+     * the StringReading of the {@link LastNodeReading}.
      */
     private String stringReading;
 
+    /**
+     * the {@link NodeCapability} of the {@link LastNodeReading}.
+     */
     private NodeCapability nodeCapability;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
-    public NodeCapability getNodeCapability() {
-        return nodeCapability;
-    }
-
-    public void setNodeCapability(NodeCapability nodeCapability) {
-        this.nodeCapability = nodeCapability;
-    }
 
     /**
      * Constructor.
@@ -64,6 +60,11 @@ public final class LastNodeReading implements Serializable {
         // empty constructor
     }
 
+    /**
+     * Returns the id of the {@link NodeCapability} referring to.
+     *
+     * @return the id.
+     */
     @GenericGenerator(name = "generator", strategy = "foreign",
             parameters = @Parameter(name = "property", value = "nodeCapability"))
     @Id
@@ -71,10 +72,6 @@ public final class LastNodeReading implements Serializable {
     @Column(name = "node_capability")
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -88,18 +85,9 @@ public final class LastNodeReading implements Serializable {
     }
 
     /**
-     * Sets the timestamp that this reading occured.
+     * Returns the reading of the {@link LastNodeReading}.
      *
-     * @param timestamp last node reading's timestamp.
-     */
-    public void setTimestamp(final Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    /**
-     * Returns this reading value.
-     *
-     * @return this reading value.
+     * @return the reading.
      */
     @Column(name = "reading")
     public Double getReading() {
@@ -107,18 +95,9 @@ public final class LastNodeReading implements Serializable {
     }
 
     /**
-     * Sets this reading value.
+     * Returns the stringReading of the {@link LastNodeReading}.
      *
-     * @param reading last node reading's reading value.
-     */
-    public void setReading(final Double reading) {
-        this.reading = reading;
-    }
-
-    /**
-     * Returns string reading.
-     *
-     * @return string reading.
+     * @return the stringReading.
      */
     @Column(name = "stringReading")
     public String getStringReading() {
@@ -126,13 +105,61 @@ public final class LastNodeReading implements Serializable {
     }
 
     /**
-     * Sets string reading.
+     * Returns the {@link NodeCapability} referring to.
      *
-     * @param stringReading string reading.
+     * @return the {@link NodeCapability} object.
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    public NodeCapability getNodeCapability() {
+        return nodeCapability;
+    }
+
+    /**
+     * Sets the id of the {@link NodeCapability}.
+     *
+     * @param id the id.
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the timestamp.
+     *
+     * @param timestamp {@link LastNodeReading} timestamp.
+     */
+    public void setTimestamp(final Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    /**
+     * Sets this reading value.
+     *
+     * @param reading {@link LastNodeReading} reading value.
+     */
+    public void setReading(final Double reading) {
+        this.reading = reading;
+    }
+
+    /**
+     * Sets the stringReading.
+     *
+     * @param stringReading {@link LastNodeReading} stringReading.
      */
     public void setStringReading(final String stringReading) {
         this.stringReading = stringReading;
     }
+
+    /**
+     * Sets the {@link NodeCapability}.
+     *
+     * @param nodeCapability the {@link NodeCapability}.
+     */
+    public void setNodeCapability(final NodeCapability nodeCapability) {
+        this.nodeCapability = nodeCapability;
+    }
+
 
     @Override
     public boolean equals(Object o) {

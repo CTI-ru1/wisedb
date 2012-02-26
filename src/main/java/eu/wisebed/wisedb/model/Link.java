@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
- * This is a persistant class for the object link that has the
+ * This is a persistant class for the {@link Link} object that has the
  * properties of a link. In the class there are
  * getter and setter methods for the properties.
  */
@@ -25,31 +25,32 @@ public class Link implements Serializable {
      */
     private static final long serialVersionUID = -393203811928650579L;
 
-    public Link() {
-    }
-
     /**
-     * The link primary key.
+     * The primary key id.
      */
-
     private int id;
 
     /**
-     * this link belongs to a setup.
+     * The {@link Setup} object this {@link Link} refers to.
      */
     private Setup setup;
 
 
     /**
-     * the source of an object Link.
+     * The {@link Node} object that serves as a source address for the {@link Link}.
      */
     private Node source;
 
     /**
-     * the target of an object Link.
+     * The {@link Node} object that serves as a target address for the {@link Link}.
      */
     private Node target;
 
+    /**
+     * The primary key id.
+     *
+     * @return the id.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
@@ -57,88 +58,32 @@ public class Link implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * The source {@link Node}.
+     *
+     * @return The source {@link Node}.
+     */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "link_source", referencedColumnName = "node_id")
     public Node getSource() {
         return source;
     }
 
-    public void setSource(final Node source) {
-        this.source = source;
-    }
-
+    /**
+     * The target {@link Node}.
+     *
+     * @return The target {@link Node}.
+     */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Node.class)
     @JoinColumn(name = "link_target", referencedColumnName = "node_id")
     public Node getTarget() {
         return target;
     }
 
-    public void setTarget(final Node target) {
-        this.target = target;
-    }
-
-//    /**
-//     * this method returns the boolean value encrypted of the link.
-//     *
-//     * @return the encrypted of the link.
-//     */
-//    public Boolean isEncrypted() {
-//        return encrypted;
-//    }
-//
-//    /**
-//     * this method returns the boolean value encrypted of the link.
-//     *
-//     * @return the encrypted of the link.
-//     */
-//    public Boolean getEncrypted() {
-//        return isEncrypted();
-//    }
-//
-//    /**
-//     * this method sets the boolean value encrypted of the link.
-//     *
-//     * @param encrypted the encrypted of the link.
-//     */
-//    public void setEncrypted(final Boolean encrypted) {
-//        this.encrypted = encrypted;
-//    }
-//
-//    /**
-//     * this method returns the boolean value virtual of the link.
-//     *
-//     * @return the virtual of the link.
-//     */
-//    public Boolean isVirtual() {
-//        return virtual;
-//    }
-//
-//    /**
-//     * this method returns the boolean value virtual of the link.
-//     *
-//     * @return the virtual of the link.
-//     */
-//    public Boolean getVirtual() {
-//        return isVirtual();
-//    }
-//
-//    /**
-//     * this method sets the boolean value virtual of the link.
-//     *
-//     * @param virtual the virtual of the link.
-//     */
-//    public void setVirtual(final Boolean virtual) {
-//        this.virtual = virtual;
-//    }
-
     /**
-     * Returns a collection of setups.
+     * The {@link Setup} this {@link Link} object belongs to.
      *
-     * @return the related setup instance
+     * @return The {@link Setup} this {@link Link} object belongs to.
      */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Setup.class)
     @JoinColumn(name = "setup_id", insertable = true, updatable = false, referencedColumnName = "setup_id")
@@ -147,9 +92,36 @@ public class Link implements Serializable {
     }
 
     /**
-     * sets the setup this link belongs to setups.
+     * Setter for  the primary key.
      *
-     * @param setup , a setup instance
+     * @param id the id to set as primary key.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the source {@link Node} object.
+     *
+     * @param source The {@link Node} to set as source.
+     */
+    public void setSource(final Node source) {
+        this.source = source;
+    }
+
+    /**
+     * Sets the target {@link Node} object.
+     *
+     * @param target The {@link Node} to set as target.
+     */
+    public void setTarget(final Node target) {
+        this.target = target;
+    }
+
+    /**
+     * Sets the {@link Setup} the {@link Link} belongs to.
+     *
+     * @param setup The {@link Setup} to set the {@link Link} to.
      */
     public void setSetup(final Setup setup) {
         this.setup = setup;

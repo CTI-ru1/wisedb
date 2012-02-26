@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * This is a persistent class for the object LastLinkReading that has the
+ * This is a persistent class for the object {@link LastLinkReading} that has the
  * properties of a wisedb entry. In the class there are
  * getter and setter methods for the properties.
  */
@@ -28,23 +28,28 @@ public final class LastLinkReading implements Serializable {
      */
     private static final long serialVersionUID = 8748551395278795210L;
 
+    /**
+     * The id of the {@link LinkCapability} referring to.
+     */
     private int id;
 
     /**
-     * Timestamp.
+     * the Timestamp of the {@link LastLinkReading}.
      */
     private Date timestamp;
 
     /**
-     * Capability reading value for this node.
+     * the Reading of the {@link LastLinkReading}.
      */
     private Double reading;
 
     /**
-     * String reading value.
+     * the StringReading of the {@link LastLinkReading}.
      */
     private String stringReading;
-
+    /**
+     * the {@link LinkCapability} of the {@link LastLinkReading}.
+     */
     private LinkCapability linkCapability;
 
     /**
@@ -54,16 +59,11 @@ public final class LastLinkReading implements Serializable {
         // empty constructor
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
-    public LinkCapability getLinkCapability() {
-        return linkCapability;
-    }
-
-    public void setLinkCapability(LinkCapability linkCapability) {
-        this.linkCapability = linkCapability;
-    }
-
+    /**
+     * Returns the id of the {@link LinkCapability} referring to.
+     *
+     * @return the id.
+     */
     @GenericGenerator(name = "generator", strategy = "foreign",
             parameters = @Parameter(name = "property", value = "linkCapability"))
     @Id
@@ -73,14 +73,10 @@ public final class LastLinkReading implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     /**
-     * Returns the timestamp that this reading occured.
+     * Returns the timestamp of the {@link LastLinkReading}.
      *
-     * @return timestamp of the reading.
+     * @return the timestamp.
      */
     @Column(name = "timestamp")
     public Date getTimestamp() {
@@ -88,18 +84,9 @@ public final class LastLinkReading implements Serializable {
     }
 
     /**
-     * Sets the timestamp that this reading occured.
+     * Returns the reading of the {@link LastLinkReading}.
      *
-     * @param timestamp last link reading's timestamp.
-     */
-    public void setTimestamp(final Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    /**
-     * Returns this reading value.
-     *
-     * @return this reading value.
+     * @return the reading.
      */
     @Column(name = "reading")
     public Double getReading() {
@@ -107,18 +94,9 @@ public final class LastLinkReading implements Serializable {
     }
 
     /**
-     * Sets this reading value.
+     * Returns the stringReading of the {@link LastLinkReading}.
      *
-     * @param reading last link reading's value.
-     */
-    public void setReading(final Double reading) {
-        this.reading = reading;
-    }
-
-    /**
-     * Returns string reading.
-     *
-     * @return string reading.
+     * @return the stringReading.
      */
     @Column(name = "stringReading")
     public String getStringReading() {
@@ -126,13 +104,63 @@ public final class LastLinkReading implements Serializable {
     }
 
     /**
-     * Sets string reading.
+     * Returns the {@link LinkCapability} referring to.
      *
-     * @param stringReading string reading.
+     * @return the {@link LinkCapability} object.
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    public LinkCapability getLinkCapability() {
+        return linkCapability;
+    }
+
+    /**
+     * Sets the id of the {@link LinkCapability}.
+     *
+     * @param id the id.
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the timestamp.
+     *
+     * @param timestamp {@link LastLinkReading} timestamp.
+     */
+    public void setTimestamp(final Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+
+    /**
+     * Sets this reading value.
+     *
+     * @param reading {@link LastLinkReading} reading value.
+     */
+    public void setReading(final Double reading) {
+        this.reading = reading;
+    }
+
+
+    /**
+     * Sets the stringReading.
+     *
+     * @param stringReading {@link LastLinkReading} stringReading.
      */
     public void setStringReading(final String stringReading) {
         this.stringReading = stringReading;
     }
+
+    /**
+     * Sets the {@link LinkCapability}.
+     *
+     * @param linkCapability the {@link LinkCapability}.
+     */
+    public void setLinkCapability(final LinkCapability linkCapability) {
+        this.linkCapability = linkCapability;
+    }
+
 
     @Override
     public boolean equals(Object o) {
