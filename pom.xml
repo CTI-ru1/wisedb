@@ -177,9 +177,9 @@
         </dependency>
 
         <dependency>
-        <groupId>javassist</groupId>
-        <artifactId>javassist</artifactId>
-        <version>3.4.GA</version>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.4.GA</version>
         </dependency>
 
         <dependency>
@@ -292,31 +292,6 @@
                     <target>jsr14</target>
                 </configuration>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.jibx</groupId>-->
-                <!--<artifactId>maven-jibx-plugin</artifactId>-->
-                <!--<version>1.2.3</version>-->
-                <!--<configuration>-->
-                    <!--<directory>src/main/jibx</directory>-->
-                    <!--<includes>-->
-                        <!--<includes>*-binding.xml</includes>-->
-                    <!--</includes>-->
-                    <!--<excludes>-->
-                        <!--<exclude>template-binding.xml</exclude>-->
-                    <!--</excludes>-->
-                    <!--<verbose>true</verbose>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>process-classes</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>bind</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>

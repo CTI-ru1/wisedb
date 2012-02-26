@@ -19,7 +19,7 @@ public interface LinkCapabilityController {
 
     public void delete(final Link link, final Capability capability);
 
-    public LinkCapability getByID(int id);
+    public LinkCapability getByID(int linkId);
 
     public LinkCapability getByID(final Link link, final Capability capability);
 

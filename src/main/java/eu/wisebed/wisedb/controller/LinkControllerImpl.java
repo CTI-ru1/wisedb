@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -121,13 +120,13 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
     /**
      * Get the entry from the link that corresponds to the input id, Source & Target node ids.
      *
-     * @param id, The link id.
+     * @param linkId, The link id.
      * @return the link object persisted with the specific id
      */
-    public Link getByID(final int id) {
+    public Link getByID(final int linkId) {
 
-        LOGGER.info("getByID(" + id + ")");
-        return super.getByID(new Link(), id);
+        LOGGER.info("getByID(" + linkId + ")");
+        return super.getByID(new Link(), linkId);
     }
 
     /**

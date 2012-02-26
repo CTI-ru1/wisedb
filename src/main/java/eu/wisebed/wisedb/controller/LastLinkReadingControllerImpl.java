@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -111,12 +110,12 @@ public class LastLinkReadingControllerImpl extends AbstractController<LastLinkRe
 //        return (List<LastLinkReading>) criteria.list();
 //    }
 
-    public List<LastLinkReading> getByCapability(final Setup setup, Capability capability) {
+    public List<LastLinkReading> getByCapability(final Setup setup, final Capability capability) {
         LOGGER.info("getByCapability(" + setup + "," + capability + ")");
 
         final List<LinkCapability> linkCapabilities = CapabilityControllerImpl.getInstance().listLinkCapabilities(setup, capability);
 
-        List<LastLinkReading> result = new ArrayList<LastLinkReading>();
+        final List<LastLinkReading> result = new ArrayList<LastLinkReading>();
 
         for (final LinkCapability linkCapability : linkCapabilities) {
             result.add(linkCapability.getLastLinkReading());

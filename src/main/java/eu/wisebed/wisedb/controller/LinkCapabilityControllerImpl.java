@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -28,26 +27,15 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
     private static LinkCapabilityController ourInstance = null;
 
     /**
-     * Source literal.
-     */
-    private static final String SOURCE = "link_source";
-    /**
-     * Target literal.
-     */
-    private static final String TARGET = "link_target";
-
-    /**
      * Capabilities literal.
      */
     private static final String CAPABILITY = "capability";
-    private static final String ID = "id";
 
     /**
      * Logger.
      */
     private static final Logger LOGGER = Logger.getLogger(LinkCapabilityControllerImpl.class);
     private static final String LINK = "link";
-
 
 
     /**
@@ -155,9 +143,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         LOGGER.info("list()");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(LinkCapability.class);
-        List<Capability> capabilities = new ArrayList<Capability>();
-        List list = criteria.list();
-        LOGGER.info(list.size());
+        final List<Capability> capabilities = new ArrayList<Capability>();
         for (Object obj : criteria.list()) {
             if (obj instanceof LinkCapability) {
                 final LinkCapability cap = (LinkCapability) obj;
@@ -171,9 +157,9 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         return capabilities;
     }
 
-    public LinkCapability getByID(int id) {
-        LOGGER.info("getByID(" + id + ")");
-        return super.getByID(new LinkCapability(), id);
+    public LinkCapability getByID(final int linkId) {
+        LOGGER.info("getByID(" + linkId + ")");
+        return super.getByID(new LinkCapability(), linkId);
     }
 
     public LinkCapability getByID(final Link link, final Capability capability) {
@@ -201,7 +187,6 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         final Criteria criteria = session.createCriteria(LinkCapability.class);
         criteria.add(Restrictions.eq(LINK, link));
         final List<LinkCapability> capabilities = new ArrayList<LinkCapability>();
-        final List list = criteria.list();
         for (Object obj : criteria.list()) {
             if (obj instanceof LinkCapability) {
                 capabilities.add((LinkCapability) obj);
@@ -215,11 +200,10 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         LOGGER.debug("list(" + setup + ")");
         final List<Link> links = LinkControllerImpl.getInstance().list(setup);
         final List<LinkCapability> capabilities = new ArrayList<LinkCapability>();
-        if (links.size() > 0) {
+        if (!links.isEmpty()) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(LinkCapability.class);
             criteria.add(Restrictions.in(LINK, links));
-            List list = criteria.list();
             for (Object obj : criteria.list()) {
                 if (obj instanceof LinkCapability) {
                     capabilities.add((LinkCapability) obj);

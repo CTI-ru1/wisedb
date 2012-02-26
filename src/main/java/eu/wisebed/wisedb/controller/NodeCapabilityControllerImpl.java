@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -36,10 +35,6 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
      * Capabilities literal.
      */
     private static final String CAPABILITY = "capability";
-    /**
-     * Id literal.
-     */
-    private static final String ID = "id";
 
     /**
      * Logger.
@@ -126,8 +121,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         LOGGER.info("list()");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeCapability.class);
-        List<Capability> capabilities = new ArrayList<Capability>();
-        List list = criteria.list();
+        final List<Capability> capabilities = new ArrayList<Capability>();
         for (Object obj : criteria.list()) {
             if (obj instanceof NodeCapability) {
                 final NodeCapability cap = (NodeCapability) obj;
@@ -141,9 +135,9 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         return capabilities;
     }
 
-    public NodeCapability getByID(int id) {
-        LOGGER.info("getByID(" + id + ")");
-        return super.getByID(new NodeCapability(), id);
+    public NodeCapability getByID(int entityId) {
+        LOGGER.info("getByID(" + entityId + ")");
+        return super.getByID(new NodeCapability(), entityId);
 //        final Session session = getSessionFactory().getCurrentSession();
 //        final Criteria criteria = session.createCriteria(NodeCapability.class);
 //        criteria.add(Restrictions.eq(ID, id));
@@ -196,8 +190,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeCapability.class);
         criteria.add(Restrictions.eq(NODE, node));
-        List<NodeCapability> capabilities = new ArrayList<NodeCapability>();
-        List list = criteria.list();
+        final List<NodeCapability> capabilities = new ArrayList<NodeCapability>();
         for (Object obj : criteria.list()) {
             if (obj instanceof NodeCapability) {
                 capabilities.add((NodeCapability) obj);
@@ -214,7 +207,6 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
-            List list = criteria.list();
             for (Object obj : criteria.list()) {
                 if (obj instanceof NodeCapability) {
                     capabilities.add((NodeCapability) obj);
@@ -233,7 +225,6 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         final Criteria criteria = session.createCriteria(NodeCapability.class);
         criteria.add(Restrictions.in(NODE, nodes));
         criteria.add(Restrictions.eq(CAPABILITY, capability));
-        List list = criteria.list();
         for (Object obj : criteria.list()) {
             if (obj instanceof NodeCapability) {
                 capabilities.add((NodeCapability) obj);

@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -136,7 +135,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
         criteria.add(Restrictions.eq(CAPABILITY_NAME, entityID));
 
         final List list = criteria.list();
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             return (Capability) list.get(0);
         }
         return null;
@@ -233,11 +232,11 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      */
     public List<Capability> listNodeCapabilities(final Setup setup) {
         LOGGER.info("listNodeCapabilities(" + setup + ")");
-        List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
+        final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
 
         final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
 
-        if (nodes.size() > 0) {
+        if (!nodes.isEmpty()) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
@@ -265,7 +264,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
         LOGGER.info("listLinkCapabilities(" + setup + ")");
         final List<Link> links = LinkControllerImpl.getInstance().list(setup);
         final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
-        if (links.size() > 0) {
+        if (!links.isEmpty()) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(LinkCapability.class);
             criteria.add(Restrictions.in(LINK, links));
@@ -292,10 +291,10 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      */
     public List<NodeCapability> listNodeCapabilities(final Setup setup, final Capability capability) {
         LOGGER.info("listNodeCapabilities(" + setup + "," + capability + ")");
-        List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
+        final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
         final List<NodeCapability> result = new ArrayList<NodeCapability>();
 
-        if (nodes.size() > 0) {
+        if (!nodes.isEmpty()) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
@@ -318,7 +317,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      */
     public List<LinkCapability> listLinkCapabilities(final Setup setup, final Capability capability) {
         LOGGER.info("listLinkCapabilities(" + setup + "," + capability + ")");
-        List<Link> links = LinkControllerImpl.getInstance().list(setup);
+        final List<Link> links = LinkControllerImpl.getInstance().list(setup);
         final List<LinkCapability> result = new ArrayList<LinkCapability>();
 
         final Session session = getSessionFactory().getCurrentSession();

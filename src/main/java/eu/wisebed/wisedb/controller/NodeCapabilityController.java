@@ -22,7 +22,7 @@ public interface NodeCapabilityController {
 
     public List<Capability> list();
 
-    public NodeCapability getByID(int id);
+    public NodeCapability getByID(int entityId);
 
     public NodeCapability getByID(final Node node, final String capabilityName);
 

@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -232,7 +231,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         LOGGER.info("count(" + link + ")");
         final List<LinkCapability> linkCapabilities = LinkCapabilityControllerImpl.getInstance().list(link);
         Integer result = 0;
-        if (linkCapabilities.size() > 0) {
+        if (!linkCapabilities.isEmpty()) {
             final org.hibernate.Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(LinkReading.class);
             criteria.add(Restrictions.in(CAPABILITY, linkCapabilities));

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface LinkController {
 
-    public Link getByID(final int id);
+    public Link getByID(final int linkId);
 
     public Link getByID(final String sourceId, final String targetId);
 

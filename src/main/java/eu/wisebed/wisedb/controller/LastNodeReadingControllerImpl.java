@@ -1,7 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
 import com.mysql.jdbc.NotImplemented;
-import eu.wisebed.wisedb.controller.AbstractController;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -84,7 +83,7 @@ public class LastNodeReadingControllerImpl extends AbstractController<LastNodeRe
 
         final List<NodeCapability> nodeCapabilities = CapabilityControllerImpl.getInstance().listNodeCapabilities(setup, capability);
 
-        List<LastNodeReading> result = new ArrayList<LastNodeReading>();
+        final List<LastNodeReading> result = new ArrayList<LastNodeReading>();
 
         for (final NodeCapability nodeCapability : nodeCapabilities) {
             result.add(nodeCapability.getLastNodeReading());
