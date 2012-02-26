@@ -15,19 +15,18 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 11:58 AM
  */
-public interface NodeController  {
+public interface NodeController   extends AbstractControllerInterface{
 
     public void update(final Node node);
 
     public void delete(final String nodeId);
-
-    public Node getByID(final String nodeId);
+    public Node getByID(final int nodeId);
+    
+    public Node getByName(final String name);
 
     public List<Node> list();
 
     public List<Node> list(final Setup setup);
-
-    public List<String> listNames(final Setup setup);
 
     public Long count(final Setup setup);
 
@@ -40,8 +39,6 @@ public interface NodeController  {
     public Origin getOrigin(final Node node);
 
     Node prepareInsertNode(final Testbed testbed, final String nodeId);
-
-//    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Node node);
 

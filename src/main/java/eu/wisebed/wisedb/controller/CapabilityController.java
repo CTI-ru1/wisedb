@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:12 PM
  */
-public interface CapabilityController {
+public interface CapabilityController extends AbstractControllerInterface {
 
     public Capability getByID(final String entityID);
 
@@ -38,8 +38,6 @@ public interface CapabilityController {
     public List<LinkCapability> listLinkCapabilities(final Setup setup, final Capability capability);
 
     public Capability prepareInsertCapability(final String capabilityName);
-
-//    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Capability capability);
 }

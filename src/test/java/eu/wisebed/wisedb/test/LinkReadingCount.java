@@ -24,7 +24,7 @@ public class LinkReadingCount {
         HibernateUtil.connectEntityManagers();
         Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         try {
-            final String urnPrefix = "urn:wisebed:ctitestbed:";
+            final String urnPrefix = "urn:test:";
             final Setup setup = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix).getSetup();
             final List<Link> links = LinkControllerImpl.getInstance().list(setup);
             LOGGER.info("Links size :  " + links.size());

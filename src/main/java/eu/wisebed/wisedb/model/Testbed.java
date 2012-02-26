@@ -207,7 +207,7 @@ public final class Testbed implements Serializable {
      * @return the URL of the Reservation endpoint.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "rsUrl", unique = true, nullable = false)
+    @Column(name = "rsUrl", unique = true, nullable = true)
     public String getRsUrl() {
         return rsUrl;
     }

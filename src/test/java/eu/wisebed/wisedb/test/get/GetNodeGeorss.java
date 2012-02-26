@@ -26,7 +26,7 @@ public class GetNodeGeorss {
 
         try {
 
-            final Node node = NodeControllerImpl.getInstance().getByID("urn:wisebed:ctitestbed:0x9979");
+            final Node node = NodeControllerImpl.getInstance().getByName("urn:wisebed:ctitestbed:0x9979");
 
 //            final String geooRssFeed = NodeControllerImpl.getInstance().getGeooRssFeed(node, "", "");
 //            LOGGER.info(geooRssFeed);

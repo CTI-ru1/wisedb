@@ -155,4 +155,14 @@ public final class LinkReading implements Serializable {
     public void setStringReading(final String stringReading) {
         this.stringReading = stringReading;
     }
+
+    @Override
+    public String toString() {
+        return "LinkReading{" +
+                "capability=" + capability +
+                ", timestamp=" + timestamp +
+                ", reading=" + reading +
+                ", stringReading='" + stringReading + '\'' +
+                '}';
+    }
 }

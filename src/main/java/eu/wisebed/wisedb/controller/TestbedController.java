@@ -1,7 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.wisebed.wisedb.model.Testbed;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
  * Date: 2/19/12
  * Time: 11:29 AM
  */
-public interface TestbedController {
+public interface TestbedController extends AbstractControllerInterface {
 
     public void delete(final int id);
 
@@ -27,8 +26,6 @@ public interface TestbedController {
     public Map<String, Long> countNodes();
 
     public Map<String, Long> countLinks();
-
-    public void setSessionFactory(final SessionFactory factory);
 
     public void add(final Testbed testbed);
 

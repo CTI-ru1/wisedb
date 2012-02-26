@@ -39,6 +39,7 @@ public class AddLinkReading {
 
             // source node id
             final Iterator<Node> nodeIt = NodeControllerImpl.getInstance().list(testbed.getSetup()).iterator();
+            nodeIt.next();
             final Node source = nodeIt.next();
             final String sourceId = source.getName();
 

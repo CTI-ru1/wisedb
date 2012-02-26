@@ -1,21 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
-import com.sun.syndication.feed.module.georss.GeoRSSModule;
-import com.sun.syndication.feed.module.georss.SimpleModuleImpl;
-import com.sun.syndication.feed.module.georss.geometries.Position;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndContentImpl;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndEntryImpl;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.feed.synd.SyndFeedImpl;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedOutput;
-import eu.wisebed.wisedb.Coordinate;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
@@ -27,10 +13,6 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -233,100 +215,4 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
         return resultsMap;
     }
 
-    public String getGeoRssFeed(final Testbed testbed, final String baseUrl, final String syndFeedLink, final String syndEntryLink) {
-        try {
-            final SyndFeed feed = new SyndFeedImpl();
-            feed.setFeedType("rss_2.0");
-            feed.setTitle(testbed.getName() + " GeoRSS");
-            feed.setLink(syndFeedLink);
-            feed.setDescription(testbed.getDescription());
-            final List<SyndEntry> entries = new ArrayList<SyndEntry>();
-
-// convert testbed origin from long/lat position to xyz if needed
-            Coordinate properOrigin = null;
-            if (!(testbed.getSetup().getCoordinateType().equals("Absolute"))) {
-// determine testbed origin by the type of coordinates given
-                final Origin origin = testbed.getSetup().getOrigin();
-                final Coordinate originCoordinate = new Coordinate((double) origin.getX(), (double) origin.getY(),
-                        (double) origin.getZ(), (double) origin.getPhi(), (double) origin.getTheta());
-                properOrigin = Coordinate.blh2xyz(originCoordinate);
-            }
-
-// list of nodes
-            final List<Node> nodes = NodeControllerImpl.getInstance().list(testbed.getSetup());
-
-// make an entry and it
-            for (Node node : nodes) {
-                final SyndEntry entry = new SyndEntryImpl();
-
-// set entry's title,link and publishing date
-                entry.setTitle(node.getName());
-                entry.setLink(new StringBuilder().append(baseUrl).append("/rest/testbed/")
-                        .append(testbed.getId()).append("/node/").append(node.getId()).toString());
-                entry.setPublishedDate(new Date());
-
-// set entry's description (HTML list)
-                final SyndContent description = new SyndContentImpl();
-                final StringBuilder descriptionBuffer = new StringBuilder();
-                descriptionBuffer.append("<p>").append(NodeControllerImpl.getInstance().getDescription(node)).append("</p>");
-                descriptionBuffer.append("<p><a href=\"").append(baseUrl).append("/uberdust/rest/testbed/")
-                        .append(testbed.getId()).append("/node/").append(node.getId()).append("/georss").append("\">")
-                        .append("GeoRSS feed").append("</a></p>");
-                descriptionBuffer.append("<ul>");
-                for (NodeCapability capability : (List<NodeCapability>) NodeCapabilityControllerImpl.getInstance().list(node)) {
-                    descriptionBuffer.append("<li>").append(capability.getCapability().getName())
-                            .append(capability.getCapability().getName()).append("</li>");
-                }
-                descriptionBuffer.append("</ul>");
-                description.setType("text/html");
-                description.setValue(descriptionBuffer.toString());
-                entry.setDescription(description);
-
-
-// set the GeoRSS module and add it to entry
-                final GeoRSSModule geoRSSModule = new SimpleModuleImpl();
-                if (!(testbed.getSetup().getCoordinateType().equals("Absolute"))) {
-                    // convert node position from xyz to long/lat
-
-                    Origin npos;
-                    try {
-                        npos = NodeControllerImpl.getInstance().getOrigin(node);
-                    } catch (NullPointerException e) {
-                        npos = testbed.getSetup().getOrigin();
-                    }
-
-                    final Coordinate nodeCoordinate = new Coordinate((double) npos.getX(), (double) npos.getY(),
-                            (double) npos.getZ());
-                    final Coordinate rotated = Coordinate.rotate(nodeCoordinate, properOrigin.getPhi());
-                    final Coordinate absolute = Coordinate.absolute(properOrigin, rotated);
-                    final Coordinate nodePosition = Coordinate.xyz2blh(absolute);
-                    geoRSSModule.setPosition(new Position(nodePosition.getX(), nodePosition.getY()));
-                } else {
-                    geoRSSModule.setPosition(new Position(NodeControllerImpl.getInstance().getOrigin(node).getX(), NodeControllerImpl.getInstance().getOrigin(node).getY()));
-                }
-                entry.getModules().add(geoRSSModule);
-                entries.add(entry);
-            }
-
-            // add entries to feed
-            feed.setEntries(entries);
-
-// the feed output goes to response
-            final SyndFeedOutput output = new SyndFeedOutput();
-            StringWriter writer = new StringWriter();
-            try {
-                output.output(feed, writer);
-            } catch (IOException e) {
-                LOGGER.error(e);
-            } catch (FeedException e) {
-                LOGGER.error(e);
-            }
-            return writer.toString();
-
-        } catch (Exception e) {
-            LOGGER.fatal(e);
-            e.printStackTrace();
-        }
-        return "exception";
-    }
 }

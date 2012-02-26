@@ -128,7 +128,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         }
 
         // look for source
-        final Node source = NodeControllerImpl.getInstance().getByID(sourceId);
+        final Node source = NodeControllerImpl.getInstance().getByName(sourceId);
         if (source == null) {
             // if source node not found in db make it and store it
             LOGGER.info("Node [" + sourceId + "] was not found in db . Storing it");
@@ -136,7 +136,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         }
 
         // look for target
-        final Node target = NodeControllerImpl.getInstance().getByID(targetId);
+        final Node target = NodeControllerImpl.getInstance().getByName(targetId);
         if (target == null) {
             // if target node not found in db make it and store it
             LOGGER.info("Node [" + targetId + "] was not found in db . Storing it");
@@ -175,11 +175,12 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
             link = LinkControllerImpl.getInstance().prepareInsertLink(testbed.getSetup(), sourceId, targetId);
             linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
         } else {
-            linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
-            if (linkCapability == null) {
+
+            if (LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName) == null) {
                 linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
                 LinkControllerImpl.getInstance().update(link);
             }
+            linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
         }
 
         // make a new link reading entity

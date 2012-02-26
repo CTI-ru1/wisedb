@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:42 PM
  */
-public interface NodeReadingController {
+public interface NodeReadingController  extends AbstractControllerInterface{
 
     public void add(final NodeReading reading);
 
@@ -38,8 +38,5 @@ public interface NodeReadingController {
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final int limit);
 
     public HashMap<Capability, Integer> getNodeReadingsCountMap(final Node node);
-
-//    public void setSessionFactory(final SessionFactory factory);
-
 
 }

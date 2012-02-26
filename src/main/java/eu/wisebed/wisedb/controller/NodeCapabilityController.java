@@ -13,7 +13,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:21 PM
  */
-public interface NodeCapabilityController {
+public interface NodeCapabilityController  extends AbstractControllerInterface{
     public void add(final NodeCapability nodeCapability);
 
     public void update(final NodeCapability nodeCapability);
@@ -37,7 +37,5 @@ public interface NodeCapabilityController {
     public boolean isAssociated(final Node node, final Capability capability);
 
     public NodeCapability prepareInsertNodeCapability(final String capabilityName, final Node node);
-
-//    public void setSessionFactory(final SessionFactory factory);
 
 }

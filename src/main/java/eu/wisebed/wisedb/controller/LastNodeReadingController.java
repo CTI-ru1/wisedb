@@ -13,13 +13,11 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 1:00 PM
  */
-public interface LastNodeReadingController {
+public interface LastNodeReadingController  extends AbstractControllerInterface{
 
     public LastNodeReading getByID(final NodeCapability nodeCapability);
 
     public List<LastNodeReading> getByCapability(final Setup setup, final Capability capability);
 
     public void add(final LastNodeReading lastNodeReading);
-
-//    public void setSessionFactory(final SessionFactory factory);
 }

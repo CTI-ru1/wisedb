@@ -13,7 +13,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:52 PM
  */
-public interface LinkReadingController {
+public interface LinkReadingController  extends AbstractControllerInterface{
 
     public void delete(final int readingId);
 
@@ -30,6 +30,4 @@ public interface LinkReadingController {
     public Long count();
 
     public int count(final Link link);
-
-//    public void setSessionFactory(final SessionFactory factory);
 }
