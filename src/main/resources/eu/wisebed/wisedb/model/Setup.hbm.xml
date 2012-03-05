@@ -6,7 +6,7 @@
 
     <class name="eu.wisebed.wisedb.model.Setup" table="setup"
            dynamic-update="true" dynamic-insert="true">
-        <cache usage="read-write"/>
+        <!--<cache usage="read-write"/>-->
 
         <id name="id" type="int">
             <column name="setup_id"/>

@@ -7,7 +7,7 @@
 
     <class name="eu.wisebed.wisedb.model.Link" table="links"
            dynamic-insert="true" dynamic-update="true">
-        <cache usage="read-write"/>
+        <!--<cache usage="read-write"/>-->
 
         <id name="id" column="id"/>
         <many-to-one name="source" column="link_source" class="eu.wisebed.wisedb.model.Node" property-ref="name"/>

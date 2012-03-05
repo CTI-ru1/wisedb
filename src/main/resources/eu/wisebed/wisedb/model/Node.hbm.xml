@@ -7,7 +7,7 @@
     <class name="eu.wisebed.wisedb.model.Node" table="nodes"
            dynamic-update="true" dynamic-insert="true">
 
-        <cache usage="read-write"/>
+        <!--<cache usage="read-write"/>-->
 
         <id name="id" column="id"/>
         <property name="name" column="node_id"/>

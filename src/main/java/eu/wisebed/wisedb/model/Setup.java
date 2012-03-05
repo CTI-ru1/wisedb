@@ -166,7 +166,7 @@ public class Setup implements Serializable {
      * @return the description
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "description", unique = true, nullable = false)
+    @Column(name = "description", unique = false, nullable = false)
     public String getDescription() {
         return description;
     }
@@ -186,7 +186,7 @@ public class Setup implements Serializable {
      * @return the coordinate type
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "coordinateType", unique = true, nullable = false)
+    @Column(name = "coordinateType", unique = false, nullable = false)
     public String getCoordinateType() {
         return coordinateType;
     }

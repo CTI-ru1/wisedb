@@ -2,7 +2,6 @@ package eu.wisebed.wisedb.model;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * This is a persistant class for the object node that has the
@@ -11,7 +10,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "nodes")
-public class Node implements Serializable {
+public class Node {
 
     /**
      * Serial Version Unique ID.
@@ -83,9 +82,25 @@ public class Node implements Serializable {
 
     @Override
     public String toString() {
-        return "Node{" +
-                "id='" + id + '\'' +
-                "name='" + name + '\'' +
-                '}';
+        return new StringBuilder().append("Node{").append("id='").append(id).append('\'').append("name='")
+                .append(name).append('\'').append('}').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Node)) return false;
+
+        Node node = (Node) o;
+
+        if (id != node.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        return result;
     }
 }

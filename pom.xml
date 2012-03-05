@@ -26,7 +26,8 @@
         <!--Properties needed for the Project-->
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <mysql.connector.version>5.1.16</mysql.connector.version>
-        <hibernate.version>3.5.6-Final</hibernate.version>
+        <springframework.version>2.5.5</springframework.version>
+        <hibernate.version>3.6.9.Final</hibernate.version>
         <slf4j.version>1.6.4</slf4j.version>
     </properties>
 
@@ -157,29 +158,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>ehcache</groupId>
-                    <artifactId>ehcache</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-annotations</artifactId>-->
-        <!--<version>3.5.6-Final</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-validator</artifactId>-->
-        <!--<version>3.1.0.GA</version>-->
-        <!--</dependency>-->
-        <!-- Hibernate framework -->
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.5.6-Final</version>
         </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -216,19 +194,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
         </dependency>
-
-
-        <!-- testbed-runtime dependencies -->
-        <!--<dependency>-->
-        <!--<groupId>de.uniluebeck.itm</groupId>-->
-        <!--<artifactId>tr.snaa-api</artifactId>-->
-        <!--<version>[0.8,)</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>de.uniluebeck.itm</groupId>
-            <artifactId>tr.wsn-api</artifactId>
-            <version>[0.8,)</version>
-        </dependency>
         <dependency>
             <groupId>org.openjena</groupId>
             <artifactId>fuseki</artifactId>
@@ -246,36 +211,20 @@
             <artifactId>resources</artifactId>
             <version>3.3.0</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.equinox</groupId>-->
-        <!--<artifactId>registry</artifactId>-->
-        <!--<version>3.3.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.core</groupId>-->
-        <!--<artifactId>runtime</artifactId>-->
-        <!--<version>3.3.100</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse</groupId>-->
-        <!--<artifactId>text</artifactId>-->
-        <!--<version>3.3.0</version>-->
-        <!--</dependency>-->
-        <!-- caching dependency-->
         <dependency>
-            <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-            <artifactId>ehcache-spring-annotations</artifactId>
-            <version>1.2.0</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springframework.version}</version>
         </dependency>
         <dependency>
-            <groupId>rome</groupId>
-            <artifactId>rome</artifactId>
-            <version>1.0</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${springframework.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.geonames</groupId>
-            <artifactId>georss-rome</artifactId>
-            <version>0.9.8</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>2.0.4</version>
         </dependency>
         <dependency>
             <groupId>com.hp.hpl.jena</groupId>

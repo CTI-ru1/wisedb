@@ -107,7 +107,7 @@ public final class Testbed implements Serializable {
      * @return Name of the testbed.
      */
     @Basic
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", unique = false, nullable = false)
     public String getName() {
         return name;
     }
@@ -147,7 +147,7 @@ public final class Testbed implements Serializable {
      * @return Description of the testbed.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "description", unique = false, nullable = false)
+    @Column(name = "description", unique = false, nullable = false, length = 1000)
     public String getDescription() {
         return description;
     }
@@ -187,7 +187,7 @@ public final class Testbed implements Serializable {
      * @return the URL of the SNAA endpoint.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "snaaUrl", unique = true, nullable = false)
+    @Column(name = "snaaUrl", unique = true, nullable = true)
     public String getSnaaUrl() {
         return snaaUrl;
     }
@@ -227,7 +227,7 @@ public final class Testbed implements Serializable {
      * @return the URL of the Session Management endpoint.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "sessionUrl", unique = true, nullable = false)
+    @Column(name = "sessionUrl", unique = true, nullable = true)
     public String getSessionUrl() {
         return sessionUrl;
     }

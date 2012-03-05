@@ -13,7 +13,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:21 PM
  */
-public interface NodeCapabilityController  extends AbstractControllerInterface{
+public interface NodeCapabilityController extends AbstractControllerInterface {
     public void add(final NodeCapability nodeCapability);
 
     public void update(final NodeCapability nodeCapability);

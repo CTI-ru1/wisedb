@@ -1,10 +1,6 @@
 package eu.wisebed.wisedb.test.get;
 
-import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.CapabilityControllerImpl;
-import eu.wisebed.wisedb.model.Capability;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
 
 /**
  * Searches for a testbed in the database using its name.
@@ -18,9 +14,24 @@ public class GetCapability {
     private static final Logger LOGGER = Logger.getLogger(GetCapability.class);
 
 
+    private static String decode(final String header) {
+        String decodedProtocol = header;
+        if (header.contains(".")) {
+            decodedProtocol = decodedProtocol.replaceAll("\\.", "@");
+        }
+        if (header.contains("-")) {
+            decodedProtocol = decodedProtocol.replaceAll("-", ":");
+        }
+        return decodedProtocol;
+    }
+
     public static void main(final String[] args) {
 
-        // Initialize hibernate
+        String skk = "urn-wisebed-ctitestbed-0x9979.urn-wisebed-node-capability-pir";
+
+        System.out.println(decode(skk));
+
+        /*  // Initialize hibernate
         HibernateUtil.connectEntityManagers();
         final Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
         final int id = 1;
@@ -47,6 +58,6 @@ public class GetCapability {
         } finally {
             // always close session
             HibernateUtil.getInstance().closeSession();
-        }
+        }*/
     }
 }

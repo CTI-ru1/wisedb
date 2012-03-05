@@ -184,7 +184,6 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
 
     }
 
-
     public List<NodeCapability> list(final Node node) {
         LOGGER.debug("list(" + node.getId() + ")");
         final Session session = getSessionFactory().getCurrentSession();

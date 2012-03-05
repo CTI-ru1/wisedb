@@ -27,17 +27,17 @@ public class AddNodeReading {
             // a valid urnPrefix for the testbed
 
 
-            final int testbedId = 1;
+            final int testbedId = 2;
             // a node id for the testbed
-            final String nodeId =  "urn:test:0x3";
+            final String nodeId =  "urn:pspace:test4";
 
             // get that nodes capability name
-            final String capabilityName = "temp2";
+            final String capabilityName = "room";
 
             // reading value
-            final double readingValue = 33.0;
+            final double readingValue = 0;
             // string reading value
-            final String stringReading = null;
+            final String stringReading = "1";
 
             // Occured time
             final Date timestamp = new Date();
@@ -50,7 +50,6 @@ public class AddNodeReading {
 
             // insert reading
             NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, testbedId, readingValue, stringReading, timestamp);
-
 
             tx.commit();
         } catch (Exception e) {
