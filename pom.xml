@@ -26,8 +26,7 @@
         <!--Properties needed for the Project-->
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <mysql.connector.version>5.1.16</mysql.connector.version>
-        <springframework.version>2.5.5</springframework.version>
-        <hibernate.version>3.6.9.Final</hibernate.version>
+        <hibernate.version>3.5.6-Final</hibernate.version>
         <slf4j.version>1.6.4</slf4j.version>
     </properties>
 
@@ -160,6 +159,11 @@
             <version>${hibernate.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
@@ -210,21 +214,6 @@
             <groupId>org.eclipse.core</groupId>
             <artifactId>resources</artifactId>
             <version>3.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>2.0.4</version>
         </dependency>
         <dependency>
             <groupId>com.hp.hpl.jena</groupId>

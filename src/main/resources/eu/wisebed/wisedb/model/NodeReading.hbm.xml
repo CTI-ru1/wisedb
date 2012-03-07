@@ -12,9 +12,9 @@
             <generator class="native"/>
         </id>
 
-        <property name="timestamp" type="timestamp"/>
-        <property name="reading" type="java.lang.Double"/>
-        <property name="stringReading" length="10000"/>
+        <property name="timestamp" type="timestamp" not-null="false"/>
+        <property name="reading" type="java.lang.Double" not-null="false"/>
+        <property name="stringReading" length="10000" not-null="false"/>
 
         <many-to-one name="capability" class="eu.wisebed.wisedb.model.NodeCapability">
             <column name="capability_id" not-null="true"/>
