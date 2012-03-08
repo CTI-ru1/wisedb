@@ -15,7 +15,7 @@
 
         <one-to-one name="nodeCapability" constrained="true" />
 
-        <property name="timestamp" type="timestamp" not-null="false"/>
+        <property name="timestamp" type="timestamp" not-null="true"/>
 
         <property name="reading" type="java.lang.Double" not-null="false"/>
 

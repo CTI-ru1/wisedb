@@ -32,8 +32,8 @@
             <property name="unit" column="timeinfo_unit"/>
         </component>
 
-        <property name="description" type="text"/>
-        <property name="coordinateType"/>
+        <property name="description" type="text" unique="false"/>
+        <property name="coordinateType" unique="false"/>
 
     </class>
 </hibernate-mapping>

@@ -89,9 +89,8 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         final Link link = new Link();
         link.setSource(NodeControllerImpl.getInstance().getByName(sourceId));
         link.setTarget(NodeControllerImpl.getInstance().getByName(targetId));
-        LOGGER.info(setup);
         link.setSetup(setup);
-        add(link);
+        LinkControllerImpl.getInstance().add(link);
 
         return link;
     }

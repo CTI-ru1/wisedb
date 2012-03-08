@@ -139,8 +139,6 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             }
         }
 
-        nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
-
         // make a new node reading entity
         final NodeReading reading = new NodeReading();
         reading.setReading(doubleReading);

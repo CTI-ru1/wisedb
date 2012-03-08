@@ -40,26 +40,31 @@ public class AddSimpleTestbed {
 
             Testbed testbed = new Testbed();
             LOGGER.info("Provide Testbed Name");
-            final String testbedName = br.readLine();
-            testbed.setName(testbedName);
+//            final String testbedName = br.readLine();
+            testbed.setName("Test Testbed");
 
             LOGGER.info("Provide Testbed Description");
-            final String testbedDescription = br.readLine();
-            testbed.setDescription(testbedDescription);
+//            final String testbedDescription = br.readLine();
+            testbed.setDescription("testing ground testbed");
 
             LOGGER.info("Provide Testbed's web page URL");
-            final String testbedWebPageUrl = br.readLine();
-            testbed.setUrl(testbedWebPageUrl);
+//            final String testbedWebPageUrl = br.readLine();
+            testbed.setUrl("www.test.com");
 
             LOGGER.info("Provide Testbed's urnPrefix");
-            final String urnPrefix = br.readLine();
-            testbed.setUrnPrefix(urnPrefix);
+//            final String urnPrefix = br.readLine();
+            testbed.setUrnPrefix("urn:test:");
 
             LOGGER.info("Using your default TimeZone : " + TimeZone.getDefault().getDisplayName());
             testbed.setTimeZone(TimeZone.getDefault());
 
-
             testbed.setFederated(false);
+
+            // set the testbed of the setup to be imported
+            Setup setup = new Setup();
+
+            testbed.setSetup(setup);
+
             // import to db
             TestbedControllerImpl.getInstance().add(testbed);
 //            tImp.convert();
@@ -69,14 +74,12 @@ public class AddSimpleTestbed {
 
 
             // begin transaction
-            LOGGER.info("For testbed : " + testbedName + " the default setup will be added");
+            LOGGER.info("For testbed : " + testbed.getName() + " the default setup will be added");
             tx = HibernateUtil.getInstance().getSession().beginTransaction();
-            Testbed theTestbed = TestbedControllerImpl.getInstance().getByUrnPrefix(urnPrefix);
+            Testbed theTestbed = TestbedControllerImpl.getInstance().getByUrnPrefix(testbed.getUrnPrefix());
 
             LOGGER.info(theTestbed.getId());
 
-            // set the testbed of the setup to be imported
-            Setup setup = new Setup();
             Origin origin = new Origin();
             origin.setPhi((float) 0);
             origin.setTheta((float) 0);

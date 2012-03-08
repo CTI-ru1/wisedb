@@ -15,11 +15,11 @@
 
         <one-to-one name="linkCapability" constrained="true"/>
 
-        <property name="timestamp" type="timestamp"/>
+        <property name="timestamp" type="timestamp" not-null="true"/>
 
-        <property name="reading" type="java.lang.Double"/>
+        <property name="reading" type="java.lang.Double" not-null="false"/>
 
-        <property name="stringReading" length="10000"/>
+        <property name="stringReading" length="10000" not-null="false"/>
 
     </class>
 </hibernate-mapping>

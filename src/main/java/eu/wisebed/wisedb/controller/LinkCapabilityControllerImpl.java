@@ -12,6 +12,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,15 +82,16 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
         linkCapability.setCapability(capability);
         linkCapability.setLink(link);
-        final LastLinkReading lastLinkReading = new LastLinkReading();
 
+        final LastLinkReading lastLinkReading = new LastLinkReading();
         linkCapability.setLastLinkReading(lastLinkReading);
 
         LinkCapabilityControllerImpl.getInstance().add(linkCapability);
-        linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
 
         lastLinkReading.setLinkCapability(linkCapability);
-
+        lastLinkReading.setTimestamp(new Date());
+        lastLinkReading.setReading(null);
+        lastLinkReading.setStringReading(null);
         LastLinkReadingControllerImpl.getInstance().add(lastLinkReading);
 
         return linkCapability;

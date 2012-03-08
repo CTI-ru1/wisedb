@@ -9,8 +9,10 @@
 
         <!--<cache usage="read-write"/>-->
 
-        <id name="id" column="id"/>
-        <property name="name" column="node_id"/>
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="node_id" unique="true" not-null="true"/>
 
         <many-to-one name="setup" column="setup_id" class="eu.wisebed.wisedb.model.Setup" not-null="true"/>
 

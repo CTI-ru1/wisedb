@@ -121,36 +121,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>uberdust</groupId>
-            <artifactId>UberLogger</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>commons-lang</groupId>-->
-        <!--<artifactId>commons-lang</artifactId>-->
-        <!--<version>2.4</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>org.jibx</groupId>
-            <artifactId>jibx-run</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>com.hp.hpl.jena</groupId>-->
-        <!--<artifactId>jena</artifactId>-->
-        <!--<version>2.5.5</version>-->
-        <!--</dependency>-->
-
 
         <!-- database related dependencies -->
         <dependency>
@@ -168,69 +143,39 @@
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
         </dependency>
-
         <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.4.GA</version>
         </dependency>
-
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.2.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.openjena</groupId>
-            <artifactId>fuseki</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>arq</artifactId>
-            <version>2.8.8</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.eclipse.core</groupId>
             <artifactId>resources</artifactId>
             <version>3.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>json-jena</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jibx</groupId>
-                    <artifactId>maven-jibx-plugin</artifactId>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -252,13 +197,11 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.6</version>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>2.3.2</version>
             </plugin>
-
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>

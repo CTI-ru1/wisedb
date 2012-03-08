@@ -2,15 +2,12 @@ package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.LinkReadingControllerImpl;
-import eu.wisebed.wisedb.controller.NodeControllerImpl;
 import eu.wisebed.wisedb.controller.TestbedControllerImpl;
-import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Adds a new Link Reading to the database.
@@ -38,20 +35,18 @@ public class AddLinkReading {
             final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
 
             // source node id
-            final Iterator<Node> nodeIt = NodeControllerImpl.getInstance().list(testbed.getSetup()).iterator();
-            nodeIt.next();
-            final Node source = nodeIt.next();
-            final String sourceId = source.getName();
+            final String sourceId = "urn:test:1";
+
 
             // target node id
-            final Node target = nodeIt.next();
-            final String targetId = target.getName();
+            final String targetId = "urn:test:2";
 
             // link capability name
-            final String capabilityName = "blah3";
+            final String capabilityName = "status";
 
             // reading value
-            final double reading = 7.0;
+            final double reading = 0.0;
+            final String stringReading = null;
 
             // timestamp
             final Date timestamp = new Date();
@@ -61,7 +56,7 @@ public class AddLinkReading {
             LOGGER.debug("Capability for link : " + capabilityName);
 
             // insert reading
-            LinkReadingControllerImpl.getInstance().insertReading(sourceId, targetId, capabilityName, testbedId, reading, null, timestamp);
+            LinkReadingControllerImpl.getInstance().insertReading(sourceId, targetId, capabilityName, testbedId, reading, stringReading, timestamp);
 
             tx.commit();
         } catch (Exception e) {

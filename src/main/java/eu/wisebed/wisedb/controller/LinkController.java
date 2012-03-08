@@ -12,7 +12,8 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:06 PM
  */
-public interface LinkController  extends AbstractControllerInterface{
+public interface LinkController extends AbstractControllerInterface {
+    public void add(final Link link);
 
     public Link getByID(final int linkId);
 

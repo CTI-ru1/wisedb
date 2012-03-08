@@ -13,7 +13,10 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:52 PM
  */
-public interface LinkReadingController  extends AbstractControllerInterface{
+public interface LinkReadingController extends AbstractControllerInterface {
+
+    public void add(final LinkReading reading);
+
 
     public void delete(final int readingId);
 

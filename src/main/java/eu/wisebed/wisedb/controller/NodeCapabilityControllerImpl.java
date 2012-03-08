@@ -12,6 +12,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -80,29 +81,21 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
             capability = CapabilityControllerImpl.getInstance().prepareInsertCapability(capabilityName);
         }
 
-        NodeCapability nodeCapability = null;
-
-        nodeCapability = new NodeCapability();
+        NodeCapability nodeCapability = new NodeCapability();
 
         nodeCapability.setCapability(capability);
         nodeCapability.setNode(node);
 
         final LastNodeReading lastNodeReading = new LastNodeReading();
-        lastNodeReading.setNodeCapability(nodeCapability);
-
         nodeCapability.setLastNodeReading(lastNodeReading);
 
         NodeCapabilityControllerImpl.getInstance().add(nodeCapability);
 
-        //        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
-        //        NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
-//        nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
-//
         lastNodeReading.setNodeCapability(nodeCapability);
-
-
+        lastNodeReading.setTimestamp(new Date());
+        lastNodeReading.setReading(null);
+        lastNodeReading.setStringReading(null);
         LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
-
 
         return nodeCapability;
     }

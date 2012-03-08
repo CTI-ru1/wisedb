@@ -142,45 +142,18 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
             LOGGER.info("Node [" + targetId + "] was not found in db . Storing it");
             NodeControllerImpl.getInstance().prepareInsertNode(testbed, targetId);
         }
-//
-//        // look for link
-//        Link link = LinkController.getInstance().getByID(sourceId, targetId);
-//        if (link == null) {
-//            // if link was not found in db make it and store it
-//            LOGGER.info("Link [" + sourceId + "," + targetId + "] was not found in db . Storing it");
-//            link = prepareInsertLink(testbed, sourceId, targetId);
-//        }
-//
-//        // look for capability
-//        Capability capability = CapabilityController.getInstance().getByID(capabilityName);
-//        if (capability == null) {
-//            // if capability not found found in db make it and store it.
-//            LOGGER.info("Capability [" + sourceId + "," + targetId + "] was not found in db . Storing it");
-//            capability = prepareInsertCapability(capabilityName);
-//        }
-//
-//        // check and make associations with link and capability.
-//        final boolean isAssociated = LinkController.getInstance().isAssociated(capability, testbed, link);
-//        if (!isAssociated) {
-//            LOGGER.info("Associate Link[" + sourceId + "," + targetId + "] Capability [" + capabilityName + "] ");
-//            // if link and capability are not associated , associate them
-//            link.getCapabilities().add(capability);
-//            LinkController.getInstance().update(link);
-//        }
 
         Link link = LinkControllerImpl.getInstance().getByID(sourceId, targetId);
-        LinkCapability linkCapability;
+
         if (link == null) {
             LOGGER.debug("link==null");
             link = LinkControllerImpl.getInstance().prepareInsertLink(testbed.getSetup(), sourceId, targetId);
-            linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
-        } else {
+        }
 
-            if (LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName) == null) {
-                linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
-                LinkControllerImpl.getInstance().update(link);
-            }
-            linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
+        LinkCapability linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);
+
+        if (linkCapability == null) {
+            linkCapability = LinkCapabilityControllerImpl.getInstance().prepareInsertLinkCapability(link, capabilityName);
         }
 
         // make a new link reading entity
@@ -191,7 +164,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         reading.setTimestamp(timestamp);
 
         // add reading
-        add(reading);
+        LinkReadingControllerImpl.getInstance().add(reading);
 
 
         // get last link reading for link and capability if not found create one

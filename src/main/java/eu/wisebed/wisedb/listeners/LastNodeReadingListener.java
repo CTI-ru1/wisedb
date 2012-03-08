@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.listeners;
 
-import eu.uberdust.uberlogger.UberLogger;
 import eu.wisebed.wisedb.model.NodeReading;
 import org.hibernate.event.SaveOrUpdateEvent;
 import org.hibernate.event.def.DefaultSaveOrUpdateEventListener;
@@ -28,7 +27,7 @@ public final class LastNodeReadingListener extends DefaultSaveOrUpdateEventListe
         if (event.getObject() instanceof NodeReading) {
 
             // Log it using UberLogger
-            UberLogger.getInstance().log((NodeReading) event.getObject(), "T3");
+//            UberLogger.getInstance().log((NodeReading) event.getObject(), "T3");
 
             //Forward the event to LastNodeReadingConsumer
             LastNodeReadingConsumer.getInstance().addNodeReading((NodeReading) event.getObject());
