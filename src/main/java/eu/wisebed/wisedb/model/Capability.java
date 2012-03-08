@@ -61,7 +61,7 @@ public class Capability implements Serializable {
      *
      * @return the datatype of the {@link Capability}
      */
-    @Column(name = "datatype")
+    @Column(name = "datatype", nullable = true)
     public String getDatatype() {
         return datatype;
     }
@@ -71,7 +71,7 @@ public class Capability implements Serializable {
      *
      * @return the unit of the {@link Capability}
      */
-    @Column(name = "unit")
+    @Column(name = "unit", nullable = true)
     public String getUnit() {
         return unit;
     }
@@ -81,7 +81,7 @@ public class Capability implements Serializable {
      *
      * @return default value.
      */
-    @Column(name = "defaultvalue")
+    @Column(name = "defaultvalue", nullable = true)
     public String getDefaultvalue() {
         return defaultvalue;
     }
@@ -92,7 +92,7 @@ public class Capability implements Serializable {
      *
      * @return this capability's description.
      */
-    @Column(name = "description")
+    @Column(name = "description", nullable = true, length = 1000)
     public String getDescription() {
         return description;
     }
@@ -145,48 +145,25 @@ public class Capability implements Serializable {
         this.description = description;
     }
 
-    /**
-     * Override of equals().
-     *
-     * @param obj , an object
-     * @return true if this is equal to obj
-     */
-    @Override
-    public boolean equals(final Object obj) {
-
-        // if null return false
-        if (obj == null) {
-            return false;
-        }
-
-        if (!(obj instanceof Capability)) {
-            return false;
-        }
-
-        // if same reference return true;
-        if (this == obj) {
-            return true;
-        }
-
-        // equility against name
-        final Capability test = (Capability) obj;
-        return (test.name == null || test.getName() == null) ? (false) : (this.name.equals(test.getName()));
-    }
-
-    /**
-     * Override of hashCode().
-     *
-     * @return identity hashcode
-     */
-    @Override
-    public int hashCode() {
-        return (name == null) ? (System.identityHashCode(this)) : (name.hashCode());
-    }
-
     @Override
     public String toString() {
-        return "Capability{" +
-                "name='" + name + '\'' +
-                '}';
+        return new StringBuilder().append("Capability{").append(name).append('}').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Capability that = (Capability) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 }

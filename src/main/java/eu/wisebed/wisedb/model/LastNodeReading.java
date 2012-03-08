@@ -79,7 +79,7 @@ public final class LastNodeReading implements Serializable {
      *
      * @return timestamp of the reading.
      */
-    @Column(name = "timestamp")
+    @Column(name = "timestamp", nullable = false)
     public Date getTimestamp() {
         return timestamp;
     }
@@ -89,7 +89,7 @@ public final class LastNodeReading implements Serializable {
      *
      * @return the reading.
      */
-    @Column(name = "reading")
+    @Column(name = "reading", nullable = true)
     public Double getReading() {
         return reading;
     }
@@ -99,7 +99,7 @@ public final class LastNodeReading implements Serializable {
      *
      * @return the stringReading.
      */
-    @Column(name = "stringReading")
+    @Column(name = "stringReading", nullable = true, length = 1000)
     public String getStringReading() {
         return stringReading;
     }
@@ -160,6 +160,10 @@ public final class LastNodeReading implements Serializable {
         this.nodeCapability = nodeCapability;
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder().append("LastNodeReading{").append(id).append('}').toString();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -169,20 +173,12 @@ public final class LastNodeReading implements Serializable {
         LastNodeReading that = (LastNodeReading) o;
 
         if (id != that.id) return false;
-        if (reading != null ? !reading.equals(that.reading) : that.reading != null) return false;
-        if (stringReading != null ? !stringReading.equals(that.stringReading) : that.stringReading != null)
-            return false;
-        if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
-        result = 31 * result + (reading != null ? reading.hashCode() : 0);
-        result = 31 * result + (stringReading != null ? stringReading.hashCode() : 0);
-        return result;
+        return toString().hashCode();
     }
 }

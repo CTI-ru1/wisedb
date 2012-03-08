@@ -12,7 +12,7 @@
             <generator class="native"/>
         </id>
 
-        <property name="timestamp" type="timestamp" not-null="false"/>
+        <property name="timestamp" type="timestamp" not-null="true"/>
         <property name="reading" type="java.lang.Double" not-null="false"/>
         <property name="stringReading" length="10000" not-null="false"/>
 

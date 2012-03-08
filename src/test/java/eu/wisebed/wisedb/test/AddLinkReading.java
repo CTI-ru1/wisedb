@@ -35,17 +35,17 @@ public class AddLinkReading {
             final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
 
             // source node id
-            final String sourceId = "urn:test:1";
+            final String sourceId = "urn:test:3";
 
 
             // target node id
-            final String targetId = "urn:test:2";
+            final String targetId = "urn:test:4";
 
             // link capability name
-            final String capabilityName = "status";
+            final String capabilityName = "quality";
 
             // reading value
-            final double reading = 0.0;
+            final double reading = 23.0;
             final String stringReading = null;
 
             // timestamp

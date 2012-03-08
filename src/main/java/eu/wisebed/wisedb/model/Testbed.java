@@ -93,15 +93,6 @@ public final class Testbed implements Serializable {
     }
 
     /**
-     * Set the id of the testbed.
-     *
-     * @param id the new Identity of the testbed.
-     */
-    public void setId(final int id) {
-        this.id = id;
-    }
-
-    /**
      * Get the Name of the testbed.
      *
      * @return Name of the testbed.
@@ -110,15 +101,6 @@ public final class Testbed implements Serializable {
     @Column(name = "name", unique = false, nullable = false)
     public String getName() {
         return name;
-    }
-
-    /**
-     * Set the Name of the testbed.
-     *
-     * @param name the new Name of the testbed.
-     */
-    public void setName(final String name) {
-        this.name = name;
     }
 
     /**
@@ -133,15 +115,6 @@ public final class Testbed implements Serializable {
     }
 
     /**
-     * Set the urn prefix of the testbed.
-     *
-     * @param urnPrefix the urn prefix of the testbed.
-     */
-    public void setUrnPrefix(final String urnPrefix) {
-        this.urnPrefix = urnPrefix;
-    }
-
-    /**
      * Get the Description of the testbed.
      *
      * @return Description of the testbed.
@@ -150,15 +123,6 @@ public final class Testbed implements Serializable {
     @Column(name = "description", unique = false, nullable = false, length = 1000)
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * Set the Description of the testbed.
-     *
-     * @param description the new Description of the testbed.
-     */
-    public void setDescription(final String description) {
-        this.description = description;
     }
 
     /**
@@ -173,32 +137,14 @@ public final class Testbed implements Serializable {
     }
 
     /**
-     * Set the URL of the testbed.
-     *
-     * @param url the URL of the testbed.
-     */
-    public void setUrl(final String url) {
-        this.url = url;
-    }
-
-    /**
      * Get the URL of the SNAA endpoint.
      *
      * @return the URL of the SNAA endpoint.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "snaaUrl", unique = true, nullable = true)
+    @Column(name = "snaaUrl", unique = false, nullable = true)
     public String getSnaaUrl() {
         return snaaUrl;
-    }
-
-    /**
-     * Set the URL of the SNAA endpoint.
-     *
-     * @param snaaUrl the URL of the SNAA endpoint.
-     */
-    public void setSnaaUrl(final String snaaUrl) {
-        this.snaaUrl = snaaUrl;
     }
 
     /**
@@ -207,18 +153,9 @@ public final class Testbed implements Serializable {
      * @return the URL of the Reservation endpoint.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "rsUrl", unique = true, nullable = true)
+    @Column(name = "rsUrl", unique = false, nullable = true)
     public String getRsUrl() {
         return rsUrl;
-    }
-
-    /**
-     * Set the the URL of the Reservation endpoint.
-     *
-     * @param rsUrl the URL of the Reservation endpoint.
-     */
-    public void setRsUrl(final String rsUrl) {
-        this.rsUrl = rsUrl;
     }
 
     /**
@@ -227,18 +164,9 @@ public final class Testbed implements Serializable {
      * @return the URL of the Session Management endpoint.
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "sessionUrl", unique = true, nullable = true)
+    @Column(name = "sessionUrl", unique = false, nullable = true)
     public String getSessionUrl() {
         return sessionUrl;
-    }
-
-    /**
-     * Set the URL of the Session Management endpoint.
-     *
-     * @param sessionUrl the URL of the Session Management endpoint.
-     */
-    public void setSessionUrl(final String sessionUrl) {
-        this.sessionUrl = sessionUrl;
     }
 
     /**
@@ -253,15 +181,6 @@ public final class Testbed implements Serializable {
     }
 
     /**
-     * Set if the testbed is federated.
-     *
-     * @param federated true if the testbed is federated.
-     */
-    public void setFederated(final Boolean federated) {
-        this.federated = federated;
-    }
-
-    /**
      * Returns the testbed setup.
      *
      * @return the testbed setup.
@@ -269,15 +188,6 @@ public final class Testbed implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "testbed", cascade = CascadeType.ALL)
     public Setup getSetup() {
         return setup;
-    }
-
-    /**
-     * Sets the testbed setup.
-     *
-     * @param setup , a setup instance.
-     */
-    public void setSetup(final Setup setup) {
-        this.setup = setup;
     }
 
     /**
@@ -292,6 +202,97 @@ public final class Testbed implements Serializable {
     }
 
     /**
+     * Set the id of the testbed.
+     *
+     * @param id the new Identity of the testbed.
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+
+    /**
+     * Set the Name of the testbed.
+     *
+     * @param name the new Name of the testbed.
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the urn prefix of the testbed.
+     *
+     * @param urnPrefix the urn prefix of the testbed.
+     */
+    public void setUrnPrefix(final String urnPrefix) {
+        this.urnPrefix = urnPrefix;
+    }
+
+    /**
+     * Set the Description of the testbed.
+     *
+     * @param description the new Description of the testbed.
+     */
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    /**
+     * Set the URL of the testbed.
+     *
+     * @param url the URL of the testbed.
+     */
+    public void setUrl(final String url) {
+        this.url = url;
+    }
+
+    /**
+     * Set the URL of the SNAA endpoint.
+     *
+     * @param snaaUrl the URL of the SNAA endpoint.
+     */
+    public void setSnaaUrl(final String snaaUrl) {
+        this.snaaUrl = snaaUrl;
+    }
+
+    /**
+     * Set the the URL of the Reservation endpoint.
+     *
+     * @param rsUrl the URL of the Reservation endpoint.
+     */
+    public void setRsUrl(final String rsUrl) {
+        this.rsUrl = rsUrl;
+    }
+
+    /**
+     * Set the URL of the Session Management endpoint.
+     *
+     * @param sessionUrl the URL of the Session Management endpoint.
+     */
+    public void setSessionUrl(final String sessionUrl) {
+        this.sessionUrl = sessionUrl;
+    }
+
+    /**
+     * Set if the testbed is federated.
+     *
+     * @param federated true if the testbed is federated.
+     */
+    public void setFederated(final Boolean federated) {
+        this.federated = federated;
+    }
+
+    /**
+     * Sets the testbed setup.
+     *
+     * @param setup , a setup instance.
+     */
+    public void setSetup(final Setup setup) {
+        this.setup = setup;
+    }
+
+    /**
      * Sets testbed's timezone.
      *
      * @param timeZone testbed's timezeone.
@@ -302,9 +303,24 @@ public final class Testbed implements Serializable {
 
     @Override
     public String toString() {
-        return "Testbed{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return new StringBuilder().append("Testbed{").append(id).append('}').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Testbed testbed = (Testbed) o;
+
+        if (id != testbed.id) return false;
+
+        return true;
+    }
+
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 }

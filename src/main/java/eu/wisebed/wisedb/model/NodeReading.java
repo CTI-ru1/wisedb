@@ -51,13 +51,6 @@ public final class NodeReading implements Serializable {
     private String stringReading;
 
     /**
-     * Constructor.
-     */
-    public NodeReading() {
-        // empty constructor
-    }
-
-    /**
      * Returns NodeReading's id.
      *
      * @return NodeReading's id.
@@ -67,15 +60,6 @@ public final class NodeReading implements Serializable {
     @Column(name = "reading_id")
     public int getId() {
         return id;
-    }
-
-    /**
-     * Sets NodeReading's id.
-     *
-     * @param id , nodereading's id.
-     */
-    public void setId(final int id) {
-        this.id = id;
     }
 
     /**
@@ -90,22 +74,51 @@ public final class NodeReading implements Serializable {
     }
 
     /**
+     * Returns the timestamp that this reading occured.
+     *
+     * @return timestamp of the reading.
+     */
+    @Column(name = "timestamp", nullable = false)
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * Returns this reading value.
+     *
+     * @return this reading value.
+     */
+    @Column(name = "reading", nullable = true)
+    public Double getReading() {
+        return reading;
+    }
+
+    /**
+     * Returns string reading.
+     *
+     * @return string reading.
+     */
+    @Column(name = "stringReading", nullable = true, length = 1000)
+    public String getStringReading() {
+        return stringReading;
+    }
+
+    /**
+     * Sets NodeReading's id.
+     *
+     * @param id , nodereading's id.
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    /**
      * Sets the capability that indicated this reading.
      *
      * @param capability , must be persistent.
      */
     public void setCapability(final NodeCapability capability) {
         this.capability = capability;
-    }
-
-    /**
-     * Returns the timestamp that this reading occured.
-     *
-     * @return timestamp of the reading.
-     */
-    @Column(name = "timestamp")
-    public Date getTimestamp() {
-        return timestamp;
     }
 
     /**
@@ -118,32 +131,12 @@ public final class NodeReading implements Serializable {
     }
 
     /**
-     * Returns this reading value.
-     *
-     * @return this reading value.
-     */
-    @Column(name = "reading")
-    public Double getReading() {
-        return reading;
-    }
-
-    /**
      * Sets this reading value.
      *
      * @param reading , this reading value.
      */
     public void setReading(final Double reading) {
         this.reading = reading;
-    }
-
-    /**
-     * Returns string reading.
-     *
-     * @return string reading.
-     */
-    @Column(name = "stringReading")
-    public String getStringReading() {
-        return stringReading;
     }
 
     /**
@@ -155,5 +148,25 @@ public final class NodeReading implements Serializable {
         this.stringReading = stringReading;
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder().append("NodeReading{").append(id).append('}').toString();
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NodeReading that = (NodeReading) o;
+
+        if (id != that.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

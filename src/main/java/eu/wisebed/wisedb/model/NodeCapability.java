@@ -87,11 +87,23 @@ public class NodeCapability implements Serializable {
 
     @Override
     public String toString() {
-        return "NodeCapability{" +
-                "id=" + id +
-                "capability=" + capability +
-                ", node=" + node +
-                '}';
+        return new StringBuilder().append("NodeCapability{").append(id).append('}').toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NodeCapability that = (NodeCapability) o;
+
+        if (id != that.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

@@ -64,19 +64,6 @@ public class Setup implements Serializable {
         return testbed;
     }
 
-    public void setTestbed(Testbed testbed) {
-        this.testbed = testbed;
-    }
-    /**
-     * a list of objects Node.
-     */
-//    private List<Node> nodes;
-
-    /**
-     * information about links.
-     */
-//    private List<Link> link;
-
     /**
      * this method returns the id of the setup.
      *
@@ -89,15 +76,6 @@ public class Setup implements Serializable {
     @Column(name = "setup_id", unique = true, nullable = false)
     public int getId() {
         return id;
-    }
-
-    /**
-     * this method sets the id of the setup.
-     *
-     * @param id the id.
-     */
-    public void setId(final int id) {
-        this.id = id;
     }
 
     /**
@@ -118,22 +96,6 @@ public class Setup implements Serializable {
         return origin;
     }
 
-    @Override
-    public String toString() {
-        return "Setup{" +
-                "id=" + id +
-                '}';
-    }
-
-    /**
-     * this method sets the origin of nodes.
-     *
-     * @param origin the nodes origin
-     */
-    public void setOrigin(final Origin origin) {
-        this.origin = origin;
-    }
-
     /**
      * this method returns the information of time used in the experiment.
      *
@@ -152,32 +114,14 @@ public class Setup implements Serializable {
     }
 
     /**
-     * this method sets the information of time used in the experiment.
-     *
-     * @param timeinfo the time information
-     */
-    public void setTimeinfo(final TimeInfo timeinfo) {
-        this.timeinfo = timeinfo;
-    }
-
-    /**
      * this method returns the description of the experiment.
      *
      * @return the description
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "description", unique = false, nullable = false)
+    @Column(name = "description", unique = false, nullable = true)
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * this method sets the description of the experiment.
-     *
-     * @param description the experiment description
-     */
-    public void setDescription(final String description) {
-        this.description = description;
     }
 
     /**
@@ -192,11 +136,74 @@ public class Setup implements Serializable {
     }
 
     /**
+     * this method sets the id of the setup.
+     *
+     * @param id the id.
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    public void setTestbed(Testbed testbed) {
+        this.testbed = testbed;
+    }
+
+    /**
+     * this method sets the origin of nodes.
+     *
+     * @param origin the nodes origin
+     */
+    public void setOrigin(final Origin origin) {
+        this.origin = origin;
+    }
+
+    /**
+     * this method sets the information of time used in the experiment.
+     *
+     * @param timeinfo the time information
+     */
+    public void setTimeinfo(final TimeInfo timeinfo) {
+        this.timeinfo = timeinfo;
+    }
+
+    /**
+     * this method sets the description of the experiment.
+     *
+     * @param description the experiment description
+     */
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+
+    /**
      * this method sets the coordinate type used for describing the position of the nodes.
      *
      * @param description the coordinate type
      */
     public void setCoordinateType(final String description) {
         this.coordinateType = description;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder().append("Setup{").append(id).append('}').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Setup setup = (Setup) o;
+
+        if (id != setup.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 }

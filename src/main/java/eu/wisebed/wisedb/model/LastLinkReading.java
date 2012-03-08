@@ -78,7 +78,7 @@ public final class LastLinkReading implements Serializable {
      *
      * @return the timestamp.
      */
-    @Column(name = "timestamp")
+    @Column(name = "timestamp", nullable = false)
     public Date getTimestamp() {
         return timestamp;
     }
@@ -88,7 +88,7 @@ public final class LastLinkReading implements Serializable {
      *
      * @return the reading.
      */
-    @Column(name = "reading")
+    @Column(name = "reading", nullable = true)
     public Double getReading() {
         return reading;
     }
@@ -98,7 +98,7 @@ public final class LastLinkReading implements Serializable {
      *
      * @return the stringReading.
      */
-    @Column(name = "stringReading")
+    @Column(name = "stringReading", nullable = true, length = 1000)
     public String getStringReading() {
         return stringReading;
     }
@@ -161,6 +161,10 @@ public final class LastLinkReading implements Serializable {
         this.linkCapability = linkCapability;
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder().append("LastLinkReading{").append(id).append('}').toString();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -176,7 +180,7 @@ public final class LastLinkReading implements Serializable {
 
     @Override
     public int hashCode() {
-        return id;
+        return toString().hashCode();
     }
 }
 

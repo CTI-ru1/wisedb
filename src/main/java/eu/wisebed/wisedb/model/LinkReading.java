@@ -52,13 +52,6 @@ public final class LinkReading implements Serializable {
     private String stringReading;
 
     /**
-     * Constructor.
-     */
-    public LinkReading() {
-        // empty constructor
-    }
-
-    /**
      * Returns this reading id.
      *
      * @return this reading id.
@@ -71,31 +64,13 @@ public final class LinkReading implements Serializable {
     }
 
     /**
-     * Sets this reading id.
-     *
-     * @param id , reading id
-     */
-    public void setId(final int id) {
-        this.id = id;
-    }
-
-    /**
      * Returns capability reading.
      *
      * @return Link's capability reading
      */
-    @Column(name = "reading")
+    @Column(name = "reading", nullable = true)
     public Double getReading() {
         return reading;
-    }
-
-    /**
-     * Set capability reading.
-     *
-     * @param reading , reading value.
-     */
-    public void setReading(final Double reading) {
-        this.reading = reading;
     }
 
     /**
@@ -103,18 +78,9 @@ public final class LinkReading implements Serializable {
      *
      * @return Link's reading timestamp
      */
-    @Column(name = "timestamp")
+    @Column(name = "timestamp", nullable = false)
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    /**
-     * Sets the reading timestamp.
-     *
-     * @param timestamp , a Date instance.
-     */
-    public void setTimestamp(final Date timestamp) {
-        this.timestamp = timestamp;
     }
 
     /**
@@ -129,22 +95,49 @@ public final class LinkReading implements Serializable {
     }
 
     /**
+     * Returns string reading.
+     *
+     * @return string reading.
+     */
+    @Column(name = "stringReading", nullable = false, length = 1000)
+    public String getStringReading() {
+        return stringReading;
+    }
+
+    /**
+     * Sets this reading id.
+     *
+     * @param id , reading id
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    /**
+     * Set capability reading.
+     *
+     * @param reading , reading value.
+     */
+    public void setReading(final Double reading) {
+        this.reading = reading;
+    }
+
+    /**
+     * Sets the reading timestamp.
+     *
+     * @param timestamp , a Date instance.
+     */
+    public void setTimestamp(final Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    /**
      * Sets the capability associated with this LinkReading.
      *
      * @param capability the associated capability.
      */
     public void setCapability(final LinkCapability capability) {
         this.capability = capability;
-    }
-
-    /**
-     * Returns string reading.
-     *
-     * @return string reading.
-     */
-    @Column(name = "stringReading")
-    public String getStringReading() {
-        return stringReading;
     }
 
     /**
@@ -158,11 +151,23 @@ public final class LinkReading implements Serializable {
 
     @Override
     public String toString() {
-        return "LinkReading{" +
-                "capability=" + capability +
-                ", timestamp=" + timestamp +
-                ", reading=" + reading +
-                ", stringReading='" + stringReading + '\'' +
-                '}';
+        return new StringBuilder().append("LinkReading{").append(id).append('}').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LinkReading that = (LinkReading) o;
+
+        if (id != that.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 }

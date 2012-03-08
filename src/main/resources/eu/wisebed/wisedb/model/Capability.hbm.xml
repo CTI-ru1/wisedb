@@ -11,10 +11,10 @@
 
         <id name="name" column="capability_id"/>
 
-        <property name="datatype"/>
-        <property name="unit"/>
-        <property name="defaultvalue"/>
-        <property name="description" type="text"/>
+        <property name="datatype" not-null="false"/>
+        <property name="unit" not-null="false"/>
+        <property name="defaultvalue" not-null="false"/>
+        <property name="description" type="text" not-null="false" length="1000"/>
 
     </class>
 

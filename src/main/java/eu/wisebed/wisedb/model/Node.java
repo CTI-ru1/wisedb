@@ -42,22 +42,9 @@ public class Node {
         return id;
     }
 
-    /**
-     * this method sets a number at the id of a node.
-     *
-     * @param id the id of the node.
-     */
-    public void setId(final int id) {
-        this.id = id;
-    }
-
-    @Column(name = "node_id")
+    @Column(name = "node_id", unique = true, nullable = false)
     public String getName() {
         return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
     }
 
     /**
@@ -72,6 +59,19 @@ public class Node {
     }
 
     /**
+     * this method sets a number at the id of a node.
+     *
+     * @param id the id of the node.
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
      * sets the setup this node belongs to.
      *
      * @param setup setup instance.
@@ -82,14 +82,13 @@ public class Node {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Node{").append("id='").append(id).append('\'').append("name='")
-                .append(name).append('\'').append('}').toString();
+        return new StringBuilder().append("Node{").append(name).append('\'').append('}').toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Node)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Node node = (Node) o;
 
@@ -100,7 +99,6 @@ public class Node {
 
     @Override
     public int hashCode() {
-        int result = id;
-        return result;
+        return toString().hashCode();
     }
 }

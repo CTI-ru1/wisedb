@@ -29,10 +29,10 @@ public class AddNodeReading {
 
             final int testbedId = 1;
             // a node id for the testbed
-            final String nodeId = "urn:test:0x180";
+            final String nodeId = "urn:test:0x181";
 
             // get that nodes capability name
-            final String capabilityName = "temperature";
+            final String capabilityName = "light";
 
             // reading value
             final double readingValue = 22;

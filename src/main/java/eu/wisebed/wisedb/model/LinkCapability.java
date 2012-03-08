@@ -128,8 +128,23 @@ public class LinkCapability implements Serializable {
 
     @Override
     public String toString() {
-        return "LinkCapability{" +
-                "id=" + id +
-                '}';
+        return new StringBuilder().append("LinkCapability{").append(id).append('}').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LinkCapability that = (LinkCapability) o;
+
+        if (id != that.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 }
