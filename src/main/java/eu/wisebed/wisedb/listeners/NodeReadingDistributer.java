@@ -54,11 +54,11 @@ public final class NodeReadingDistributer extends Thread {
 
                 if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getName(),
                         lastReading.getCapability().getCapability().getName())) {
-//                    UberLogger.getInstance().log(lastReading, "T4");
+
                     LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(),
                             lastReading.getCapability().getCapability().getName()).update(lastReading);
                     LOGGER.info("Updating.... : " + lastReading.toString());
-//                    UberLogger.getInstance().log(lastReading, "T41");
+
                 }
             } catch (final InterruptedException e) {
                 LOGGER.fatal("Interrupted Exception ", e);
