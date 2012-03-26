@@ -41,6 +41,7 @@ public class AddSimpleTestbed {
             Testbed testbed = new Testbed();
             LOGGER.info("Provide Testbed Name");
 //            final String testbedName = br.readLine();
+
             testbed.setName("theTestbed2");
 
             LOGGER.info("Provide Testbed Description");

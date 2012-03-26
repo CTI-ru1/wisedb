@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
@@ -104,25 +103,18 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
     /**
      * Prepares and inserts a node to the testbed's setup with the id provided.
      *
-     * @param nodeId , a node id.
+     * @param testbed , a testbed instance.
+     * @param nodeId  , a node id.
      * @return returns the inserted node instance.
      */
-    public Node prepareInsertNode(final String nodeId) throws UnknownTestbedException {
-        LOGGER.info("prepareInsertNode(" + nodeId + ")");
+    public Node prepareInsertNode(final Testbed testbed, final String nodeId) {
+        LOGGER.info("prepareInsertNode(" + testbed + "," + nodeId + ")");
+        final Node node = new Node();
+        node.setName(nodeId);
+        node.setSetup(testbed.getSetup());
+        add(node);
 
-        final List<Testbed> testbeds = TestbedControllerImpl.getInstance().list();
-
-        for (final Testbed testbed : testbeds) {
-            if (nodeId.startsWith(testbed.getUrnPrefix())) {
-                final Node node = new Node();
-                node.setName(nodeId);
-                node.setSetup(testbed.getSetup());
-                add(node);
-                return node;
-            }
-        }
-
-        throw new UnknownTestbedException();
+        return node;
     }
 
     /**
@@ -269,12 +261,21 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
     public Position getPosition(final Node node) {
         final Position position = new Position();
 
-        position.setX(NodeCapabilityControllerImpl.getInstance().getByID(node, "x").getLastNodeReading().getReading().floatValue());
-        position.setY(NodeCapabilityControllerImpl.getInstance().getByID(node, "y").getLastNodeReading().getReading().floatValue());
-        position.setZ(NodeCapabilityControllerImpl.getInstance().getByID(node, "z").getLastNodeReading().getReading().floatValue());
-        position.setTheta(NodeCapabilityControllerImpl.getInstance().getByID(node, "theta").getLastNodeReading().getReading().floatValue());
-        position.setPhi(NodeCapabilityControllerImpl.getInstance().getByID(node, "phi").getLastNodeReading().getReading().floatValue());
+        try {
+            position.setX(NodeCapabilityControllerImpl.getInstance().getByID(node, "x").getLastNodeReading().getReading().floatValue());
+            position.setY(NodeCapabilityControllerImpl.getInstance().getByID(node, "y").getLastNodeReading().getReading().floatValue());
+            position.setZ(NodeCapabilityControllerImpl.getInstance().getByID(node, "z").getLastNodeReading().getReading().floatValue());
+            position.setTheta(NodeCapabilityControllerImpl.getInstance().getByID(node, "theta").getLastNodeReading().getReading().floatValue());
+            position.setPhi(NodeCapabilityControllerImpl.getInstance().getByID(node, "phi").getLastNodeReading().getReading().floatValue());
 
+        } catch (NullPointerException n) {
+            position.setX(node.getSetup().getOrigin().getX());
+            position.setY(node.getSetup().getOrigin().getY());
+            position.setZ(node.getSetup().getOrigin().getZ());
+            position.setPhi(node.getSetup().getOrigin().getPhi());
+            position.setTheta(node.getSetup().getOrigin().getTheta());
+
+        }
         return position;
     }
 

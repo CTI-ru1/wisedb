@@ -26,16 +26,17 @@ public class AddNodeReading {
 
             // a valid urnPrefix for the testbed
 
+
             // a node id for the testbed
             final String nodeId = "urn:testbed2:2";
 
             // get that nodes capability name
-            final String capabilityName = "light";
+            final String capabilityName = "description";
 
             // reading value
-            final double readingValue = 22;
+            final double readingValue = 0;
             // string reading value
-            final String stringReading = null;
+            final String stringReading = "Processor: Jennic JN5139R1 (Ram 96kB, Flash 128kB, op/sleep 39mA,10myA) Radio: IEEE 802.15.4(2,4 GHz)";
 
             // Occured time
             final Date timestamp = new Date();
