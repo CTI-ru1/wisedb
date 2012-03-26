@@ -26,18 +26,17 @@ public class AddNodeReading {
 
             // a valid urnPrefix for the testbed
 
-
             final int testbedId = 1;
             // a node id for the testbed
-            final String nodeId = "urn:test:0x181";
+            final String nodeId = "urn:wisebed:ctitestbed:0xfa4b";
 
             // get that nodes capability name
-            final String capabilityName = "light";
+            final String capabilityName = "description";
 
             // reading value
-            final double readingValue = 22;
+            final double readingValue = 0;
             // string reading value
-            final String stringReading = null;
+            final String stringReading = "Processor: Jennic JN5139R1 (Ram 96kB, Flash 128kB, op/sleep 39mA,10myA) Radio: IEEE 802.15.4(2,4 GHz)";
 
             // Occured time
             final Date timestamp = new Date();
@@ -49,7 +48,7 @@ public class AddNodeReading {
             LOGGER.info("Timestamp : " + timestamp.toString());
 
             // insert reading
-            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, testbedId, readingValue, stringReading, timestamp);
+            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, testbedId, null, stringReading, timestamp);
 
             tx.commit();
         } catch (Exception e) {
