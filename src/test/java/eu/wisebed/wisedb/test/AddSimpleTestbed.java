@@ -41,19 +41,19 @@ public class AddSimpleTestbed {
             Testbed testbed = new Testbed();
             LOGGER.info("Provide Testbed Name");
 //            final String testbedName = br.readLine();
-            testbed.setName("Test Testbed");
+            testbed.setName("theTestbed2");
 
             LOGGER.info("Provide Testbed Description");
 //            final String testbedDescription = br.readLine();
-            testbed.setDescription("testing ground testbed");
+            testbed.setDescription("description2");
 
             LOGGER.info("Provide Testbed's web page URL");
 //            final String testbedWebPageUrl = br.readLine();
-            testbed.setUrl("www.test.com");
+            testbed.setUrl("www.new.testbed2.com");
 
             LOGGER.info("Provide Testbed's urnPrefix");
 //            final String urnPrefix = br.readLine();
-            testbed.setUrnPrefix("urn:test:");
+            testbed.setUrnPrefix("urn:testbed2:");
 
             LOGGER.info("Using your default TimeZone : " + TimeZone.getDefault().getDisplayName());
             testbed.setTimeZone(TimeZone.getDefault());

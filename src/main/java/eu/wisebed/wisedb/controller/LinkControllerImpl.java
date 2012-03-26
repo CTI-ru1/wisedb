@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -78,21 +79,34 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
     /**
      * Prepares and inserts a link to the testbed setup  with the provided ids as source and target.
      *
-     * @param setup    , a setup instance.
      * @param sourceId , a source node id.
      * @param targetId , a target node id.
      * @return returns the inserted link instance.
      */
-    public Link prepareInsertLink(final Setup setup, final String sourceId, final String targetId) {
-        LOGGER.info("prepareInsertLink(" + setup + "," + sourceId + "," + targetId + ")");
+    public Link prepareInsertLink(final String sourceId, final String targetId) throws UnknownTestbedException {
+        LOGGER.info("prepareInsertLink(" + sourceId + "," + targetId + ")");
 
-        final Link link = new Link();
-        link.setSource(NodeControllerImpl.getInstance().getByName(sourceId));
-        link.setTarget(NodeControllerImpl.getInstance().getByName(targetId));
-        link.setSetup(setup);
-        LinkControllerImpl.getInstance().add(link);
+        Node source = NodeControllerImpl.getInstance().getByName(sourceId);
+        Node target = NodeControllerImpl.getInstance().getByName(targetId);
+        if (source == null) {
+            source = NodeControllerImpl.getInstance().prepareInsertNode(sourceId);
+        }
+        if (target == null) {
+            target = NodeControllerImpl.getInstance().prepareInsertNode(targetId);
+        }
+        LOGGER.info(source.getSetup());
+        LOGGER.info(target.getSetup());
+        if (source.getSetup().getId() == target.getSetup().getId()) {
+            final Link link = new Link();
+            link.setSource(source);
+            link.setTarget(target);
+            link.setSetup(source.getSetup());
+            LinkControllerImpl.getInstance().add(link);
 
-        return link;
+            return link;
+        }
+        throw new UnknownTestbedException();
+
     }
 
     /**

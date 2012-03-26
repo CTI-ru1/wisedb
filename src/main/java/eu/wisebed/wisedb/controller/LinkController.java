@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.Setup;
@@ -33,7 +34,7 @@ public interface LinkController extends AbstractControllerInterface {
 
     public List<Link> list(final Setup setup, final Capability capability);
 
-    public Link prepareInsertLink(final Setup setup, final String sourceId, final String targetId);
+    public Link prepareInsertLink(final String sourceId, final String targetId) throws UnknownTestbedException;
 
     public void update(final Link link);
 

@@ -26,10 +26,8 @@ public class AddNodeReading {
 
             // a valid urnPrefix for the testbed
 
-
-            final int testbedId = 1;
             // a node id for the testbed
-            final String nodeId = "urn:test:0x181";
+            final String nodeId = "urn:testbed2:2";
 
             // get that nodes capability name
             final String capabilityName = "light";
@@ -49,7 +47,7 @@ public class AddNodeReading {
             LOGGER.info("Timestamp : " + timestamp.toString());
 
             // insert reading
-            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, testbedId, readingValue, stringReading, timestamp);
+            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, readingValue, stringReading, timestamp);
 
             tx.commit();
         } catch (Exception e) {

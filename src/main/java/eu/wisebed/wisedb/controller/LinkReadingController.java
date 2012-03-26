@@ -27,7 +27,7 @@ public interface LinkReadingController extends AbstractControllerInterface {
     public List<LinkReading> list(final Link link);
 
     public void insertReading(final String sourceId, final String targetId, final String capabilityName,
-                              final int testbedId, final Double doubleReading, final String stringReading,
+                              final Double doubleReading, final String stringReading,
                               final Date timestamp) throws UnknownTestbedException;
 
     public Long count();

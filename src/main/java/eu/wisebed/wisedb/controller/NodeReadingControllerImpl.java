@@ -6,7 +6,6 @@ import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.NodeReading;
-import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -106,30 +105,23 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
      *
      * @param nodeId         , a node id.
      * @param capabilityName , a capability name.
-     * @param testbedId      , a testbed Id.
-     * @param doubleReading  , a reading value (double).
-     * @param stringReading  , a reading value (string).
+     * @param dReading       , a reading value (double).
+     * @param sReading       , a reading value (string).
      * @param timestamp      , a timestamp.
      * @throws UnknownTestbedException exception that occurs when the testbedId is unknown.
      */
-    public void insertReading(final String nodeId, final String capabilityName, final int testbedId,
-                              final Double doubleReading, final String stringReading, final Date timestamp)
+    public NodeReading insertReading(final String nodeId, final String capabilityName,
+                                     final Double dReading, final String sReading, final Date timestamp)
             throws UnknownTestbedException {
-        LOGGER.info("insertReading(" + nodeId + "," + capabilityName + "," + testbedId + "," + doubleReading + ","
-                + stringReading + "," + timestamp + ")");
-
-        // Retrieve testbed by urn
-        final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
-        if (testbed == null) {
-            throw new UnknownTestbedException(Integer.toString(testbedId));
-        }
+        LOGGER.info("insertReading(" + nodeId + "," + capabilityName + "," + dReading + ","
+                + sReading + "," + timestamp + ")");
 
         Node node = NodeControllerImpl.getInstance().getByName(nodeId);
 
         NodeCapability nodeCapability;
         if (node == null) {
             LOGGER.debug("node==null");
-            node = NodeControllerImpl.getInstance().prepareInsertNode(testbed, nodeId);
+            node = NodeControllerImpl.getInstance().prepareInsertNode(nodeId);
             nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
         } else {
             nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
@@ -141,8 +133,8 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
 
         // make a new node reading entity
         final NodeReading reading = new NodeReading();
-        reading.setReading(doubleReading);
-        reading.setStringReading(stringReading);
+        reading.setReading(dReading);
+        reading.setStringReading(sReading);
         reading.setTimestamp(timestamp);
         reading.setCapability(nodeCapability);
 
@@ -157,8 +149,8 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
 
             LOGGER.info("created lastNodeReading for " + nodeCapability);
             lastNodeReading = new LastNodeReading();
-            lastNodeReading.setReading(doubleReading);
-            lastNodeReading.setStringReading(stringReading);
+            lastNodeReading.setReading(dReading);
+            lastNodeReading.setStringReading(sReading);
             lastNodeReading.setTimestamp(timestamp);
             lastNodeReading.setId(nodeCapability.getId());
 
@@ -169,8 +161,8 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         } else {
             LOGGER.info("found lastNodeReading for " + nodeCapability);
             lastNodeReading = nodeCapability.getLastNodeReading();
-            lastNodeReading.setReading(doubleReading);
-            lastNodeReading.setStringReading(stringReading);
+            lastNodeReading.setReading(dReading);
+            lastNodeReading.setStringReading(sReading);
             lastNodeReading.setTimestamp(timestamp);
             lastNodeReading.setNodeCapability(nodeCapability);
 
@@ -179,7 +171,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
         }
 
-
+        return reading;
     }
 
 

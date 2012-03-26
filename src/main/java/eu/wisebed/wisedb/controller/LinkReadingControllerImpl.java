@@ -6,7 +6,6 @@ import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.LinkReading;
 import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -108,31 +107,24 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
      * @param sourceId       , link's source id.
      * @param targetId       , target's source id.
      * @param capabilityName , capability's id.
-     * @param testbedId      , a testbed id.
      * @param stringReading  , value of a string reading.
      * @param doubleReading  , value of a sensor reading.
      * @param timestamp      , a timestamp.
      * @throws UnknownTestbedException exception that occurs when the urnPrefix is unknown
      */
     public void insertReading(final String sourceId, final String targetId, final String capabilityName,
-                              final int testbedId, final Double doubleReading, final String stringReading,
+                              final Double doubleReading, final String stringReading,
                               final Date timestamp) throws UnknownTestbedException {
 
-        LOGGER.info("insertReading(" + sourceId + "," + targetId + "," + capabilityName + "," + testbedId
+        LOGGER.info("insertReading(" + sourceId + "," + targetId + "," + capabilityName
                 + "," + doubleReading + "," + stringReading + "," + timestamp + ")");
-
-        // look for testbed
-        final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
-        if (testbed == null) {
-            throw new UnknownTestbedException(Integer.toString(testbedId));
-        }
 
         // look for source
         final Node source = NodeControllerImpl.getInstance().getByName(sourceId);
         if (source == null) {
             // if source node not found in db make it and store it
             LOGGER.info("Node [" + sourceId + "] was not found in db . Storing it");
-            NodeControllerImpl.getInstance().prepareInsertNode(testbed, sourceId);
+            NodeControllerImpl.getInstance().prepareInsertNode(sourceId);
         }
 
         // look for target
@@ -140,14 +132,14 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         if (target == null) {
             // if target node not found in db make it and store it
             LOGGER.info("Node [" + targetId + "] was not found in db . Storing it");
-            NodeControllerImpl.getInstance().prepareInsertNode(testbed, targetId);
+            NodeControllerImpl.getInstance().prepareInsertNode(targetId);
         }
 
         Link link = LinkControllerImpl.getInstance().getByID(sourceId, targetId);
 
         if (link == null) {
             LOGGER.debug("link==null");
-            link = LinkControllerImpl.getInstance().prepareInsertLink(testbed.getSetup(), sourceId, targetId);
+            link = LinkControllerImpl.getInstance().prepareInsertLink(sourceId, targetId);
         }
 
         LinkCapability linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capabilityName);

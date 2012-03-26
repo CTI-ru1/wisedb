@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:42 PM
  */
-public interface NodeReadingController  extends AbstractControllerInterface{
+public interface NodeReadingController extends AbstractControllerInterface {
 
     public void add(final NodeReading reading);
 
@@ -30,8 +30,8 @@ public interface NodeReadingController  extends AbstractControllerInterface{
     public Long count(final Node node);
 
 
-    public void insertReading(final String nodeId, final String capabilityName, final int testbedId,
-                              final Double doubleReading, final String stringReading, final Date timestamp) throws UnknownTestbedException;
+    public NodeReading insertReading(final String node, final String capability, final Double dReading,
+                              final String sReading, final Date time) throws UnknownTestbedException;
 
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability);
 

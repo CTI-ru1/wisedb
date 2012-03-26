@@ -35,11 +35,11 @@ public class AddLinkReading {
             final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
 
             // source node id
-            final String sourceId = "urn:test:3";
+            final String sourceId = "urn:testbed2:5";
 
 
             // target node id
-            final String targetId = "urn:test:4";
+            final String targetId = "urn:testbed1:9";
 
             // link capability name
             final String capabilityName = "quality";
@@ -56,7 +56,7 @@ public class AddLinkReading {
             LOGGER.debug("Capability for link : " + capabilityName);
 
             // insert reading
-            LinkReadingControllerImpl.getInstance().insertReading(sourceId, targetId, capabilityName, testbedId, reading, stringReading, timestamp);
+            LinkReadingControllerImpl.getInstance().insertReading(sourceId, targetId, capabilityName, reading, stringReading, timestamp);
 
             tx.commit();
         } catch (Exception e) {

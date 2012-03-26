@@ -12,9 +12,17 @@ public class UnknownTestbedException extends Exception {
 
     /**
      * Exception constructor.
+     *
      * @param testbedId a testbed id.
      */
     public UnknownTestbedException(final String testbedId) {
         super("Unknown Testbed. Cannot find persisted testbed entity with id " + testbedId);
+    }
+
+    /**
+     * Exception constructor.
+     */
+    public UnknownTestbedException() {
+        super("Unknown Testbed. Cannot find persisted testbed to add this node");
     }
 }
