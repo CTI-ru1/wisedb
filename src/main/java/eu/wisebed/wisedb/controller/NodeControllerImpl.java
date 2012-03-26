@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
@@ -103,18 +104,25 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
     /**
      * Prepares and inserts a node to the testbed's setup with the id provided.
      *
-     * @param testbed , a testbed instance.
-     * @param nodeId  , a node id.
+     * @param nodeId , a node id.
      * @return returns the inserted node instance.
      */
-    public Node prepareInsertNode(final Testbed testbed, final String nodeId) {
-        LOGGER.info("prepareInsertNode(" + testbed + "," + nodeId + ")");
-        final Node node = new Node();
-        node.setName(nodeId);
-        node.setSetup(testbed.getSetup());
-        add(node);
+    public Node prepareInsertNode(final String nodeId) throws UnknownTestbedException {
+        LOGGER.info("prepareInsertNode(" + nodeId + ")");
 
-        return node;
+        final List<Testbed> testbeds = TestbedControllerImpl.getInstance().list();
+
+        for (final Testbed testbed : testbeds) {
+            if (nodeId.startsWith(testbed.getUrnPrefix())) {
+                final Node node = new Node();
+                node.setName(nodeId);
+                node.setSetup(testbed.getSetup());
+                add(node);
+                return node;
+            }
+        }
+
+        throw new UnknownTestbedException();
     }
 
     /**
