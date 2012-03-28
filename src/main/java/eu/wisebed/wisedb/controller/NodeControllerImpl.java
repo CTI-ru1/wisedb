@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
@@ -107,6 +108,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
      * @param nodeId , a node id.
      * @return returns the inserted node instance.
      */
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.list")
     public Node prepareInsertNode(final String nodeId) throws UnknownTestbedException {
         LOGGER.info("prepareInsertNode(" + nodeId + ")");
 

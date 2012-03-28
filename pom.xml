@@ -178,6 +178,12 @@
             <artifactId>resources</artifactId>
             <version>3.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>uberdust</groupId>
+            <artifactId>Cache</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

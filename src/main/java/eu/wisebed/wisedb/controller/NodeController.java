@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
@@ -15,17 +16,19 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 11:58 AM
  */
-public interface NodeController   extends AbstractControllerInterface{
+public interface NodeController extends AbstractControllerInterface {
 
     public void update(final Node node);
 
     public void delete(final String nodeId);
+
     public Node getByID(final int nodeId);
-    
+
     public Node getByName(final String name);
 
     public List<Node> list();
 
+    @Cachable
     public List<Node> list(final Setup setup);
 
     public Long count(final Setup setup);
