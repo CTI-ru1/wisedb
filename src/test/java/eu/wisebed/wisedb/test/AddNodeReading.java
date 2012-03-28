@@ -28,15 +28,15 @@ public class AddNodeReading {
 
 
             // a node id for the testbed
-            final String nodeId = "urn:testbed2:2";
+            final String nodeId = " urn:pspace:virtual:ROOM1";
 
             // get that nodes capability name
-            final String capabilityName = "description";
+            final String capabilityName = "light1";
 
             // reading value
-            final double readingValue = 0;
+            final double readingValue = 1;
             // string reading value
-            final String stringReading = "Processor: Jennic JN5139R1 (Ram 96kB, Flash 128kB, op/sleep 39mA,10myA) Radio: IEEE 802.15.4(2,4 GHz)";
+            final String stringReading = null;
 
             // Occured time
             final Date timestamp = new Date();

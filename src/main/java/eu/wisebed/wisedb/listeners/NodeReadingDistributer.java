@@ -60,6 +60,10 @@ public final class NodeReadingDistributer extends Thread {
                     LOGGER.info("Updating.... : " + lastReading.toString());
 
                 }
+                if (lastReading.getCapability().getNode().getName().contains("virtual")) {
+                    LastNodeReadingConsumer.getInstance().getVirtualReadingListener().update(lastReading);
+                }
+
             } catch (final InterruptedException e) {
                 LOGGER.fatal("Interrupted Exception ", e);
             }

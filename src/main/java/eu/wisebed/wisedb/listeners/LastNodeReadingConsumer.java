@@ -33,6 +33,15 @@ public final class LastNodeReadingConsumer {
     private final HashMap<String, HashMap<String, AbstractNodeReadingListener>> listeners;
 
     /**
+     *
+     */
+    private AbstractNodeReadingListener virtualReadingListener;
+
+    public AbstractNodeReadingListener getVirtualReadingListener() {
+        return virtualReadingListener;
+    }
+
+    /**
      * Used to lock specific block.
      */
     private final Object lock = new Object();
@@ -82,6 +91,12 @@ public final class LastNodeReadingConsumer {
                 listeners.put(nodeId, newCapability);
                 LOGGER.info(listenersContains(nodeId, capabilityID));
             }
+        }
+    }
+
+    public void registerVirtualReadingListener(final AbstractNodeReadingListener listener) {
+        synchronized (lock) {
+            virtualReadingListener = listener;
         }
     }
 
