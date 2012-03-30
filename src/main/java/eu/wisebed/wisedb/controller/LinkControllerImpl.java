@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
@@ -169,6 +170,7 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         return super.list(new Link());
     }
 
+    @Cachable
     public List<Link> list(final Setup setup) {
         LOGGER.debug("list(" + setup + ")");
         final Session session = getSessionFactory().getCurrentSession();

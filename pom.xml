@@ -131,7 +131,11 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>uberdust</groupId>
+            <artifactId>Cache</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- database related dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -183,7 +187,11 @@
             <artifactId>Cache</artifactId>
             <version>1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.11</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -193,9 +201,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
-                  <skipTests>true</skipTests>
+                    <skipTests>true</skipTests>
                 </configuration>
-              </plugin>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -252,6 +260,34 @@
                     <show>private</show>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                        <configuration>
+                            <source>1.6</source>
+                            <target>1.6</target>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <weaveDependencies>
+                        <dependency>
+                            <groupId>uberdust</groupId>
+                            <artifactId>Cache</artifactId>
+                        </dependency>
+                        <weaveDependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjrt</artifactId>
+                        </weaveDependency>
+                    </weaveDependencies>
+                </configuration>
+            </plugin>
 
         </plugins>
         <resources>
@@ -267,6 +303,7 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
+
 
     </build>
 

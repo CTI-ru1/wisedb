@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.Cachable;
 import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
@@ -166,7 +167,8 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
         LOGGER.info("list()");
         return super.list(new Node());
     }
-//
+
+    //
 //    /**
 //     * Listing all the nodes from the database belonging to a selected testbed.
 //     *
@@ -181,8 +183,8 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
 //        criteria.addOrder(Order.asc(NODE_ID));
 //        return (List<Node>) criteria.list();
 //    }
-
-    public List<Node> list(Setup setup) {
+    @Cachable
+    public List<Node> list(final Setup setup) {
         LOGGER.debug("list(" + setup + ")");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(Node.class);

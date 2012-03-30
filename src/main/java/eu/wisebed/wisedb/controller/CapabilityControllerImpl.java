@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -168,6 +169,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param setup a selected setup instance.
      * @return a list of setup capabilities.
      */
+    @Cachable
     public List<Capability> list(final Setup setup) {
         LOGGER.info("list(" + setup + ")");
         final List<Capability> capabilities = new ArrayList<Capability>();
@@ -263,7 +265,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
     public List<Capability> listLinkCapabilities(final Setup setup) {
         LOGGER.info("listLinkCapabilities(" + setup + ")");
         final List<Link> links = LinkControllerImpl.getInstance().list(setup);
-        LOGGER.info("linksfound "+links.size());
+        LOGGER.info("linksfound " + links.size());
         final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
         if (!links.isEmpty()) {
             final Session session = getSessionFactory().getCurrentSession();

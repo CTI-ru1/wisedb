@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Node;
@@ -28,7 +27,6 @@ public interface NodeController extends AbstractControllerInterface {
 
     public List<Node> list();
 
-    @Cachable
     public List<Node> list(final Setup setup);
 
     public Long count(final Setup setup);
