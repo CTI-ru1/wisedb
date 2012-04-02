@@ -1,6 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.uberdust.caching.Cachable;
+import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
@@ -84,6 +85,7 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
      * @param targetId , a target node id.
      * @return returns the inserted link instance.
      */
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.LinkControllerImpl.list")
     public Link prepareInsertLink(final String sourceId, final String targetId) throws UnknownTestbedException {
         LOGGER.info("prepareInsertLink(" + sourceId + "," + targetId + ")");
 

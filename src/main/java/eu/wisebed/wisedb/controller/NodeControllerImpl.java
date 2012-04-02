@@ -109,7 +109,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
      * @param nodeId , a node id.
      * @return returns the inserted node instance.
      */
-    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.list")
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.NodeControllerImpl.list")
     public Node prepareInsertNode(final String nodeId) throws UnknownTestbedException {
         LOGGER.info("prepareInsertNode(" + nodeId + ")");
 

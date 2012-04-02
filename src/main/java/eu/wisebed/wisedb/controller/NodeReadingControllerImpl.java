@@ -113,62 +113,67 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
     public NodeReading insertReading(final String nodeId, final String capabilityName,
                                      final Double dReading, final String sReading, final Date timestamp)
             throws UnknownTestbedException {
-        LOGGER.info("insertReading(" + nodeId + "," + capabilityName + "," + dReading + ","
-                + sReading + "," + timestamp + ")");
+        NodeReading reading = null;
+        try {
+            LOGGER.info("insertReading(" + nodeId + "," + capabilityName + "," + dReading + ","
+                    + sReading + "," + timestamp + ")");
 
-        Node node = NodeControllerImpl.getInstance().getByName(nodeId);
+            Node node = NodeControllerImpl.getInstance().getByName(nodeId);
 
-        NodeCapability nodeCapability;
-        if (node == null) {
-            LOGGER.debug("node==null");
-            node = NodeControllerImpl.getInstance().prepareInsertNode(nodeId);
-            nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
-        } else {
-            nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
-            if (nodeCapability == null) {
+            NodeCapability nodeCapability;
+            if (node == null) {
+                LOGGER.debug("node==null");
+                node = NodeControllerImpl.getInstance().prepareInsertNode(nodeId);
                 nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
-                NodeControllerImpl.getInstance().update(node);
+            } else {
+                nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capabilityName);
+                if (nodeCapability == null) {
+                    nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
+                    NodeControllerImpl.getInstance().update(node);
+                }
             }
-        }
 
-        // make a new node reading entity
-        final NodeReading reading = new NodeReading();
-        reading.setReading(dReading);
-        reading.setStringReading(sReading);
-        reading.setTimestamp(timestamp);
-        reading.setCapability(nodeCapability);
+            // make a new node reading entity
+            reading = new NodeReading();
+            reading.setReading(dReading);
+            reading.setStringReading(sReading);
+            reading.setTimestamp(timestamp);
+            reading.setCapability(nodeCapability);
 
-        // add reading
-        NodeReadingControllerImpl.getInstance().add(reading);
+            // add reading
+            NodeReadingControllerImpl.getInstance().add(reading);
 
-        LOGGER.info("nodeCapability id is : " + nodeCapability.getId());
+            LOGGER.info("nodeCapability id is : " + nodeCapability.getId());
 
-        // get lastNodeReading if not found create one
-        LastNodeReading lastNodeReading;
-        if (nodeCapability.getLastNodeReading() == null) {
+            // get lastNodeReading if not found create one
+            LastNodeReading lastNodeReading;
+            if (nodeCapability.getLastNodeReading() == null) {
 
-            LOGGER.info("created lastNodeReading for " + nodeCapability);
-            lastNodeReading = new LastNodeReading();
-            lastNodeReading.setReading(dReading);
-            lastNodeReading.setStringReading(sReading);
-            lastNodeReading.setTimestamp(timestamp);
-            lastNodeReading.setId(nodeCapability.getId());
+                LOGGER.info("created lastNodeReading for " + nodeCapability);
+                lastNodeReading = new LastNodeReading();
+                lastNodeReading.setReading(dReading);
+                lastNodeReading.setStringReading(sReading);
+                lastNodeReading.setTimestamp(timestamp);
+                lastNodeReading.setId(nodeCapability.getId());
 
-            nodeCapability.setLastNodeReading(lastNodeReading);
+                nodeCapability.setLastNodeReading(lastNodeReading);
 
-            NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
+                NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
 
-        } else {
-            LOGGER.info("found lastNodeReading for " + nodeCapability);
-            lastNodeReading = nodeCapability.getLastNodeReading();
-            lastNodeReading.setReading(dReading);
-            lastNodeReading.setStringReading(sReading);
-            lastNodeReading.setTimestamp(timestamp);
-            lastNodeReading.setNodeCapability(nodeCapability);
+            } else {
+                LOGGER.info("found lastNodeReading for " + nodeCapability);
+                lastNodeReading = nodeCapability.getLastNodeReading();
+                lastNodeReading.setReading(dReading);
+                lastNodeReading.setStringReading(sReading);
+                lastNodeReading.setTimestamp(timestamp);
+                lastNodeReading.setNodeCapability(nodeCapability);
 
-            nodeCapability.setLastNodeReading(lastNodeReading);
+                nodeCapability.setLastNodeReading(lastNodeReading);
 
-            NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
+                NodeCapabilityControllerImpl.getInstance().update(nodeCapability);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return reading;
