@@ -97,7 +97,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
      *
      * @param nodeId the id of the node tha we want to delete
      */
-    public void delete(final String nodeId) {
+    public void delete(final int nodeId) {
         LOGGER.info("delete(" + nodeId + ")");
         super.delete(new Node(), nodeId);
     }

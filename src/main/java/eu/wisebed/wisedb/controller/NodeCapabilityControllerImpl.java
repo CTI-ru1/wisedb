@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -8,6 +9,7 @@ import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -98,6 +100,12 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         LastNodeReadingControllerImpl.getInstance().add(lastNodeReading);
 
         return nodeCapability;
+    }
+
+    @Override
+    public void delete(int id) {
+        LOGGER.info("delete(" + id + ")");
+        super.delete(new NodeCapability(), id);
     }
 
     @SuppressWarnings("unchecked")
@@ -193,20 +201,17 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
     public List<NodeCapability> list(final Setup setup) {
         LOGGER.debug("list(" + setup + ")");
         final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
-        final List<NodeCapability> capabilities = new ArrayList<NodeCapability>();
         if (nodes.size() > 0) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(NodeCapability.class);
             criteria.add(Restrictions.in(NODE, nodes));
-            for (Object obj : criteria.list()) {
-                if (obj instanceof NodeCapability) {
-                    capabilities.add((NodeCapability) obj);
-                }
-            }
+            criteria.addOrder(Order.asc(NODE));
+            return (List<NodeCapability>) criteria.list();
         }
-        return capabilities;
+        return null;
     }
 
+    @Cachable
     public List<NodeCapability> list(final Setup setup, final Capability capability) {
         LOGGER.debug("list(" + setup + "," + capability + ")");
         final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);

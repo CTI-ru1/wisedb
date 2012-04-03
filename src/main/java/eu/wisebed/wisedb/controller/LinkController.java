@@ -3,6 +3,7 @@ package eu.wisebed.wisedb.controller;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
+import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.Setup;
 
 import java.util.List;
@@ -17,6 +18,10 @@ public interface LinkController extends AbstractControllerInterface {
     public void add(final Link link);
 
     public Link getByID(final int linkId);
+
+    public List<Link> getBySource(final Node source);
+
+    public List<Link> getByTarget(final Node target);
 
     public Link getByID(final String sourceId, final String targetId);
 

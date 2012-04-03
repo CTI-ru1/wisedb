@@ -8,6 +8,7 @@ import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -122,6 +123,11 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         linkCapabilities.setLink(link);
         session.delete(linkCapabilities);
     }
+
+    @Override
+    public void delete(int id) {
+        super.delete(new LinkCapability(), id);
+    }
 //
 //    public void add(final Link link, final Capability capability) {
 //
@@ -202,19 +208,15 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
     public List<LinkCapability> list(final Setup setup) {
         LOGGER.debug("list(" + setup + ")");
         final List<Link> links = LinkControllerImpl.getInstance().list(setup);
-        final List<LinkCapability> capabilities = new ArrayList<LinkCapability>();
         if (!links.isEmpty()) {
             final Session session = getSessionFactory().getCurrentSession();
             final Criteria criteria = session.createCriteria(LinkCapability.class);
             criteria.add(Restrictions.in(LINK, links));
-            for (Object obj : criteria.list()) {
-                if (obj instanceof LinkCapability) {
-                    capabilities.add((LinkCapability) obj);
-                }
-            }
+            criteria.addOrder(Order.asc(LINK));
+            return (List<LinkCapability>) criteria.list();
         }
 
-        return capabilities;
+        return null;
     }
 
 }

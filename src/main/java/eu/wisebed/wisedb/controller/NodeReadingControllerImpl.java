@@ -94,7 +94,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
      *
      * @param readingId the id of the node tha we want to delete
      */
-    public void delete(final String readingId) {
+    public void delete(final int readingId) {
         LOGGER.info("delete(" + readingId + ")");
         super.delete(new NodeReading(), readingId);
     }

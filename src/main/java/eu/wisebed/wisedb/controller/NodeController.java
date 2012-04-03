@@ -19,7 +19,7 @@ public interface NodeController extends AbstractControllerInterface {
 
     public void update(final Node node);
 
-    public void delete(final String nodeId);
+    public void delete(final int nodeId);
 
     public Node getByID(final int nodeId);
 

@@ -16,6 +16,8 @@ import java.util.List;
 public interface NodeCapabilityController extends AbstractControllerInterface {
     public void add(final NodeCapability nodeCapability);
 
+    public void delete(final int id);
+
     public void update(final NodeCapability nodeCapability);
 
     public long count();

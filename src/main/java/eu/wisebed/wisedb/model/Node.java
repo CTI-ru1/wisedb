@@ -82,7 +82,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Node{").append(name).append('\'').append('}').toString();
+        return new StringBuilder().append("Node{").append(name).append('}').toString();
     }
 
     @Override

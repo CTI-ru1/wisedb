@@ -145,6 +145,22 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         return super.getByID(new Link(), linkId);
     }
 
+    @Override
+    public List<Link> getBySource(Node source) {
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(Link.class);
+        criteria.add(Restrictions.eq(SOURCE, source));
+        return (List<Link>) criteria.list();
+    }
+
+    @Override
+    public List<Link> getByTarget(Node target) {
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(Link.class);
+        criteria.add(Restrictions.eq(TARGET, target));
+        return (List<Link>) criteria.list();
+    }
+
     /**
      * Deleting a link entry from the database.
      *

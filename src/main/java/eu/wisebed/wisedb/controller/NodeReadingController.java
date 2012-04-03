@@ -19,7 +19,7 @@ public interface NodeReadingController extends AbstractControllerInterface {
 
     public void add(final NodeReading reading);
 
-    public void delete(final String readingId);
+    public void delete(final int readingId);
 
     public NodeReading getByID(final int id);
 
@@ -31,7 +31,7 @@ public interface NodeReadingController extends AbstractControllerInterface {
 
 
     public NodeReading insertReading(final String node, final String capability, final Double dReading,
-                              final String sReading, final Date time) throws UnknownTestbedException;
+                                     final String sReading, final Date time) throws UnknownTestbedException;
 
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability);
 

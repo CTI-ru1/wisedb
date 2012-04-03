@@ -13,11 +13,14 @@ import java.util.List;
  * Date: 2/19/12
  * Time: 12:37 PM
  */
-public interface LinkCapabilityController  extends AbstractControllerInterface{
+public interface LinkCapabilityController extends AbstractControllerInterface {
 
     public void add(final LinkCapability linkCapability);
 
     public void delete(final Link link, final Capability capability);
+
+    public void delete(final int id);
+
 
     public LinkCapability getByID(int linkId);
 
