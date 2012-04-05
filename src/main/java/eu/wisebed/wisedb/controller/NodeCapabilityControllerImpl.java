@@ -1,6 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.uberdust.caching.Cachable;
+import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
@@ -65,7 +66,6 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
                 ourInstance = new NodeCapabilityControllerImpl();
             }
         }
-
         return ourInstance;
     }
 
@@ -75,6 +75,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
      * @param capabilityName , a capability name.
      * @return returns the inserted capability instance.
      */
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl.list,eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl.count")
     public NodeCapability prepareInsertNodeCapability(final String capabilityName, final Node node) {
         LOGGER.info("prepareInsertNodeCapability(" + capabilityName + "," + node + ")");
 
@@ -103,12 +104,14 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
     }
 
     @Override
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl.list,eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl.count")
     public void delete(int id) {
         LOGGER.info("delete(" + id + ")");
         super.delete(new NodeCapability(), id);
     }
 
     @SuppressWarnings("unchecked")
+    @Cachable
     public long count() {
         LOGGER.info("count()");
         final Session session = getSessionFactory().getCurrentSession();

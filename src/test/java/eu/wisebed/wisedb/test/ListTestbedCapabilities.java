@@ -34,6 +34,10 @@ public class ListTestbedCapabilities {
                 final Setup setup = TestbedControllerImpl.getInstance().getByID(1).getSetup();
                 LOGGER.info("testbed @ " + (System.currentTimeMillis() - start));
                 final List<Capability> capabilities = CapabilityControllerImpl.getInstance().list(setup);
+                for (Capability capability : capabilities) {
+                    LOGGER.info(capability.toString() + ":" + capability.hashCode());
+
+                }
                 LOGGER.info("capabilities @ " + (System.currentTimeMillis() - start));
             }
             {

@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
@@ -71,6 +72,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
      * @param capabilityName , a capability name.
      * @return returns the inserted capability instance.
      */
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.LinkCapabilityControllerImpl.list")
     public LinkCapability prepareInsertLinkCapability(final Link link, final String capabilityName) {
         LOGGER.info("prepareInsertLinkCapability(" + capabilityName + ")");
 
@@ -203,7 +205,6 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         }
         return capabilities;
     }
-
 
     public List<LinkCapability> list(final Setup setup) {
         LOGGER.debug("list(" + setup + ")");

@@ -109,7 +109,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
      * @param nodeId , a node id.
      * @return returns the inserted node instance.
      */
-    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.NodeControllerImpl.list")
+    @EvictCache(cacheName = "eu.wisebed.wisedb.controller.NodeControllerImpl.list,eu.wisebed.wisedb.controller.NodeControllerImpl.count")
     public Node prepareInsertNode(final String nodeId) throws UnknownTestbedException {
         LOGGER.info("prepareInsertNode(" + nodeId + ")");
 
@@ -232,6 +232,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
      * @param setup, a selected testbed setup.
      * @return a list of testbed links.
      */
+    @Cachable
     public Long count(final Setup setup) {
         LOGGER.debug("count(" + setup + ")");
         final Session session = getSessionFactory().getCurrentSession();
@@ -241,6 +242,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
         return (Long) criteria.uniqueResult();
     }
 
+    @Cachable
     public List<Node> list(final Setup setup, final Capability capability) {
         final List<Node> nodes = list(setup);
         final List<Node> result = new ArrayList<Node>();

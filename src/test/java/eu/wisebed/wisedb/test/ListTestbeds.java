@@ -28,14 +28,17 @@ public class ListTestbeds {
 
         try {
             // testbed list
-            final List<Testbed> testbeds = TestbedControllerImpl.getInstance().list();
-            LOGGER.info("Testbeds :"+testbeds.size());
+            List<Testbed> testbeds = TestbedControllerImpl.getInstance().list();
+            LOGGER.info("Testbeds :" + testbeds.size());
+            testbeds = TestbedControllerImpl.getInstance().list();
+            LOGGER.info("Testbeds :" + testbeds.size());
+
             final Map<String, Long> nodesCount = TestbedControllerImpl.getInstance().countNodes();
             LOGGER.info(nodesCount.size());
-            LOGGER.info("Nodes :"+nodesCount.size());
+            LOGGER.info("Nodes :" + nodesCount.size());
             final Map<String, Long> linksCount = TestbedControllerImpl.getInstance().countLinks();
             LOGGER.info(linksCount.size());
-            LOGGER.info("Links :"+linksCount.size());
+            LOGGER.info("Links :" + linksCount.size());
 
 
             tx.commit();
