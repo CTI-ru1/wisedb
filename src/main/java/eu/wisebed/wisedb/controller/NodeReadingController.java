@@ -39,4 +39,8 @@ public interface NodeReadingController extends AbstractControllerInterface {
 
     public HashMap<Capability, Integer> getNodeReadingsCountMap(final Node node);
 
+    public Date getLastReading();
+
+    public Date getFirstReading();
+
 }

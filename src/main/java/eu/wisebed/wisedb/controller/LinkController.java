@@ -17,6 +17,8 @@ import java.util.List;
 public interface LinkController extends AbstractControllerInterface {
     public void add(final Link link);
 
+    public void delete(final int id);
+
     public Link getByID(final int linkId);
 
     public List<Link> getBySource(final Node source);

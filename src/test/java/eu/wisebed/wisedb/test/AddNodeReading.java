@@ -28,10 +28,10 @@ public class AddNodeReading {
 
 
             // a node id for the testbed
-            final String nodeId = " urn:pspace:virtual:ROOM1";
+            final String nodeId = "urn:wisebed:ctitestbed:virtual:0.I.1";
 
             // get that nodes capability name
-            final String capabilityName = "light1";
+            final String capabilityName = "light3";
 
             // reading value
             final double readingValue = 1;

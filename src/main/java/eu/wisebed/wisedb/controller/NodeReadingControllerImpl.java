@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
+import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
@@ -276,5 +277,24 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         criteria.add(Restrictions.eq(ID, id));
         criteria.setMaxResults(1);
         return (NodeReading) criteria.uniqueResult();
+    }
+
+    @Cachable
+    public Date getFirstReading() {
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(NodeReading.class);
+        criteria.addOrder(Order.asc(TIMESTAMP));
+        criteria.setMaxResults(1);
+        final NodeReading reading = (NodeReading) criteria.uniqueResult();
+        return reading.getTimestamp();
+    }
+
+    public Date getLastReading() {
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(NodeReading.class);
+        criteria.addOrder(Order.desc(TIMESTAMP));
+        criteria.setMaxResults(1);
+        final NodeReading reading = (NodeReading) criteria.uniqueResult();
+        return reading.getTimestamp();
     }
 }

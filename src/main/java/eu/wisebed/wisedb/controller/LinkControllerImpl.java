@@ -161,6 +161,17 @@ public class LinkControllerImpl extends AbstractController<Link> implements Link
         return (List<Link>) criteria.list();
     }
 
+
+    /**
+     * Deleting a link entry from the database.
+     */
+    public void delete(final int id) {
+
+        LOGGER.info("delete(" + id + ")");
+
+        super.delete(new Link(), id);
+    }
+
     /**
      * Deleting a link entry from the database.
      *

@@ -1,11 +1,13 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
+import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
 import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +41,22 @@ public class ListTestbeds {
             final Map<String, Long> linksCount = TestbedControllerImpl.getInstance().countLinks();
             LOGGER.info(linksCount.size());
             LOGGER.info("Links :" + linksCount.size());
+
+            long milis = System.currentTimeMillis();
+            Date first = NodeReadingControllerImpl.getInstance().getFirstReading();
+//            Date last = NodeReadingControllerImpl.getInstance().getLastReading();
+            LOGGER.info(first);
+//            LOGGER.info(last);
+            LOGGER.info("time:"+(System.currentTimeMillis()-milis));
+
+
+            milis = System.currentTimeMillis();
+            first = NodeReadingControllerImpl.getInstance().getFirstReading();
+//            last = NodeReadingControllerImpl.getInstance().getLastReading();
+            LOGGER.info(first);
+//            LOGGER.info(last);
+            LOGGER.info("time:"+(System.currentTimeMillis()-milis));
+
 
 
             tx.commit();
