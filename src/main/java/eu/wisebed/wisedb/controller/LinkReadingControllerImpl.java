@@ -1,6 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
+import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
@@ -9,6 +10,7 @@ import eu.wisebed.wisedb.model.Node;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -34,7 +36,10 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
      * Target literal.
      */
     private static final String TARGET = "link_target";
-
+    /**
+     * Timestamp literal.
+     */
+    private static final String TIMESTAMP = "timestamp";
     /**
      * Logger.
      */
@@ -88,6 +93,19 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         criteria.add(Restrictions.eq(TARGET, link.getTarget()));
         return criteria.list();
 
+    }
+
+    @Override
+    public List<LinkReading> list(Link link, Capability capability, int limit) {
+        LOGGER.info("list(" + link + "," + capability + "," + limit + ")");
+        final LinkCapability linkCapability = LinkCapabilityControllerImpl.getInstance().getByID(link, capability);
+
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(LinkReading.class);
+        criteria.add(Restrictions.eq(CAPABILITY, linkCapability));
+        criteria.addOrder(Order.desc(TIMESTAMP));
+        criteria.setMaxResults(limit);
+        return (List<LinkReading>) criteria.list();
     }
 
     /**

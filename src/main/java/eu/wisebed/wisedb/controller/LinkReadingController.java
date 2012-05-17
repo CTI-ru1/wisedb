@@ -1,6 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
+import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkReading;
 
@@ -25,6 +26,8 @@ public interface LinkReadingController extends AbstractControllerInterface {
     public List<LinkReading> list();
 
     public List<LinkReading> list(final Link link);
+
+    public List<LinkReading> list(final Link link, final Capability capability, final int limit);
 
     public void insertReading(final String sourceId, final String targetId, final String capabilityName,
                               final Double doubleReading, final String stringReading,
