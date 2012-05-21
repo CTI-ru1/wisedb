@@ -173,7 +173,11 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         reading.setCapability(linkCapability);
         reading.setReading(doubleReading);
         reading.setStringReading(stringReading);
-        reading.setTimestamp(timestamp);
+        if (timestamp.getTime() == 0) {
+            reading.setTimestamp(new Date());
+        } else {
+            reading.setTimestamp(timestamp);
+        }
 
         // add reading
         LinkReadingControllerImpl.getInstance().add(reading);
@@ -187,7 +191,11 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
             lastLinkReading = new LastLinkReading();
             lastLinkReading.setReading(doubleReading);
             lastLinkReading.setStringReading(stringReading);
-            lastLinkReading.setTimestamp(timestamp);
+            if (timestamp.getTime() == 0) {
+                lastLinkReading.setTimestamp(new Date());
+            } else {
+                lastLinkReading.setTimestamp(timestamp);
+            }
             lastLinkReading.setId(linkCapability.getId());
 
             linkCapability.setLastLinkReading(lastLinkReading);
@@ -197,7 +205,11 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
             lastLinkReading = linkCapability.getLastLinkReading();
             lastLinkReading.setReading(doubleReading);
             lastLinkReading.setStringReading(stringReading);
-            lastLinkReading.setTimestamp(timestamp);
+            if (timestamp.getTime() == 0) {
+                lastLinkReading.setTimestamp(new Date());
+            } else {
+                lastLinkReading.setTimestamp(timestamp);
+            }
             lastLinkReading.setLinkCapability(linkCapability);
 
             linkCapability.setLastLinkReading(lastLinkReading);

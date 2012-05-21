@@ -28,15 +28,15 @@ public class AddNodeReading {
 
 
             // a node id for the testbed
-            final String nodeId = "urn:wisebed:ctitestbed:0x897a";
+            final String nodeId = "urn:wisebed:ctitestbed:0x9979";
 
             // get that nodes capability name
-            final String capabilityName = "room";
+            final String capabilityName = "urn:wisebed:node:capability:pir";
 
             // reading value
-            final double readingValue = 0;
+            final double readingValue = 4;
             // string reading value
-            final String stringReading = "1.I.8";
+            final String stringReading = null;
 
             // Occured time
             final Date timestamp = new Date();
@@ -48,7 +48,7 @@ public class AddNodeReading {
             LOGGER.info("Timestamp : " + timestamp.toString());
 
             // insert reading
-            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, null, stringReading, timestamp);
+            NodeReadingControllerImpl.getInstance().insertReading(nodeId, capabilityName, readingValue, stringReading, new Date(0));
 
             tx.commit();
         } catch (Exception e) {

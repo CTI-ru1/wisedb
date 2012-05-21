@@ -139,7 +139,11 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             reading = new NodeReading();
             reading.setReading(dReading);
             reading.setStringReading(sReading);
-            reading.setTimestamp(timestamp);
+            if (timestamp.getTime() == 0) {
+                reading.setTimestamp(new Date());
+            } else {
+                reading.setTimestamp(timestamp);
+            }
             reading.setCapability(nodeCapability);
 
             // add reading
@@ -155,7 +159,11 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
                 lastNodeReading = new LastNodeReading();
                 lastNodeReading.setReading(dReading);
                 lastNodeReading.setStringReading(sReading);
-                lastNodeReading.setTimestamp(timestamp);
+                if (timestamp.getTime() == 0) {
+                    lastNodeReading.setTimestamp(new Date());
+                } else {
+                    lastNodeReading.setTimestamp(timestamp);
+                }
                 lastNodeReading.setId(nodeCapability.getId());
 
                 nodeCapability.setLastNodeReading(lastNodeReading);
@@ -167,7 +175,11 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
                 lastNodeReading = nodeCapability.getLastNodeReading();
                 lastNodeReading.setReading(dReading);
                 lastNodeReading.setStringReading(sReading);
-                lastNodeReading.setTimestamp(timestamp);
+                if (timestamp.getTime() == 0) {
+                    lastNodeReading.setTimestamp(new Date());
+                } else {
+                    lastNodeReading.setTimestamp(timestamp);
+                }
                 lastNodeReading.setNodeCapability(nodeCapability);
 
                 nodeCapability.setLastNodeReading(lastNodeReading);
