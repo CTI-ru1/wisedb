@@ -140,6 +140,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         // look for source
         final Node source = NodeControllerImpl.getInstance().getByName(sourceId);
         if (source == null) {
+            if (true) return;
             // if source node not found in db make it and store it
             LOGGER.info("Node [" + sourceId + "] was not found in db . Storing it");
             NodeControllerImpl.getInstance().prepareInsertNode(sourceId);
@@ -148,6 +149,7 @@ public class LinkReadingControllerImpl extends AbstractController<LinkReading> i
         // look for target
         final Node target = NodeControllerImpl.getInstance().getByName(targetId);
         if (target == null) {
+            if (true) return;
             // if target node not found in db make it and store it
             LOGGER.info("Node [" + targetId + "] was not found in db . Storing it");
             NodeControllerImpl.getInstance().prepareInsertNode(targetId);

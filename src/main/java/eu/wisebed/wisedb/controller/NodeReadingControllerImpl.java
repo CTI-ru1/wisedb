@@ -124,6 +124,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             NodeCapability nodeCapability;
             if (node == null) {
                 LOGGER.debug("node==null");
+                if (true) return null;
                 node = NodeControllerImpl.getInstance().prepareInsertNode(nodeId);
                 nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
             } else {
