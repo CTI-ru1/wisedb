@@ -279,8 +279,8 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
             position.setX(NodeCapabilityControllerImpl.getInstance().getByID(node, "x").getLastNodeReading().getReading().floatValue());
             position.setY(NodeCapabilityControllerImpl.getInstance().getByID(node, "y").getLastNodeReading().getReading().floatValue());
             position.setZ(NodeCapabilityControllerImpl.getInstance().getByID(node, "z").getLastNodeReading().getReading().floatValue());
-            position.setTheta(NodeCapabilityControllerImpl.getInstance().getByID(node, "theta").getLastNodeReading().getReading().floatValue());
-            position.setPhi(NodeCapabilityControllerImpl.getInstance().getByID(node, "phi").getLastNodeReading().getReading().floatValue());
+            position.setTheta(node.getSetup().getOrigin().getTheta());
+            position.setPhi(node.getSetup().getOrigin().getPhi());
 
         } catch (NullPointerException n) {
             position.setX(node.getSetup().getOrigin().getX());
