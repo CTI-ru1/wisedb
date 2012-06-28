@@ -5,6 +5,7 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
+import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -99,7 +100,6 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
 
         return linkCapability;
     }
-
 
     public boolean isAssociated(final Link link, final Capability capability) {
         LOGGER.debug("isAssociated(" + link + "," + capability + ")");

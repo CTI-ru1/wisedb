@@ -4,6 +4,8 @@ import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
+import eu.wisebed.wisedb.model.Link;
+import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.NodeReading;
@@ -14,6 +16,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -224,14 +227,41 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
     @SuppressWarnings("unchecked")
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final int limit) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
-        final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
 
-        final Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(NodeReading.class);
-        criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
-        criteria.addOrder(Order.desc(TIMESTAMP));
-        criteria.setMaxResults(limit);
-        return (List<NodeReading>) criteria.list();
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+            final List<NodeCapability> nodeCapabilities = new ArrayList<NodeCapability>();
+            nodeCapabilities.add(nodeCapability);
+
+            for (Link link : links) {
+                final LinkCapability lcap = LinkCapabilityControllerImpl.getInstance().getByID(link, "virtual");
+                if (lcap != null && lcap.getLastLinkReading().getReading() == 1.0) {
+                    NodeCapability caps = NodeCapabilityControllerImpl.getInstance().getByID(link.getTarget(), capability);
+                    if (caps != null) {
+                        nodeCapabilities.add(caps);
+                    }
+                }
+            }
+
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+        }
+        return  (List<NodeReading>) criteria.list();
     }
 
     /**

@@ -3,10 +3,15 @@ package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
+import eu.wisebed.wisedb.controller.NodeControllerImpl;
 import eu.wisebed.wisedb.controller.TestbedControllerImpl;
+import eu.wisebed.wisedb.model.Node;
+import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
+
+import java.util.List;
 
 /**
  * Lists All readings of the database.
@@ -25,7 +30,12 @@ public class ListNodeCapabilities {
         try {
             long start = System.currentTimeMillis();
             Testbed testbed = TestbedControllerImpl.getInstance().getByID(1);
-            NodeCapabilityControllerImpl.getInstance().list(testbed.getSetup());
+            Node node = NodeControllerImpl.getInstance().getByName("urn:wisebed:ctitestbed:virtual:0.I.9");
+            List<NodeCapability> capabilities = NodeCapabilityControllerImpl.getInstance().list(node);
+            for (NodeCapability capability : capabilities) {
+                LOGGER.info(capability.getCapability().getName());
+            }
+
             LOGGER.info((System.currentTimeMillis() - start));
 
             tx.commit();

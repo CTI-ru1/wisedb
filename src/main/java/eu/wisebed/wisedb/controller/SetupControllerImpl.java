@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 
@@ -74,7 +73,6 @@ public class SetupControllerImpl extends AbstractController<Setup> implements Se
      *
      * @return a list of all the entries that exist inside the table Setup.
      */
-    @Cachable
     public List<Setup> list() {
         LOGGER.info("list()");
         return super.list(new Setup());

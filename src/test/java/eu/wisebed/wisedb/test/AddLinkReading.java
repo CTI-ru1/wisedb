@@ -2,8 +2,6 @@ package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.LinkReadingControllerImpl;
-import eu.wisebed.wisedb.controller.TestbedControllerImpl;
-import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -30,33 +28,38 @@ public class AddLinkReading {
 
         try {
 
-            // an id for testbed
-            final int testbedId = 1;
-            final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
-
-            // source node id
-            final String sourceId = "urn:testbed2:5";
-
-
-            // target node id
-            final String targetId = "urn:testbed1:9";
-
-            // link capability name
-            final String capabilityName = "quality";
-
-            // reading value
-            final double reading = 23.0;
-            final String stringReading = null;
-
-            // timestamp
-            final Date timestamp = new Date();
-
-            LOGGER.debug("Selected node : " + sourceId);
-            LOGGER.debug("Selected node : " + targetId);
-            LOGGER.debug("Capability for link : " + capabilityName);
+//            // an id for testbed
+//            final int testbedId = 1;
+//            final Testbed testbed = TestbedControllerImpl.getInstance().getByID(testbedId);
+//
+//            // source node id
+//            final String sourceId = "urn:testbed2:5";
+//
+//
+//            // target node id
+//            final String targetId = "urn:testbed1:9";
+//
+//            // link capability name
+//            final String capabilityName = "quality";
+//
+//            // reading value
+//            final double reading = 23.0;
+//            final String stringReading = null;
+//
+//            // timestamp
+//            final Date timestamp = new Date();
+//
+//            LOGGER.debug("Selected node : " + sourceId);
+//            LOGGER.debug("Selected node : " + targetId);
+//            LOGGER.debug("Capability for link : " + capabilityName);
 
             // insert reading
-            LinkReadingControllerImpl.getInstance().insertReading(sourceId, targetId, capabilityName, reading, stringReading, timestamp);
+            LinkReadingControllerImpl.getInstance().insertReading("urn:wisebed:ctitestbed:virtual:0I9",
+                    "urn:wisebed:ctitestbed:0x153d",
+                    "virtual",
+                    1.0,
+                    null,
+                    new Date());
 
             tx.commit();
         } catch (Exception e) {

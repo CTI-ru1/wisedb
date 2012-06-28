@@ -1,6 +1,5 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.Setup;
@@ -91,7 +90,6 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
      *
      * @return a list of all the entries that exist inside the table Testbed.
      */
-    @Cachable
     public List<Testbed> list() {
         LOGGER.info("list()");
         final Session session = getSessionFactory().getCurrentSession();

@@ -4,6 +4,8 @@ import eu.uberdust.caching.Cachable;
 import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
+import eu.wisebed.wisedb.model.Link;
+import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.Setup;
@@ -16,7 +18,9 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * CRUD operations for NodeCapabilities entities.
@@ -197,6 +201,38 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
             if (obj instanceof NodeCapability) {
                 capabilities.add((NodeCapability) obj);
             }
+        }
+
+
+        Map<String, NodeCapability> virtualCapabilities = new HashMap<String, NodeCapability>();
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            for (Link link : links) {
+                final LinkCapability lcap = LinkCapabilityControllerImpl.getInstance().getByID(link, "virtual");
+                if (lcap != null && lcap.getLastLinkReading().getReading() == 1.0) {
+                    List<NodeCapability> caps = list(link.getTarget());
+                    for (NodeCapability cap : caps) {
+                        if (!virtualCapabilities.containsKey(cap.getCapability().getName())) {
+                            NodeCapability vncap = new NodeCapability();
+                            vncap.setCapability(cap.getCapability());
+                            vncap.setLastNodeReading(cap.getLastNodeReading());
+                            vncap.setNode(node);
+                            virtualCapabilities.put(cap.getCapability().getName(), vncap);
+                        } else {
+                            final NodeCapability vncap = virtualCapabilities.get(cap.getCapability().getName());
+                            if (vncap.getLastNodeReading().getTimestamp().after(cap.getLastNodeReading().getTimestamp())) {
+                                vncap.setLastNodeReading(cap.getLastNodeReading());
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
+        for (String s : virtualCapabilities.keySet()) {
+            capabilities.add(virtualCapabilities.get(s));
         }
         return capabilities;
     }
