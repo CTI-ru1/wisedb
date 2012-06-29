@@ -232,19 +232,19 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
 
             final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
-            final List<NodeCapability> nodeCapabilities = new ArrayList<NodeCapability>();
-            nodeCapabilities.add(nodeCapability);
 
-            for (Link link : links) {
-                final LinkCapability lcap = LinkCapabilityControllerImpl.getInstance().getByID(link, "virtual");
-                if (lcap != null && lcap.getLastLinkReading().getReading() == 1.0) {
-                    NodeCapability caps = NodeCapabilityControllerImpl.getInstance().getByID(link.getTarget(), capability);
-                    if (caps != null) {
-                        nodeCapabilities.add(caps);
-                    }
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
                 }
             }
 
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
 
             final Session session = getSessionFactory().getCurrentSession();
             criteria = session.createCriteria(NodeReading.class);
@@ -261,7 +261,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
         }
-        return  (List<NodeReading>) criteria.list();
+        return (List<NodeReading>) criteria.list();
     }
 
     /**
@@ -312,10 +312,8 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
     }
 
     public NodeReading getByID(final int id) {
-
         LOGGER.info("getByID(" + id + ")");
         final Session session = getSessionFactory().getCurrentSession();
-        if (session == null) LOGGER.info("nulllllllllllllllll");
         final Criteria criteria = session.createCriteria(NodeReading.class);
         criteria.add(Restrictions.eq(ID, id));
         criteria.setMaxResults(1);

@@ -54,8 +54,8 @@ public class AddLinkReading {
 //            LOGGER.debug("Capability for link : " + capabilityName);
 
             // insert reading
-            LinkReadingControllerImpl.getInstance().insertReading("urn:wisebed:ctitestbed:virtual:0I9",
-                    "urn:wisebed:ctitestbed:0x153d",
+            LinkReadingControllerImpl.getInstance().insertReading("urn:wisebed:ctitestbed:virtual:0.I.9",
+                    "urn:wisebed:ctitestbed:0xf042",
                     "virtual",
                     1.0,
                     null,

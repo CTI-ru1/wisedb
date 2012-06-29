@@ -177,6 +177,15 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         return (NodeCapability) criteria.uniqueResult();
     }
 
+    public List<NodeCapability> getByIDs(final List<Node> nodes, final Capability capability) {
+        LOGGER.debug("getByIDs(" + "," + capability + ")");
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(NodeCapability.class);
+        criteria.add(Restrictions.in(NODE, nodes));
+        criteria.add(Restrictions.eq(CAPABILITY, capability));
+        return criteria.list();
+    }
+
     public boolean isAssociated(final Node node, final Capability capability) {
         LOGGER.debug("isAssociated(" + node.getId() + "," + capability + ")");
         final Session session = getSessionFactory().getCurrentSession();

@@ -174,11 +174,8 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
     @Cachable
     public List<Capability> list(final Setup setup) {
         LOGGER.info("list(" + setup + ")");
-        final List<Capability> capabilities = new ArrayList<Capability>();
-        final List<Capability> nodeCapabilities = listNodeCapabilities(setup);
-        final List<Capability> linkCapabilities = listLinkCapabilities(setup);
-        capabilities.addAll(nodeCapabilities);
-        capabilities.addAll(linkCapabilities);
+        final List<Capability> capabilities = listNodeCapabilities(setup);
+        capabilities.addAll(listLinkCapabilities(setup));
         return capabilities;
     }
 

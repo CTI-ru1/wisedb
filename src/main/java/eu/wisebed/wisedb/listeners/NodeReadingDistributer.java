@@ -55,8 +55,10 @@ public final class NodeReadingDistributer extends Thread {
                 if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getName(),
                         lastReading.getCapability().getCapability().getName())) {
 
-                    LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(),
-                            lastReading.getCapability().getCapability().getName()).update(lastReading);
+                    for (AbstractNodeReadingListener listener : LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(),
+                            lastReading.getCapability().getCapability().getName())) {
+                        listener.update(lastReading);
+                    }
                     LOGGER.info("Updating.... : " + lastReading.toString());
 
                 }

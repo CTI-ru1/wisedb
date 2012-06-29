@@ -28,6 +28,8 @@ public interface LinkCapabilityController extends AbstractControllerInterface {
 
     public LinkCapability getByID(final Link link, final String capabilityName);
 
+    public List<LinkCapability> getByIDs(final List<Link> links, final String capabilityName);
+
     public List<Capability> list();
 
     public List<LinkCapability> list(final Link link);

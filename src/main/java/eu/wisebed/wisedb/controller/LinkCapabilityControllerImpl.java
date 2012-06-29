@@ -5,7 +5,6 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastLinkReading;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -190,6 +189,16 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         criteria.add(Restrictions.eq(LINK, link));
         criteria.add(Restrictions.eq(CAPABILITY, capability));
         return (LinkCapability) criteria.uniqueResult();
+    }
+
+    public List<LinkCapability> getByIDs(final List<Link> links, final String capabilityName) {
+        final Capability capability = CapabilityControllerImpl.getInstance().getByID(capabilityName);
+        LOGGER.debug("getByIDs(," + capabilityName + ")");
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(LinkCapability.class);
+        criteria.add(Restrictions.in(LINK, links));
+        criteria.add(Restrictions.eq(CAPABILITY, capability));
+        return (List<LinkCapability>) criteria.list();
     }
 
     public List<LinkCapability> list(final Link link) {

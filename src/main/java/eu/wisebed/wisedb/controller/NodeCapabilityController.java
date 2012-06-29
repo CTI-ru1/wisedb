@@ -30,6 +30,8 @@ public interface NodeCapabilityController extends AbstractControllerInterface {
 
     public NodeCapability getByID(final Node node, final Capability capability);
 
+    public List<NodeCapability> getByIDs(final List<Node> nodes,final Capability capability);
+
     public List<NodeCapability> list(final Node node);
 
     public List<NodeCapability> list(final Setup setup);
@@ -39,5 +41,4 @@ public interface NodeCapabilityController extends AbstractControllerInterface {
     public boolean isAssociated(final Node node, final Capability capability);
 
     public NodeCapability prepareInsertNodeCapability(final String capabilityName, final Node node);
-
 }
