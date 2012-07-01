@@ -30,9 +30,9 @@ public final class LastNodeReadingConsumer {
     private static final BlockingQueue<NodeReading> QUEUE = new LinkedBlockingQueue<NodeReading>();
 
     /**
-     * Listeners double HashMap<NodeID, <CapabilityID, Listener>>.
+     * Listeners double HashMap<NodeID-CapabilityID, Listener>>.
      */
-    private final HashMap<String, HashMap<String, List<AbstractNodeReadingListener>>> listeners;
+    private final HashMap<String, List<AbstractNodeReadingListener>> listeners;
 
     /**
      *
@@ -54,7 +54,7 @@ public final class LastNodeReadingConsumer {
     private LastNodeReadingConsumer() {
         final NodeReadingDistributer nodeReadingDistributer = new NodeReadingDistributer(QUEUE);
         nodeReadingDistributer.start();
-        listeners = new HashMap<String, HashMap<String, List<AbstractNodeReadingListener>>>();
+        listeners = new HashMap<String, List<AbstractNodeReadingListener>>();
     }
 
     /**
@@ -82,20 +82,12 @@ public final class LastNodeReadingConsumer {
     public void registerListener(final String nodeId, final String capabilityID,
                                  final AbstractNodeReadingListener listener) {
         synchronized (lock) {
-            if (listeners.containsKey(nodeId)) {
-                if (!listeners.get(nodeId).containsKey(capabilityID)) {
-                    listeners.get(nodeId).put(capabilityID, new ArrayList<AbstractNodeReadingListener>());
-                    listeners.get(nodeId).get(capabilityID).add(listener);
-                } else {
-                    listeners.get(nodeId).get(capabilityID).add(listener);
-                }
+            final String key = nodeId + "--" + capabilityID;
+            if (listeners.containsKey(key)) {
+                listeners.get(key).add(listener);
             } else {
-                final HashMap<String, List<AbstractNodeReadingListener>> newCapability;
-                newCapability = new HashMap<String, List<AbstractNodeReadingListener>>();
-                newCapability.put(capabilityID, new ArrayList<AbstractNodeReadingListener>());
-                newCapability.get(capabilityID).add(listener);
-                listeners.put(nodeId, newCapability);
-                LOGGER.info(listenersContains(nodeId, capabilityID));
+                listeners.put(key, new ArrayList<AbstractNodeReadingListener>());
+                listeners.get(key).add(listener);
             }
         }
     }
@@ -114,9 +106,11 @@ public final class LastNodeReadingConsumer {
      */
     public void removeListener(final String nodeId, final String capabilityID, final AbstractNodeReadingListener listener) {
         synchronized (lock) {
-            if (listeners.containsKey(nodeId)) {
-                if (listeners.get(nodeId).containsKey(capabilityID)) {
-                    listeners.get(nodeId).get(capabilityID).remove(listener);
+            final String key = nodeId + "--" + capabilityID;
+            if (listeners.containsKey(key)) {
+                listeners.get(key).remove(listener);
+                if (listeners.get(key).isEmpty()) {
+                    listeners.remove(key);
                 }
             }
         }
@@ -130,7 +124,8 @@ public final class LastNodeReadingConsumer {
      * @return true if the map contains the key
      */
     protected boolean listenersContains(final String nodeID, final String capabilityID) {
-        return listeners.containsKey(nodeID) && listeners.get(nodeID).containsKey(capabilityID);
+        final String key = nodeID + "--" + capabilityID;
+        return listeners.containsKey(key);
 
     }
 
@@ -143,7 +138,8 @@ public final class LastNodeReadingConsumer {
      */
     protected List<AbstractNodeReadingListener> getListener(final String nodeID, final String capabilityID) {
         // a temporary array buffer
-        return listeners.get(nodeID).get(capabilityID);
+        final String key = nodeID + "--" + capabilityID;
+        return listeners.get(key);
     }
 
     /**
