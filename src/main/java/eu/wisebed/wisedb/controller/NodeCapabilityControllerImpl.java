@@ -177,6 +177,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         return (NodeCapability) criteria.uniqueResult();
     }
 
+    @Cachable
     public List<NodeCapability> getByIDs(final List<Node> nodes, final Capability capability) {
         LOGGER.debug("getByIDs(" + "," + capability + ")");
         final Session session = getSessionFactory().getCurrentSession();
