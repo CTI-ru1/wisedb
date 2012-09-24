@@ -115,7 +115,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
      * @throws UnknownTestbedException exception that occurs when the testbedId is unknown.
      */
     public NodeReading insertReading(final String nodeId, final String capabilityName,
-                                     final Double dReading, final String sReading, final Date timestamp)
+                                     final Double dReading, String sReading, final Date timestamp)
             throws UnknownTestbedException {
         NodeReading reading = null;
         try {
@@ -127,7 +127,6 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             NodeCapability nodeCapability;
             if (node == null) {
                 LOGGER.debug("node==null");
-                if (true) return null;
                 node = NodeControllerImpl.getInstance().prepareInsertNode(nodeId);
                 nodeCapability = NodeCapabilityControllerImpl.getInstance().prepareInsertNodeCapability(capabilityName, node);
             } else {
@@ -161,6 +160,9 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
                 LOGGER.info("created lastNodeReading for " + nodeCapability);
                 lastNodeReading = new LastNodeReading();
                 lastNodeReading.setReading(dReading);
+                if (dReading != null) {
+                    sReading = dReading.toString();
+                }
                 lastNodeReading.setStringReading(sReading);
                 if (timestamp.getTime() == 0) {
                     lastNodeReading.setTimestamp(new Date());
@@ -177,6 +179,9 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
                 LOGGER.info("found lastNodeReading for " + nodeCapability);
                 lastNodeReading = nodeCapability.getLastNodeReading();
                 lastNodeReading.setReading(dReading);
+                if (dReading != null) {
+                    sReading = dReading.toString();
+                }
                 lastNodeReading.setStringReading(sReading);
                 if (timestamp.getTime() == 0) {
                     lastNodeReading.setTimestamp(new Date());

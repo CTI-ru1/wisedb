@@ -106,17 +106,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-
-        <repository>
-            <id>repo-jena</id>
-            <name>Jena Maven - Repository</name>
-            <layout>default</layout>
-            <url>http://openjena.org/repo</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-
     </repositories>
 
     <dependencies>

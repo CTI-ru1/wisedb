@@ -37,7 +37,7 @@ public class DeleteNode {
 
 
             // a node id for the testbed
-            final String nodeId = "urn:wisebed:ctitestbed:0x472";
+            final String nodeId = "urn:wisebed:ctitestbed:virtual:0.I.1";
 
             // insert reading
             Node node = NodeControllerImpl.getInstance().getByName(nodeId);
