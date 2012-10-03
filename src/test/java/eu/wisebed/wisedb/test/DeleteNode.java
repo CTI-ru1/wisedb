@@ -5,12 +5,10 @@ import eu.wisebed.wisedb.controller.LinkCapabilityControllerImpl;
 import eu.wisebed.wisedb.controller.LinkControllerImpl;
 import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
 import eu.wisebed.wisedb.controller.NodeControllerImpl;
-import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
 import eu.wisebed.wisedb.model.Link;
 import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.NodeReading;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
@@ -28,6 +26,7 @@ public class DeleteNode {
 
     public static void main(String args[]) {
 
+
         // Initialize hibernate
         HibernateUtil.connectEntityManagers();
         Transaction tx = HibernateUtil.getInstance().getSession().beginTransaction();
@@ -37,7 +36,7 @@ public class DeleteNode {
 
 
             // a node id for the testbed
-            final String nodeId = "urn:wisebed:ctitestbed:virtual:0.I.1";
+            final String nodeId = "urn:wisebed:ctitestbed:0x99c";
 
             // insert reading
             Node node = NodeControllerImpl.getInstance().getByName(nodeId);
@@ -45,12 +44,13 @@ public class DeleteNode {
                 List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().list(node);
                 LOGGER.info("found " + nodeCapabilities.size() + " capabilities");
                 for (NodeCapability nodeCapability : nodeCapabilities) {
+                 if (!nodeCapability.getCapability().getName().contains("wisebed"))   continue;
                     LOGGER.info(nodeCapability);
-                    List<NodeReading> readings = NodeReadingControllerImpl.getInstance().listNodeReadings(node, nodeCapability.getCapability());
-                    for (NodeReading reading : readings) {
-                        NodeReadingControllerImpl.getInstance().delete(reading.getId());
-                        LOGGER.info("reading:" + reading.getId());
-                    }
+//                    List<NodeReading> readings = NodeReadingControllerImpl.getInstance().listNodeReadings(node, nodeCapability.getCapability());
+//                    for (NodeReading reading : readings) {
+//                        NodeReadingControllerImpl.getInstance().delete(reading.getId());
+//                        LOGGER.info("reading:" + reading.getId());
+//                    }
                     NodeCapabilityControllerImpl.getInstance().delete(nodeCapability.getId());
                     LOGGER.info("nodeCapability:" + nodeCapability.getId());
                 }

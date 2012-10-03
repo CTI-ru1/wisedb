@@ -4,9 +4,9 @@ import eu.uberdust.caching.Cachable;
 import eu.uberdust.caching.EvictCache;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
 import eu.wisebed.wisedb.model.Capability;
+import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.NodeReading;
 import eu.wisebed.wisedb.model.Origin;
 import eu.wisebed.wisedb.model.Position;
 import eu.wisebed.wisedb.model.Setup;
@@ -54,7 +54,11 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
     /**
      * Capability literal.
      */
-    private String NODE_CAPABILITY = "capability";
+    private String CAPABILITY = "capability";
+    /**
+     * NodeCapability literal.
+     */
+    private String NODE_CAPABILITY = "nodeCapability";
 
 
     /**
@@ -256,20 +260,14 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
 
     public String getDescription(final Node node) {
         final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, "description");
-        final Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(NodeReading.class);
-        criteria.add(Restrictions.eq(NODE_CAPABILITY, nodeCapability));
-        try {
-            Object obj = criteria.uniqueResult();
-
-            if (obj instanceof NodeReading) {
-                NodeReading reading = (NodeReading) obj;
-                return reading.getStringReading();
-            }
-        } catch (IndexOutOfBoundsException e) {
+        if (nodeCapability == null) {
             return "";
         }
-        return "";
+        LastNodeReading lnr = LastNodeReadingControllerImpl.getInstance().getByID(nodeCapability);
+        if (lnr == null) {
+            return "";
+        }
+        return lnr.getStringReading();
     }
 
     public Position getPosition(final Node node) {

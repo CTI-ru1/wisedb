@@ -5,7 +5,6 @@ import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.NodeReading;
 import eu.wisebed.wisedb.model.Setup;
 import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
@@ -72,7 +71,7 @@ public class LastNodeReadingControllerImpl extends AbstractController<LastNodeRe
 
         LOGGER.info("getByID(" + nodeCapability + ")");
         final Session session = getSessionFactory().getCurrentSession();
-        final Criteria criteria = session.createCriteria(NodeReading.class);
+        final Criteria criteria = session.createCriteria(LastNodeReading.class);
         criteria.add(Restrictions.eq(CAPABILITY, nodeCapability.getId()));
         return (LastNodeReading) criteria.uniqueResult();
     }
