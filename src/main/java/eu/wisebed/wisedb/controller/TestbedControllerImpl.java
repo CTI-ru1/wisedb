@@ -169,7 +169,7 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
 
             final Object[] obj = (Object[]) iter.next();
             final Setup setup = (Setup) obj[0];
-            final long count = (Long) obj[1];
+            final long count = Long.parseLong(String.valueOf((Integer) obj[1]));
             resultsMap.put(setup.getTestbed().getName(), count);
 
         }
@@ -202,7 +202,7 @@ public class TestbedControllerImpl extends AbstractController<Testbed> implement
 
             final Object[] obj = (Object[]) iter.next();
             final Setup setup = (Setup) obj[0];
-            final long count = (Long) obj[1];
+            final long count = Long.parseLong(String.valueOf((Integer) obj[1]));
             resultsMap.put(setup.getTestbed().getName(), count);
 
         }
