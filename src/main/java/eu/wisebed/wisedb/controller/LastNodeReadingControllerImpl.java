@@ -3,6 +3,8 @@ package eu.wisebed.wisedb.controller;
 import com.mysql.jdbc.NotImplemented;
 import eu.wisebed.wisedb.model.Capability;
 import eu.wisebed.wisedb.model.LastNodeReading;
+import eu.wisebed.wisedb.model.Link;
+import eu.wisebed.wisedb.model.LinkCapability;
 import eu.wisebed.wisedb.model.Node;
 import eu.wisebed.wisedb.model.NodeCapability;
 import eu.wisebed.wisedb.model.Setup;
@@ -88,6 +90,34 @@ public class LastNodeReadingControllerImpl extends AbstractController<LastNodeRe
             result.add(nodeCapability.getLastNodeReading());
         }
         return result;
+    }
+
+    @Override
+    public LastNodeReading getByNodeCapability(final Node node, final Capability capability) {
+
+        LastNodeReading lnr = null;
+        if (!node.getName().contains("virtual")) {
+            return NodeCapabilityControllerImpl.getInstance().getByID(node, capability).getLastNodeReading();
+        } else {
+
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+            for (Link link : links) {
+                final LinkCapability lcap = LinkCapabilityControllerImpl.getInstance().getByID(link, "virtual");
+                if (lcap != null && lcap.getLastLinkReading().getReading() == 1.0) {
+                    NodeCapability cap = NodeCapabilityControllerImpl.getInstance().getByID(link.getTarget(), capability);
+                    if (cap == null) continue;
+                    if (lnr == null) {
+                        lnr = cap.getLastNodeReading();
+                    } else {
+                        if (cap.getLastNodeReading().getTimestamp().after(lnr.getTimestamp())) {
+                            lnr = cap.getLastNodeReading();
+                        }
+                    }
+                }
+            }
+
+        }
+        return lnr;
     }
 
 
