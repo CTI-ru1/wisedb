@@ -107,8 +107,14 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         criteria.add(Restrictions.eq(LINK, link));
         criteria.add(Restrictions.eq(CAPABILITY, capability));
         criteria.setProjection(Projections.rowCount());
-        if ((Long) criteria.uniqueResult() > 0) {
-            return true;
+        try {
+            if ((Long) criteria.uniqueResult() > 0) {
+                return true;
+            }
+        } catch (java.lang.ClassCastException ex) {
+            if ((Integer) criteria.uniqueResult() > 0) {
+                return true;
+            }
         }
         return false;
 

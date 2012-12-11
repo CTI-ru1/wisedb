@@ -19,8 +19,10 @@ import org.hibernate.criterion.Restrictions;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * CRUD operations for NodeCapabilities entities.
@@ -194,8 +196,14 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         criteria.add(Restrictions.eq(NODE, node));
         criteria.add(Restrictions.eq(CAPABILITY, capability));
         criteria.setProjection(Projections.rowCount());
-        if ((Long) criteria.uniqueResult() > 0) {
-            return true;
+        try {
+            if ((Long) criteria.uniqueResult() > 0) {
+                return true;
+            }
+        } catch (java.lang.ClassCastException ex) {
+            if ((Integer) criteria.uniqueResult() > 0) {
+                return true;
+            }
         }
         return false;
 
@@ -206,16 +214,27 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(NodeCapability.class);
         criteria.add(Restrictions.eq(NODE, node));
+        NodeCapability filter = null;
         final List<NodeCapability> capabilities = new ArrayList<NodeCapability>();
         for (Object obj : criteria.list()) {
             if (obj instanceof NodeCapability) {
                 capabilities.add((NodeCapability) obj);
+                if (((NodeCapability) obj).getCapability().getName().equals("filter")) {
+                    filter = (NodeCapability) obj;
+                }
             }
         }
 
 
         Map<String, NodeCapability> virtualCapabilities = new HashMap<String, NodeCapability>();
         if (node.getName().contains("virtual")) {
+            Set<String> mySet = new HashSet<String>();
+            if (filter != null) {
+                for (String part : filter.getLastNodeReading().getStringReading().split(",")) {
+                    mySet.add(part);
+                }
+            }
+
             List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
 
             for (Link link : links) {
@@ -223,6 +242,18 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
                 if (lcap != null && lcap.getLastLinkReading().getReading() == 1.0) {
                     List<NodeCapability> caps = list(link.getTarget());
                     for (NodeCapability cap : caps) {
+                        if (!mySet.contains(cap.getCapability().getName())) continue;
+//                        boolean isContained = false;
+//                        for (String myPart : myParts) {
+//                            if (cap.getCapability().getName().contains(myPart)) {
+//                                isContained = true;
+//                                break;
+//                            }
+//                        }
+//                        if (!isContained) {
+//                            continue;
+//                        }
+
                         if (!virtualCapabilities.containsKey(cap.getCapability().getName())) {
                             NodeCapability vncap = new NodeCapability();
                             vncap.setCapability(cap.getCapability());
@@ -235,7 +266,6 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
                                 vncap.setLastNodeReading(cap.getLastNodeReading());
                             }
                         }
-
                     }
                 }
             }
