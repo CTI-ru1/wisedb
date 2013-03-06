@@ -54,16 +54,21 @@ public final class NodeReadingDistributer extends Thread {
 
                 if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getName(),
                         lastReading.getCapability().getCapability().getName())) {
+                    LOGGER.info("Updating.... : " + lastReading.getCapability().getNode() + "-" + lastReading.getCapability().getCapability().getName() + "@" + lastReading);
 
                     for (AbstractNodeReadingListener listener : LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(),
                             lastReading.getCapability().getCapability().getName())) {
+                        LOGGER.info("updating " + listener.toString());
                         listener.update(lastReading);
                     }
-                    LOGGER.info("Updating.... : " + lastReading.toString());
 
                 }
-                if (lastReading.getCapability().getNode().getName().contains("virtual")) {
-                    LastNodeReadingConsumer.getInstance().getVirtualReadingListener().update(lastReading);
+                try {
+                    if (lastReading.getCapability().getNode().getName().contains("virtual")) {
+                        LastNodeReadingConsumer.getInstance().getVirtualReadingListener().update(lastReading);
+                    }
+                } catch (Exception e) {
+                    LOGGER.error(e, e);
                 }
 
             } catch (final InterruptedException e) {

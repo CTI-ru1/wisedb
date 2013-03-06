@@ -2,13 +2,7 @@ package eu.wisebed.wisedb.controller;
 
 import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.LastNodeReading;
-import eu.wisebed.wisedb.model.Link;
-import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.NodeReading;
+import eu.wisebed.wisedb.model.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -117,6 +111,8 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
     public NodeReading insertReading(final String nodeId, final String capabilityName,
                                      final Double dReading, String sReading, final Date timestamp)
             throws UnknownTestbedException {
+        if (nodeId.contains("\\000")) return null;
+        if (capabilityName.contains("\\000")) return null;
         NodeReading reading = null;
         try {
             LOGGER.info("insertReading(" + nodeId + "," + capabilityName + "," + dReading + ","
@@ -265,6 +261,67 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
+        }
+        return (List<NodeReading>) criteria.list();
+    }
+
+    /**
+     * Return a limited list of readings for a selected node and capability.
+     *
+     * @param node       , node of a testbed.
+     * @param capability , capability of a node
+     * @param from       , a long number indicating the date from
+     * @param to         , a long number indicating the date to
+     * @return a list with nodereadings for a node/capability combination
+     */
+    @SuppressWarnings("unchecked")
+    public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final long from, final long to) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + from + " , " + to + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP,new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP,new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP,new Date(from),new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP,new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP,new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP,new Date(from),new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
         }
         return (List<NodeReading>) criteria.list();
     }

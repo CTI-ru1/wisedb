@@ -37,10 +37,12 @@ public interface NodeReadingController extends AbstractControllerInterface {
 
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final int limit);
 
+    public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final long from, final long to);
+
+
     public HashMap<Capability, Integer> getNodeReadingsCountMap(final Node node);
 
     public Date getLastReading();
 
     public Date getFirstReading();
-
 }
