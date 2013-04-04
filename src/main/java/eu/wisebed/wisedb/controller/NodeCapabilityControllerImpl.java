@@ -2,13 +2,7 @@ package eu.wisebed.wisedb.controller;
 
 import eu.uberdust.caching.Cachable;
 import eu.uberdust.caching.EvictCache;
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.LastNodeReading;
-import eu.wisebed.wisedb.model.Link;
-import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Setup;
+import eu.wisebed.wisedb.model.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -16,13 +10,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * CRUD operations for NodeCapabilities entities.
@@ -229,7 +217,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         Map<String, NodeCapability> virtualCapabilities = new HashMap<String, NodeCapability>();
         if (node.getName().contains("virtual")) {
             Set<String> mySet = new HashSet<String>();
-            if (filter != null) {
+            if ((filter != null) && (!filter.equals(""))) {
                 for (String part : filter.getLastNodeReading().getStringReading().split(",")) {
                     mySet.add(part);
                 }
@@ -242,7 +230,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
                 if (lcap != null && lcap.getLastLinkReading().getReading() == 1.0) {
                     List<NodeCapability> caps = list(link.getTarget());
                     for (NodeCapability cap : caps) {
-                        if (!mySet.contains(cap.getCapability().getName())) continue;
+                        if (!mySet.isEmpty() && !mySet.contains(cap.getCapability().getName())) continue;
 //                        boolean isContained = false;
 //                        for (String myPart : myParts) {
 //                            if (cap.getCapability().getName().contains(myPart)) {
