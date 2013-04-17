@@ -1,13 +1,8 @@
 package eu.wisebed.wisedb.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.hibernate.annotations.Index;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -79,6 +74,7 @@ public final class NodeReading implements Serializable {
      * @return timestamp of the reading.
      */
     @Column(name = "timestamp", nullable = false)
+    @Index(name = "timestampIndex")
     public Date getTimestamp() {
         return timestamp;
     }

@@ -253,6 +253,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
 
+            return (List<NodeReading>) criteria.list();
         } else {
             final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
 
@@ -261,8 +262,9 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
+            return (List<NodeReading>) criteria.list();
         }
-        return (List<NodeReading>) criteria.list();
+
     }
 
     /**
@@ -300,11 +302,11 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria = session.createCriteria(NodeReading.class);
             criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
             if (to == 0) {
-                criteria.add(Restrictions.ge(TIMESTAMP,new Date(from)));
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
             } else if (from == 0) {
-                criteria.add(Restrictions.le(TIMESTAMP,new Date(to)));
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
             } else {
-                criteria.add(Restrictions.between(TIMESTAMP,new Date(from),new Date(to)));
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
             }
             criteria.addOrder(Order.desc(TIMESTAMP));
 
@@ -315,11 +317,11 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria = session.createCriteria(NodeReading.class);
             criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
             if (to == 0) {
-                criteria.add(Restrictions.ge(TIMESTAMP,new Date(from)));
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
             } else if (from == 0) {
-                criteria.add(Restrictions.le(TIMESTAMP,new Date(to)));
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
             } else {
-                criteria.add(Restrictions.between(TIMESTAMP,new Date(from),new Date(to)));
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
             }
             criteria.addOrder(Order.desc(TIMESTAMP));
         }
