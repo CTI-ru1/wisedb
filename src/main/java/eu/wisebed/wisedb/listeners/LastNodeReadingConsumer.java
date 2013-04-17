@@ -82,6 +82,7 @@ public final class LastNodeReadingConsumer {
     public void registerListener(final String nodeId, final String capabilityID,
                                  final AbstractNodeReadingListener listener) {
         synchronized (lock) {
+            LOGGER.info("registerListener(before):" + listeners.size());
             final String key = nodeId + "--" + capabilityID;
             if (listeners.containsKey(key)) {
                 listeners.get(key).add(listener);
@@ -89,6 +90,7 @@ public final class LastNodeReadingConsumer {
                 listeners.put(key, new ArrayList<AbstractNodeReadingListener>());
                 listeners.get(key).add(listener);
             }
+            LOGGER.info("registerListener(after):" + listeners.size());
         }
     }
 
@@ -105,7 +107,9 @@ public final class LastNodeReadingConsumer {
      * @param capabilityID the Capability ID
      */
     public void removeListener(final String nodeId, final String capabilityID, final AbstractNodeReadingListener listener) {
+
         synchronized (lock) {
+            LOGGER.info("removeListener(before):" + listeners.size());
             final String key = nodeId + "--" + capabilityID;
             if (listeners.containsKey(key)) {
                 listeners.get(key).remove(listener);
@@ -113,6 +117,7 @@ public final class LastNodeReadingConsumer {
                     listeners.remove(key);
                 }
             }
+            LOGGER.info("removeListener(after):" + listeners.size());
         }
     }
 
