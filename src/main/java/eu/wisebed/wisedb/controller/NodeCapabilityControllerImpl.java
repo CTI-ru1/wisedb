@@ -197,6 +197,7 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
 
     }
 
+    @Cachable
     public List<NodeCapability> list(final Node node) {
         LOGGER.debug("list(" + node.getId() + ")");
         final Session session = getSessionFactory().getCurrentSession();
