@@ -12,7 +12,7 @@ import java.util.Date;
  * getter and setter methods for the properties.
  */
 @Entity
-@Table(name = "nodeReadings")
+@Table(name = "nodeReadings2")
 public final class NodeReading implements Serializable {
 
     /**

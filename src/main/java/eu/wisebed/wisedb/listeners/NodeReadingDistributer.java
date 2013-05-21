@@ -3,6 +3,7 @@ package eu.wisebed.wisedb.listeners;
 import eu.wisebed.wisedb.model.NodeReading;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -55,9 +56,8 @@ public final class NodeReadingDistributer extends Thread {
                 if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getName(),
                         lastReading.getCapability().getCapability().getName())) {
                     LOGGER.info("Updating.... : " + lastReading.getCapability().getNode() + "-" + lastReading.getCapability().getCapability().getName() + "@" + lastReading);
-
-                    for (AbstractNodeReadingListener listener : LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(),
-                            lastReading.getCapability().getCapability().getName())) {
+                    List<AbstractNodeReadingListener> list = LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(), lastReading.getCapability().getCapability().getName());
+                    for (AbstractNodeReadingListener listener : list) {
                         LOGGER.info("updating " + listener.toString());
                         listener.update(lastReading);
                     }

@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-    <class name="eu.wisebed.wisedb.model.NodeReading" table="nodeReadings"
+    <class name="eu.wisebed.wisedb.model.NodeReading" table="nodeReadings2"
            dynamic-update="true" dynamic-insert="true">
 
         <id name="id" column="reading_id">
