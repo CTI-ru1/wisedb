@@ -19,6 +19,7 @@
         <property name="description" unique="false" not-null="true" type="text" length="1000"/>
         <property name="url" unique="false" not-null="true"/>
         <property name="urnPrefix" unique="true" not-null="true"/>
+        <property name="urnCapabilityPrefix" unique="true" not-null="true"/>
 
         <property name="snaaUrl" unique="false" not-null="false"/>
         <property name="rsUrl" unique="false" not-null="false"/>

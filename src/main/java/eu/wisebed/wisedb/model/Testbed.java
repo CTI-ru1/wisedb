@@ -51,6 +51,11 @@ public final class Testbed implements Serializable {
     private String urnPrefix;
 
     /**
+     * URN Capability prefix.
+     */
+    private String urnCapabilityPrefix;
+
+    /**
      * URL for SNAA endpoint.
      */
     private String snaaUrl;
@@ -112,6 +117,17 @@ public final class Testbed implements Serializable {
     @Column(name = "urnPrefix", unique = true, nullable = false)
     public String getUrnPrefix() {
         return urnPrefix;
+    }
+
+    /**
+     * Get the urn prefix of the testbed.
+     *
+     * @return urn prefix of the testbed.
+     */
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "urnCapabilityPrefix", unique = true, nullable = false)
+    public String getUrnCapabilityPrefix() {
+        return urnCapabilityPrefix;
     }
 
     /**
@@ -227,6 +243,15 @@ public final class Testbed implements Serializable {
      */
     public void setUrnPrefix(final String urnPrefix) {
         this.urnPrefix = urnPrefix;
+    }
+
+    /**
+     * Set the urn prefix of the testbed.
+     *
+     * @param urnCapabilityPrefix the urn prefix of the testbed.
+     */
+    public void setUrnCapabilityPrefix(final String urnCapabilityPrefix) {
+        this.urnCapabilityPrefix = urnCapabilityPrefix;
     }
 
     /**
