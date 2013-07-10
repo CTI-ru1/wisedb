@@ -3,18 +3,7 @@ package eu.wisebed.wisedb.model;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -119,7 +108,7 @@ public class Setup implements Serializable {
      * @return the description
      */
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "description", unique = false, nullable = true)
+    @Column(name = "description", columnDefinition = "LONGTEXT", unique = false, nullable = true)
     public String getDescription() {
         return description;
     }
