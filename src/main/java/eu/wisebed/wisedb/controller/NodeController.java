@@ -36,6 +36,7 @@ public interface NodeController extends AbstractControllerInterface {
     public String getDescription(final Node node);
 
     public Position getPosition(final Node node);
+    public Position getAbsolutePosition(final Node node);
 
     public Origin getOrigin(final Node node);
 

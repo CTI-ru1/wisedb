@@ -2,15 +2,9 @@ package eu.wisebed.wisedb.controller;
 
 import eu.uberdust.caching.Cachable;
 import eu.uberdust.caching.EvictCache;
+import eu.wisebed.wisedb.Coordinate;
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.LastNodeReading;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Origin;
-import eu.wisebed.wisedb.model.Position;
-import eu.wisebed.wisedb.model.Setup;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
@@ -286,9 +280,46 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
             position.setZ(node.getSetup().getOrigin().getZ());
             position.setPhi(node.getSetup().getOrigin().getPhi());
             position.setTheta(node.getSetup().getOrigin().getTheta());
-
         }
         return position;
+    }
+
+    @Cachable
+    @Override
+    public Position getAbsolutePosition(Node node) {
+        Position nodePosition = getPosition(node);
+        final Setup setup = node.getSetup();
+
+        if (!(setup.getCoordinateType().equals("Absolute"))) {
+            // determine testbed origin by the type of coordinates given
+            final Origin origin = setup.getOrigin();
+            Coordinate originCoordinate = new Coordinate();
+            originCoordinate.setX((double) origin.getX());
+            originCoordinate.setY((double) origin.getY());
+            originCoordinate.setZ((double) origin.getZ());
+            originCoordinate.setPhi((double) origin.getPhi());
+            originCoordinate.setTheta((double) origin.getTheta());
+            Coordinate properOrigin = Coordinate.blh2xyz(originCoordinate);
+
+            Position testbedPosition = new Position();
+            testbedPosition.setX(setup.getOrigin().getX());
+            testbedPosition.setY(setup.getOrigin().getY());
+            testbedPosition.setZ(setup.getOrigin().getZ());
+            testbedPosition.setPhi(setup.getOrigin().getPhi());
+            testbedPosition.setTheta(setup.getOrigin().getTheta());
+
+            Coordinate nodeCoordinate = new Coordinate();
+            nodeCoordinate.setX((double) nodePosition.getX());
+            nodeCoordinate.setY((double) nodePosition.getY());
+            nodeCoordinate.setZ((double) nodePosition.getZ());
+
+            final Coordinate rotated = Coordinate.rotate(nodeCoordinate, properOrigin.getPhi());
+            final Coordinate absolute = Coordinate.absolute(properOrigin, rotated);
+            final Coordinate finalNodePosition = Coordinate.xyz2blh(absolute);
+            nodePosition.setX(Float.parseFloat(finalNodePosition.getX().toString()));
+            nodePosition.setY(Float.parseFloat(finalNodePosition.getY().toString()));
+        }
+        return nodePosition;
     }
 
     public Origin getOrigin(final Node node) {
