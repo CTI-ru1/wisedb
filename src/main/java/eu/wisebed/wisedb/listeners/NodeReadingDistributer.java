@@ -52,11 +52,28 @@ public final class NodeReadingDistributer extends Thread {
             try {
                 final NodeReading lastReading = queue.take();
                 // LOGGER.info("New Reading: " + lastReading.toString());
-
-                if (LastNodeReadingConsumer.getInstance().listenersContains(lastReading.getCapability().getNode().getName(),
-                        lastReading.getCapability().getCapability().getName())) {
-                    LOGGER.info("Updating.... : " + lastReading.getCapability().getNode() + "-" + lastReading.getCapability().getCapability().getName() + "@" + lastReading);
-                    List<AbstractNodeReadingListener> list = LastNodeReadingConsumer.getInstance().getListener(lastReading.getCapability().getNode().getName(), lastReading.getCapability().getCapability().getName());
+                final String nodeName = lastReading.getCapability().getNode().getName();
+                final String capabilityName = lastReading.getCapability().getCapability().getName();
+                String testbedUrnPrefix = "";
+                if (nodeName.contains(":")) {
+                    testbedUrnPrefix = nodeName.substring(0, nodeName.lastIndexOf(":") + 1);
+                }
+                String capabilityUrnPrefix = "";
+                if (capabilityName.contains(":")) {
+                    capabilityUrnPrefix = capabilityName.substring(0, nodeName.lastIndexOf(":") + 1);
+                }
+                if (LastNodeReadingConsumer.getInstance().listenersContains(
+                        nodeName,
+                        capabilityName,
+                        testbedUrnPrefix,
+                        capabilityUrnPrefix)) {
+                    LOGGER.info("Updating.... : " + nodeName + "-" + capabilityName + "@" + lastReading);
+                    List<AbstractNodeReadingListener> list = LastNodeReadingConsumer.getInstance().getListener(
+                            nodeName,
+                            capabilityName,
+                            testbedUrnPrefix,
+                            capabilityUrnPrefix
+                    );
                     for (AbstractNodeReadingListener listener : list) {
                         LOGGER.info("updating " + listener.toString());
                         listener.update(lastReading);

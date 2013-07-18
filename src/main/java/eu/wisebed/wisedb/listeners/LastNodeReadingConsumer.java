@@ -128,10 +128,29 @@ public final class LastNodeReadingConsumer {
      * @param capabilityID the key
      * @return true if the map contains the key
      */
-    protected boolean listenersContains(final String nodeID, final String capabilityID) {
-        final String key = nodeID + "--" + capabilityID;
-        return listeners.containsKey(key);
+    protected boolean listenersContains(final String nodeID, final String capabilityID, final String nodeUrnPrefix, final String capabilityUrnPrefix) {
+//
+//        for (String ket : listeners.keySet()) {
+//            LOGGER.info(ket);
+//        }
+        boolean hasKey = false;
+        String[] keys = new String[]{
+                nodeID + "--" + capabilityID, //node-capability specific
+                nodeUrnPrefix + "*--" + capabilityID, //testbed-capability specific
+                nodeUrnPrefix + "*--*", //testbed specific
+                nodeID + "--" + capabilityUrnPrefix + "*", //testbed-node specific
+                "*--" + capabilityID, //capability specific
+                nodeID + "--*", //node specific
+                "*--*" //all
+        };
+        synchronized (LastNodeReadingConsumer.class) {
 
+            for (String key : keys) {
+                hasKey |= listeners.containsKey(key);
+            }
+        }
+
+        return hasKey;
     }
 
     /**
@@ -141,10 +160,27 @@ public final class LastNodeReadingConsumer {
      * @param capabilityID the key
      * @return an AbstractNodeReadingListener
      */
-    protected List<AbstractNodeReadingListener> getListener(final String nodeID, final String capabilityID) {
+    protected List<AbstractNodeReadingListener> getListener(final String nodeID, final String capabilityID, final String nodeUrnPrefix, final String capabilityUrnPrefix) {
         // a temporary array buffer
-        final String key = nodeID + "--" + capabilityID;
-        return listeners.get(key);
+        String[] keys = new String[]{
+                nodeID + "--" + capabilityID, //node-capability specific
+                nodeUrnPrefix + "*--" + capabilityID, //testbed-capability specific
+                nodeUrnPrefix + "*--*", //testbed specific
+                nodeID + "--" + capabilityUrnPrefix + "*", //testbed-node specific
+                "*--" + capabilityID, //capability specific
+                nodeID + "--*", //node specific
+                "*--*" //all
+        };
+        final List<AbstractNodeReadingListener> listenersList = new ArrayList<AbstractNodeReadingListener>();
+        synchronized (LastNodeReadingConsumer.class) {
+            for (String key : keys) {
+                if (listeners.containsKey(key)) {
+                    listenersList.addAll(listeners.get(key));
+                }
+            }
+        }
+
+        return listenersList;
     }
 
     /**
