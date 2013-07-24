@@ -44,6 +44,8 @@ public class Capability implements Serializable {
      * the Description of the {@link Capability}
      */
     private String description;
+    private Double maxvalue;
+    private Double minvalue;
 
     /**
      * this method returns the name of the {@link Capability}
@@ -98,6 +100,26 @@ public class Capability implements Serializable {
     }
 
     /**
+     * Returns this capability's description.
+     *
+     * @return this capability's description.
+     */
+    @Column(name = "maxvalue", nullable = true)
+    public Double getMaxvalue() {
+        return maxvalue;
+    }
+
+    /**
+     * Returns this capability's description.
+     *
+     * @return this capability's description.
+     */
+    @Column(name = "minvalue", nullable = true)
+    public Double getMinvalue() {
+        return minvalue;
+    }
+
+    /**
      * this method sets the name of the {@link Capability}
      *
      * @param name the name of the {@link Capability}
@@ -143,6 +165,14 @@ public class Capability implements Serializable {
      */
     public void setDescription(final String description) {
         this.description = description;
+    }
+
+    public void setMaxvalue(final Double maxvalue) {
+        this.maxvalue = maxvalue;
+    }
+
+    public void setMinvalue(final Double minvalue) {
+        this.minvalue = minvalue;
     }
 
     @Override

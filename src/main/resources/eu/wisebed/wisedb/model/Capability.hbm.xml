@@ -13,6 +13,8 @@
 
         <property name="datatype" not-null="false"/>
         <property name="unit" not-null="false"/>
+        <property name="maxvalue" not-null="false"/>
+        <property name="minvalue" not-null="false"/>
         <property name="defaultvalue" not-null="false"/>
         <property name="description" type="text" not-null="false" length="1000"/>
 
