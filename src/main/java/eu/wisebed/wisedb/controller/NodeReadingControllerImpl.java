@@ -295,8 +295,6 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
-            criteria.setProjection(Projections.max("reading"));
-            return (Double) criteria.uniqueResult();
         } else {
             final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
 
@@ -305,10 +303,17 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
-            criteria.setProjection(Projections.max("reading"));
-            return (Double) criteria.uniqueResult();
         }
+        List<NodeReading> res = (List<NodeReading>) criteria.list();
+        Double d = res.get(0).getReading();
+        for (NodeReading re : res) {
+            if (re.getReading() > d) {
+                d = re.getReading();
+            }
+        }
+        return d;
     }
+
     @Override
     public Double minIn(Node node, Capability capability, int limit) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
@@ -336,8 +341,6 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
-            criteria.setProjection(Projections.min("reading"));
-            return (Double) criteria.uniqueResult();
         } else {
             final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
 
@@ -346,10 +349,17 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
-            criteria.setProjection(Projections.min("reading"));
-            return (Double) criteria.uniqueResult();
         }
+        List<NodeReading> res = (List<NodeReading>) criteria.list();
+        Double d = res.get(0).getReading();
+        for (NodeReading re : res) {
+            if (re.getReading() < d) {
+                d = re.getReading();
+            }
+        }
+        return d;
     }
+
     @Override
     public Double avgIn(Node node, Capability capability, int limit) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
@@ -377,8 +387,6 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
-            criteria.setProjection(Projections.avg("reading"));
-            return (Double) criteria.uniqueResult();
         } else {
             final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
 
@@ -387,9 +395,13 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
             criteria.addOrder(Order.desc(TIMESTAMP));
             criteria.setMaxResults(limit);
-            criteria.setProjection(Projections.avg("reading"));
-            return (Double) criteria.uniqueResult();
         }
+        List<NodeReading> res = (List<NodeReading>) criteria.list();
+        Double d = 0.0;
+        for (NodeReading re : res) {
+            d = re.getReading();
+        }
+        return d / res.size();
     }
 
     /**
@@ -506,6 +518,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         }
         return (Double) criteria.uniqueResult();
     }
+
     @Override
     public Double minByDate(Node node, Capability capability, long from, long to) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + "," + from + " , " + to + ")");
@@ -559,6 +572,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         }
         return (Double) criteria.uniqueResult();
     }
+
     @Override
     public Double avgByDate(Node node, Capability capability, long from, long to) {
         LOGGER.info("listNodeReadings(" + node + "," + capability + "," + from + " , " + to + ")");
