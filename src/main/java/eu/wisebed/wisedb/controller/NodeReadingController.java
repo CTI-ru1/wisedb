@@ -36,8 +36,15 @@ public interface NodeReadingController extends AbstractControllerInterface {
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability);
 
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final int limit);
+    public Double maxIn(final Node node, final Capability capability, final int limit);
+    public Double minIn(final Node node, final Capability capability, final int limit);
+    public Double avgIn(final Node node, final Capability capability, final int limit);
+
 
     public List<NodeReading> listNodeReadings(final Node node, final Capability capability, final long from, final long to);
+    public Double maxByDate(final Node node, final Capability capability, final long from, final long to);
+    public Double minByDate(final Node node, final Capability capability, final long from, final long to);
+    public Double avgByDate(final Node node, final Capability capability, final long from, final long to);
 
 
     public HashMap<Capability, Integer> getNodeReadingsCountMap(final Node node);

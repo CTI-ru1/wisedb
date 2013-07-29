@@ -35,6 +35,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
      * Timestamp literal.
      */
     private static final String TIMESTAMP = "timestamp";
+    private static final String READING = "reading";
 
     private static final String ID = "id";
 
@@ -267,6 +268,130 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
 
     }
 
+    @Override
+    public Double maxIn(Node node, Capability capability, int limit) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+            criteria.setProjection(Projections.max("reading"));
+            return (Double) criteria.uniqueResult();
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+            criteria.setProjection(Projections.max("reading"));
+            return (Double) criteria.uniqueResult();
+        }
+    }
+    @Override
+    public Double minIn(Node node, Capability capability, int limit) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+            criteria.setProjection(Projections.min("reading"));
+            return (Double) criteria.uniqueResult();
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+            criteria.setProjection(Projections.min("reading"));
+            return (Double) criteria.uniqueResult();
+        }
+    }
+    @Override
+    public Double avgIn(Node node, Capability capability, int limit) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + limit + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+            criteria.setProjection(Projections.avg("reading"));
+            return (Double) criteria.uniqueResult();
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setMaxResults(limit);
+            criteria.setProjection(Projections.avg("reading"));
+            return (Double) criteria.uniqueResult();
+        }
+    }
+
     /**
      * Return a limited list of readings for a selected node and capability.
      *
@@ -326,6 +451,166 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
             criteria.addOrder(Order.desc(TIMESTAMP));
         }
         return (List<NodeReading>) criteria.list();
+    }
+
+    @Override
+    public Double maxByDate(Node node, Capability capability, long from, long to) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + from + " , " + to + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setProjection(Projections.max(READING));
+
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setProjection(Projections.max(READING));
+        }
+        return (Double) criteria.uniqueResult();
+    }
+    @Override
+    public Double minByDate(Node node, Capability capability, long from, long to) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + from + " , " + to + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setProjection(Projections.min(READING));
+
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setProjection(Projections.min(READING));
+        }
+        return (Double) criteria.uniqueResult();
+    }
+    @Override
+    public Double avgByDate(Node node, Capability capability, long from, long to) {
+        LOGGER.info("listNodeReadings(" + node + "," + capability + "," + from + " , " + to + ")");
+        Criteria criteria = null;
+        if (node.getName().contains("virtual")) {
+            List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+
+            final List<LinkCapability> lcap = LinkCapabilityControllerImpl.getInstance().getByIDs(links, "virtual");
+            final List<Node> nodes = new ArrayList<Node>();
+
+            for (LinkCapability linkCapability : lcap) {
+                if (linkCapability.getLastLinkReading().getReading() == 1.0) {
+                    nodes.add(linkCapability.getLink().getTarget());
+                }
+            }
+
+            List<NodeCapability> nodeCapabilities = NodeCapabilityControllerImpl.getInstance().getByIDs(nodes, capability);
+            nodeCapabilities.add(nodeCapability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.in(CAPABILITY, nodeCapabilities));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setProjection(Projections.avg(READING));
+
+        } else {
+            final NodeCapability nodeCapability = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+
+            final Session session = getSessionFactory().getCurrentSession();
+            criteria = session.createCriteria(NodeReading.class);
+            criteria.add(Restrictions.eq(CAPABILITY, nodeCapability));
+            if (to == 0) {
+                criteria.add(Restrictions.ge(TIMESTAMP, new Date(from)));
+            } else if (from == 0) {
+                criteria.add(Restrictions.le(TIMESTAMP, new Date(to)));
+            } else {
+                criteria.add(Restrictions.between(TIMESTAMP, new Date(from), new Date(to)));
+            }
+            criteria.addOrder(Order.desc(TIMESTAMP));
+            criteria.setProjection(Projections.avg(READING));
+        }
+        return (Double) criteria.uniqueResult();
     }
 
     /**
