@@ -399,7 +399,7 @@ public class NodeReadingControllerImpl extends AbstractController<NodeReading> i
         List<NodeReading> res = (List<NodeReading>) criteria.list();
         Double d = 0.0;
         for (NodeReading re : res) {
-            d = re.getReading();
+            d += re.getReading();
         }
         return d / res.size();
     }
