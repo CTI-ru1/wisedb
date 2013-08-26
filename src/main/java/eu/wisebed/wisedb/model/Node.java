@@ -2,6 +2,7 @@ package eu.wisebed.wisedb.model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * This is a persistant class for the object node that has the
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "nodes")
-public class Node {
+public class Node implements Serializable {
 
     /**
      * Serial Version Unique ID.

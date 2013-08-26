@@ -4,6 +4,7 @@ import eu.wisebed.wisedb.controller.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
 /**
@@ -37,7 +38,7 @@ public final class HibernateUtil {
     private HibernateUtil() {
         try {
             // load configuration file
-            configuration = new Configuration().configure();
+            configuration = new AnnotationConfiguration().configure();
 
             // Create the SessionFactory from hibernateMM.cfg.xml
             ourSessionFactory = createSessionFactory();
@@ -146,6 +147,7 @@ public final class HibernateUtil {
 
         LastNodeReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
         LastLinkReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
+        ScheduleControllerImpl.getInstance().setSessionFactory(thisFactory);
     }
 
     /**

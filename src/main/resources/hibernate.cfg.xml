@@ -57,6 +57,7 @@
         <mapping class="eu.wisebed.wisedb.model.LinkReading"/>
         <mapping class="eu.wisebed.wisedb.model.LastNodeReading"/>
         <mapping class="eu.wisebed.wisedb.model.LastLinkReading"/>
+        <mapping class="eu.wisebed.wisedb.model.Schedule"/>
 
         <!--<mapping resource="eu/wisebed/wisedb/model/Testbed.hbm.xml"/>-->
         <!--<mapping resource="eu/wisebed/wisedb/model/Setup.hbm.xml"/>-->
