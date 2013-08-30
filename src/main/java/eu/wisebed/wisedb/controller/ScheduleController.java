@@ -1,6 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.model.*;
+import eu.wisebed.wisedb.model.Schedule;
+import eu.wisebed.wisedb.model.Setup;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface ScheduleController extends AbstractControllerInterface {
     public void update(final Schedule schedule);
 
     public List<Schedule> list();
+
+    public List<Schedule> list(Setup setup, String username);
 
     public Schedule getByID(int entityId);
 }

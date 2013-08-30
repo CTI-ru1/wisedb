@@ -2,6 +2,7 @@ package eu.wisebed.wisedb.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * This is a persistant class for the object capability that has the
@@ -20,14 +21,17 @@ public class Schedule implements Serializable {
      * unique id for each Schedule.
      */
     private int id;
-    private char minute;
-    private char hour;
-    private char dom;
-    private char month;
-    private char dow;
+    private String second;
+    private String minute;
+    private String hour;
+    private String dom;
+    private String month;
+    private String dow;
     private String payload;
     private String node;
     private String capability;
+    private String username;
+    private Date last;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,35 +51,50 @@ public class Schedule implements Serializable {
         return capability;
     }
 
+    @Column(name = "username", nullable = false)
+    public String getUsername() {
+        return username;
+    }
 
-    @Column(name = "minute", nullable = false)
-    public char getMinute() {
+
+    @Column(name = "second", length = 5, nullable = false)
+    public String getSecond() {
+        return second;
+    }
+
+    @Column(name = "minute", length = 5, nullable = false)
+    public String getMinute() {
         return minute;
     }
 
-    @Column(name = "hour", nullable = false)
-    public char getHour() {
+    @Column(name = "hour", length = 5, nullable = false)
+    public String getHour() {
         return hour;
     }
 
-    @Column(name = "dom", nullable = false)
-    public char getDom() {
+    @Column(name = "dom", length = 5, nullable = false)
+    public String getDom() {
         return dom;
     }
 
-    @Column(name = "month", nullable = false)
-    public char getMonth() {
+    @Column(name = "month", length = 5, nullable = false)
+    public String getMonth() {
         return month;
     }
 
-    @Column(name = "dow", nullable = false)
-    public char getDow() {
+    @Column(name = "dow", length = 5, nullable = false)
+    public String getDow() {
         return dow;
     }
 
     @Column(name = "payload", nullable = false)
     public String getPayload() {
         return payload;
+    }
+
+    @Column(name = "last", nullable = false)
+    public Date getLast() {
+        return last;
     }
 
     public void setId(int id) {
@@ -90,28 +109,40 @@ public class Schedule implements Serializable {
         this.capability = capability;
     }
 
-    public void setMinute(char minute) {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setMinute(String minute) {
         this.minute = minute;
     }
 
-    public void setHour(char hour) {
+    public void setSecond(String second) {
+        this.second = second;
+    }
+
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
-    public void setDom(char dom) {
+    public void setDom(String dom) {
         this.dom = dom;
     }
 
-    public void setMonth(char month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
-    public void setDow(char dow) {
+    public void setDow(String dow) {
         this.dow = dow;
     }
 
     public void setPayload(String payload) {
         this.payload = payload;
+    }
+
+    public void setLast(Date last) {
+        this.last = last;
     }
 
     @Override
@@ -131,16 +162,6 @@ public class Schedule implements Serializable {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) minute;
-        result = 31 * result + (int) hour;
-        result = 31 * result + (int) dom;
-        result = 31 * result + (int) month;
-        result = 31 * result + (int) dow;
-        result = 31 * result + payload.hashCode();
-        return result;
-    }
 
     @Override
     public String toString() {

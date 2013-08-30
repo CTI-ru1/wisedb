@@ -1,16 +1,13 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.uberdust.caching.Cachable;
-import eu.uberdust.caching.EvictCache;
-import eu.wisebed.wisedb.model.*;
+import eu.wisebed.wisedb.model.Schedule;
+import eu.wisebed.wisedb.model.Setup;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * CRUD operations for NodeCapabilities entities.
@@ -29,6 +26,7 @@ public class ScheduleControllerImpl extends AbstractController<Schedule> impleme
      */
     private static final String NODE = "node";
 
+    private static final String USERNAME = "username";
     /**
      * Logger.
      */
@@ -69,6 +67,15 @@ public class ScheduleControllerImpl extends AbstractController<Schedule> impleme
         LOGGER.info("list()");
         final Session session = getSessionFactory().getCurrentSession();
         final Criteria criteria = session.createCriteria(Schedule.class);
+        return criteria.list();
+    }
+
+    @Override
+    public List<Schedule> list(Setup setup, String username) {
+        LOGGER.info("list()");
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(Schedule.class);
+        criteria.add(Restrictions.eq(USERNAME, username));
         return criteria.list();
     }
 

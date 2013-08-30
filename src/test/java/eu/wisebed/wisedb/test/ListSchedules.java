@@ -1,18 +1,12 @@
 package eu.wisebed.wisedb.test;
 
 import eu.wisebed.wisedb.HibernateUtil;
-import eu.wisebed.wisedb.controller.NodeCapabilityControllerImpl;
-import eu.wisebed.wisedb.controller.NodeReadingControllerImpl;
 import eu.wisebed.wisedb.controller.ScheduleControllerImpl;
-import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Schedule;
-import eu.wisebed.wisedb.model.Testbed;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Lists all testbeds on the database and provides additional information on them.
@@ -37,12 +31,14 @@ public class ListSchedules {
             LOGGER.info("Testbeds :" + schedules.size());
 
             Schedule s = new Schedule();
-            s.setMinute('*');
-            s.setHour('*');
-            s.setDow('*');
-            s.setMonth('*');
-            s.setDom('*');
+            s.setSecond("*");
+            s.setMinute("*");
+            s.setHour("*");
+            s.setMonth("*");
+            s.setDom("*");
+            s.setDow("?");
             s.setNode("mynode");
+            s.setUsername("qopbot");
             s.setCapability("other");
             s.setPayload("0");
             ScheduleControllerImpl.getInstance().add(s);
