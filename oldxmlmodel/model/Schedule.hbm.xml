@@ -13,14 +13,18 @@
         </id>
 
 
+        <property name="username" length="200" not-null="true"/>
         <property name="capability" length="200" not-null="true"/>
         <property name="node" length="200" not-null="true"/>
-        <property name="minute" type="character" not-null="true"/>
-        <property name="hour" type="character" not-null="true"/>
-        <property name="dom" type="character" not-null="true"/>
-        <property name="month" type="character" not-null="true"/>
-        <property name="dow" type="character" not-null="true"/>
+        <property name="second" length="5" not-null="true"/>
+        <property name="minute" length="5" not-null="true"/>
+        <property name="hour" length="5" not-null="true"/>
+        <property name="dom" length="5" not-null="true"/>
+        <property name="month" length="5" not-null="true"/>
+        <property name="dow" length="5" not-null="true"/>
         <property name="payload" length="200" not-null="true"/>
+        <property name="last" type="timestamp" not-null="true"/>
+
 
     </class>
 </hibernate-mapping>
