@@ -74,7 +74,7 @@ public final class NodeReading implements Serializable {
      * @return timestamp of the reading.
      */
     @Column(name = "timestamp", nullable = false)
-    @Index(name = "timestampIndex")
+    @Index(name = "timestamp")
     public Date getTimestamp() {
         return timestamp;
     }
