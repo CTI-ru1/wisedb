@@ -148,6 +148,8 @@ public final class HibernateUtil {
         LastNodeReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
         LastLinkReadingControllerImpl.getInstance().setSessionFactory(thisFactory);
         ScheduleControllerImpl.getInstance().setSessionFactory(thisFactory);
+        UserControllerImpl.getInstance().setSessionFactory(thisFactory);
+        UserRoleControllerImpl.getInstance().setSessionFactory(thisFactory);
     }
 
     /**
