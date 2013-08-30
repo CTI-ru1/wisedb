@@ -2,21 +2,15 @@ package eu.wisebed.wisedb.controller;
 
 import eu.uberdust.caching.Cachable;
 import eu.uberdust.caching.EvictCache;
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.Link;
-import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Setup;
+import eu.wisebed.wisedb.model.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -159,6 +153,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      *
      * @return a list of all capabilities persisted.
      */
+    @Cachable
     public List<Capability> list() {
         LOGGER.info("list()");
         return super.list(new Capability());
@@ -185,6 +180,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param node a selected node instance.
      * @return a list of capabilities.
      */
+    @Cachable
     public List<Capability> list(final Node node) {
         LOGGER.info("list(" + node + ")");
 
@@ -208,6 +204,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param link a selected link instance.
      * @return a list of capabilities.
      */
+    @Cachable
     public List<Capability> list(final Link link) {
         LOGGER.info("list(" + link + ")");
 
@@ -231,28 +228,15 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param setup a selected setup instance.
      * @return a list of capabilities.
      */
+    @Cachable
     public List<Capability> listNodeCapabilities(final Setup setup) {
         LOGGER.info("listNodeCapabilities(" + setup + ")");
-        final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
+        final Session session = getSessionFactory().getCurrentSession();
+        String hql = "SELECT new eu.wisebed.wisedb.model.Capability(name,datatype,unit,defaultvalue,description,maxvalue,minvalue) FROM eu.wisebed.wisedb.model.Capability WHERE capability_id in ( select capability from eu.wisebed.wisedb.model.NodeCapability where node_id in (select name from eu.wisebed.wisedb.model.Node where setup_id=:setupid) )";
+        Query query = session.createQuery(hql);
+        query.setParameter("setupid", setup.getId());
 
-        final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
-
-        if (!nodes.isEmpty()) {
-            final Session session = getSessionFactory().getCurrentSession();
-            final Criteria criteria = session.createCriteria(NodeCapability.class);
-            criteria.add(Restrictions.in(NODE, nodes));
-            final List resList = criteria.list();
-            for (Object item : resList) {
-                if (item instanceof NodeCapability) {
-                    result.put(((NodeCapability) item).getCapability(), 1);
-                }
-            }
-        }
-        final List<Capability> res = new ArrayList<Capability>();
-        for (final Capability item : result.keySet()) {
-            res.add(item);
-        }
-        return res;
+        return query.list();
     }
 
     /**
@@ -261,30 +245,15 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param setup a selected setup instance.
      * @return a list of capabilities.
      */
+    @Cachable
     public List<Capability> listLinkCapabilities(final Setup setup) {
-        LOGGER.info("listLinkCapabilities(" + setup + ")");
-        final List<Link> links = LinkControllerImpl.getInstance().list(setup);
-        LOGGER.info("linksfound " + links.size());
-        final Map<Capability, Integer> result = new HashMap<Capability, Integer>();
-        if (!links.isEmpty()) {
-            final Session session = getSessionFactory().getCurrentSession();
-            final Criteria criteria = session.createCriteria(LinkCapability.class);
-            criteria.add(Restrictions.in(LINK, links));
-            final List resList = criteria.list();
-            for (Object item : resList) {
-                if (item instanceof LinkCapability) {
+        LOGGER.info("listNodeCapabilities(" + setup + ")");
+        final Session session = getSessionFactory().getCurrentSession();
+        String hql = "SELECT new eu.wisebed.wisedb.model.Capability(name,datatype,unit,defaultvalue,description,maxvalue,minvalue) FROM eu.wisebed.wisedb.model.Capability WHERE capability_id in ( select capability from eu.wisebed.wisedb.model.LinkCapability where link in (select id from eu.wisebed.wisedb.model.Link where source in ( select name from eu.wisebed.wisedb.model.Node where setup_id=:setupid ) ) )";
+        Query query = session.createQuery(hql);
+        query.setParameter("setupid", setup.getId());
 
-                    result.put(((LinkCapability) item).getCapability(), 1);
-                }
-            }
-        }
-        final List<Capability> res = new ArrayList<Capability>();
-        for (final Capability item : result.keySet()) {
-            res.add(item);
-        }
-        LOGGER.info("listLinkCapabilities(" + setup + ")=" + res.size());
-
-        return res;
+        return query.list();
     }
 
     /**
@@ -293,6 +262,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param setup a selected setup instance.
      * @return a list of nodeCapabilities.
      */
+    @Cachable
     public List<NodeCapability> listNodeCapabilities(final Setup setup, final Capability capability) {
         LOGGER.info("listNodeCapabilities(" + setup + "," + capability + ")");
         final List<Node> nodes = NodeControllerImpl.getInstance().list(setup);
@@ -319,6 +289,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
      * @param setup a selected setup instance.
      * @return a list of linkCapabilities.
      */
+    @Cachable
     public List<LinkCapability> listLinkCapabilities(final Setup setup, final Capability capability) {
         LOGGER.info("listLinkCapabilities(" + setup + "," + capability + ")");
         final List<Link> links = LinkControllerImpl.getInstance().list(setup);

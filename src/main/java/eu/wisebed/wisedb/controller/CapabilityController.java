@@ -1,11 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.Link;
-import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Setup;
+import eu.wisebed.wisedb.model.*;
 
 import java.util.List;
 

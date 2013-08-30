@@ -47,6 +47,19 @@ public class Capability implements Serializable {
     private Double maxvalue;
     private Double minvalue;
 
+    public Capability() {
+    }
+
+    public Capability(String name, String datatype, String unit, String defaultvalue, String description, Double maxvalue, Double minvalue) {
+        this.name = name;
+        this.datatype = datatype;
+        this.unit = unit;
+        this.defaultvalue = defaultvalue;
+        this.description = description;
+        this.maxvalue = maxvalue;
+        this.minvalue = minvalue;
+    }
+
     /**
      * this method returns the name of the {@link Capability}
      *
