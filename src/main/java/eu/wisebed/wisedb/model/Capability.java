@@ -39,6 +39,7 @@ public class Capability implements Serializable {
      * the DefaultValue of the {@link Capability}
      */
     private String defaultvalue;
+    private String semanticUrl;
 
     /**
      * the Description of the {@link Capability}
@@ -132,6 +133,11 @@ public class Capability implements Serializable {
         return minvalue;
     }
 
+    @Column(name = "semantic", nullable = true)
+    public String getSemanticUrl() {
+        return semanticUrl;
+    }
+
     /**
      * this method sets the name of the {@link Capability}
      *
@@ -170,6 +176,9 @@ public class Capability implements Serializable {
         this.defaultvalue = defaultvalue;
     }
 
+    public void setSemanticUrl(String semanticUrl) {
+        this.semanticUrl = semanticUrl;
+    }
 
     /**
      * Set this capability's description.
