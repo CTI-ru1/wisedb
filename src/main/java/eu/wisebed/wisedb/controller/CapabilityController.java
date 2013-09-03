@@ -34,5 +34,7 @@ public interface CapabilityController extends AbstractControllerInterface {
 
     public Capability prepareInsertCapability(final String capabilityName);
 
+    public boolean hasCapability(final Node node, final Capability capability);
+
     public void add(final Capability capability);
 }

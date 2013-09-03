@@ -159,7 +159,6 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
         return super.list(new Capability());
     }
 
-
     /**
      * Listing all the capabilities from the database belonging to a selected setup.
      *
@@ -173,6 +172,7 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
         capabilities.addAll(listLinkCapabilities(setup));
         return capabilities;
     }
+
 
     /**
      * Listing all the capabilities from the database belonging to a selected node.
@@ -196,6 +196,15 @@ public class CapabilityControllerImpl extends AbstractController<Capability> imp
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean hasCapability(Node node, Capability capability) {
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(NodeCapability.class);
+        criteria.add(Restrictions.eq(NODE, node));
+        criteria.add(Restrictions.eq(CAPABILITY, capability));
+        return criteria.uniqueResult() != null;
     }
 
     /**

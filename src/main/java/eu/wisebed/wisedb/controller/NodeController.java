@@ -1,11 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import eu.wisebed.wisedb.exception.UnknownTestbedException;
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.Origin;
-import eu.wisebed.wisedb.model.Position;
-import eu.wisebed.wisedb.model.Setup;
+import eu.wisebed.wisedb.model.*;
 
 import java.util.List;
 
@@ -36,11 +32,14 @@ public interface NodeController extends AbstractControllerInterface {
     public String getDescription(final Node node);
 
     public Position getPosition(final Node node);
+
     public Position getAbsolutePosition(final Node node);
 
     public Origin getOrigin(final Node node);
 
     Node prepareInsertNode(final String nodeId) throws UnknownTestbedException;
+
+    public List<Node> getRealNodes(final Node node);
 
     public void add(final Node node);
 

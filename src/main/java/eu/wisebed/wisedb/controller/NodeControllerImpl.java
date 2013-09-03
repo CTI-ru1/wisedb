@@ -140,7 +140,6 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
         return (Node) criteria.uniqueResult();
     }
 
-
     /**
      * get the Nodes from the database that corresponds to the input id.
      *
@@ -165,6 +164,7 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
         LOGGER.info("list()");
         return super.list(new Node());
     }
+
 
     //
 //    /**
@@ -191,9 +191,23 @@ public class NodeControllerImpl extends AbstractController<Node> implements Node
         return (List<Node>) criteria.list();
     }
 
-//    /**
+    //     *
 //     * Listing all the nodes from the database belonging to a selected testbed.
-//     *
+    @Override
+    public List<Node> getRealNodes(Node node) {
+        List<Node> nodes = new ArrayList<Node>();
+        final List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
+        for (Link link : links) {
+            LinkCapability linkCap = LinkCapabilityControllerImpl.getInstance().getByID(link, "virtual");
+            if (linkCap != null && linkCap.getLastLinkReading().getReading() > 0) {
+                nodes.add(link.getTarget());
+            }
+        }
+        return nodes;
+
+    }
+
+//    /**
 //     * @param setup , a selected testbed.
 //     * @return a list of testbed links.
 //     */
