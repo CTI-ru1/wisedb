@@ -84,9 +84,9 @@ public class NodeCapabilityControllerImpl extends AbstractController<NodeCapabil
         nodeCapability.setNode(node);
 
         final LastNodeReading lastNodeReading = new LastNodeReading();
-        nodeCapability.setLastNodeReading(lastNodeReading);
 
-        NodeCapabilityControllerImpl.getInstance().add(nodeCapability);
+        add(nodeCapability);
+        nodeCapability = getByID(node, capability);
 
         lastNodeReading.setNodeCapability(nodeCapability);
         lastNodeReading.setTimestamp(new Date());

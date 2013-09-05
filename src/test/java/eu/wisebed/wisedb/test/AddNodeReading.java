@@ -28,10 +28,10 @@ public class AddNodeReading {
 
 
             // a node id for the testbed
-            final String nodeId = "urn:qopbot:door";
+            final String nodeId = "urn:wisebed:ctitestbed:0x2b0";
 
             // get that nodes capability name
-            final String capabilityName = "urn:node:capability:status";
+            final String capabilityName = "urn:wisebed:node:capability:lz2";
 
             // reading value
             final double readingValue = 0;
