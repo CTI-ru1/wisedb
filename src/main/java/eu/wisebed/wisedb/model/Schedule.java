@@ -21,6 +21,7 @@ public class Schedule implements Serializable {
      * unique id for each Schedule.
      */
     private int id;
+    private String type;
     private String second;
     private String minute;
     private String hour;
@@ -40,7 +41,10 @@ public class Schedule implements Serializable {
     public int getId() {
         return id;
     }
-
+    @Column(name = "type", nullable = false)
+    public String getType() {
+        return type;
+    }
     @Column(name = "node", nullable = false)
     public String getNode() {
         return node;
@@ -99,6 +103,10 @@ public class Schedule implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setType(String type) {
+        this.type= type;
     }
 
     public void setNode(String node) {
