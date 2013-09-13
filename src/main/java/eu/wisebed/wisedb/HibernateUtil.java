@@ -39,7 +39,6 @@ public final class HibernateUtil {
         try {
             // load configuration file
             configuration = new AnnotationConfiguration().configure();
-
             // Create the SessionFactory from hibernateMM.cfg.xml
             ourSessionFactory = createSessionFactory();
 
@@ -125,7 +124,6 @@ public final class HibernateUtil {
      */
     public static void connectEntityManagers() {
         // Set the session factories to all managers
-        LOGGER.info("Connecting Entity Controllers to Hibernate SessionFactory");
         final SessionFactory thisFactory = HibernateUtil.getInstance().getSessionFactory();
 
         // main controllers
@@ -150,6 +148,7 @@ public final class HibernateUtil {
         ScheduleControllerImpl.getInstance().setSessionFactory(thisFactory);
         UserControllerImpl.getInstance().setSessionFactory(thisFactory);
         UserRoleControllerImpl.getInstance().setSessionFactory(thisFactory);
+        VirtualNodeDescriptionControllerImpl.getInstance().setSessionFactory(thisFactory);
     }
 
     /**

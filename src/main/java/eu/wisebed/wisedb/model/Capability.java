@@ -118,7 +118,7 @@ public class Capability implements Serializable {
      *
      * @return this capability's description.
      */
-    @Column(name = "maxvalue", nullable = true)
+    @Column(name = "max", nullable = true)
     public Double getMaxvalue() {
         return maxvalue;
     }
@@ -128,7 +128,7 @@ public class Capability implements Serializable {
      *
      * @return this capability's description.
      */
-    @Column(name = "minvalue", nullable = true)
+    @Column(name = "min", nullable = true)
     public Double getMinvalue() {
         return minvalue;
     }

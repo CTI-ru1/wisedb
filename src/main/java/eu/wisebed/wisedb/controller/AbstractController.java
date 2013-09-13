@@ -35,9 +35,6 @@ public class AbstractController<E> implements AbstractControllerInterface {
      * @param factory a sessionFactory instance.
      */
     public final void setSessionFactory(final SessionFactory factory) {
-        LOGGER.info("setting sessionFactorty");
-
-        LOGGER.info("entitynames length " + factory.getStatistics().getEntityNames().length);
         this.sessionFactory = factory;
     }
 

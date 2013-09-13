@@ -1,5 +1,6 @@
 package eu.wisebed.wisedb.model;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.Date;
  * getter and setter methods for the properties.
  */
 @Entity
-@Table(name = "nodeReadings2")
+@Table(name = "nodeReadings")
 public final class NodeReading implements Serializable {
 
     /**
@@ -62,7 +63,7 @@ public final class NodeReading implements Serializable {
      *
      * @return capability persistent object.
      */
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "capability_id", referencedColumnName = "id")
     public NodeCapability getCapability() {
         return capability;

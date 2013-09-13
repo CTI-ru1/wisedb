@@ -87,7 +87,7 @@ public class LinkCapabilityControllerImpl extends AbstractController<LinkCapabil
         linkCapability.setLink(link);
 
         final LastLinkReading lastLinkReading = new LastLinkReading();
-        linkCapability.setLastLinkReading(lastLinkReading);
+//        linkCapability.setLastLinkReading(lastLinkReading);
 
         LinkCapabilityControllerImpl.getInstance().add(linkCapability);
 
