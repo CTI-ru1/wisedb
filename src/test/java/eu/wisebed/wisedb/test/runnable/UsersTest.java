@@ -7,6 +7,7 @@ import eu.wisebed.wisedb.model.UserRole;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.junit.Test;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class UsersTest extends BaseTestSetup {
     private static final String FORM_USERPASS = "formpass";
 
     @Test
-    public void test() throws Exception {
-    add();
+    public void createUsersTest() throws Exception {
+        add();
         getByUsername();
         addUsingForm();
         list();

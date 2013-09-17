@@ -3,11 +3,13 @@ package eu.wisebed.wisedb.test.runnable;
 import eu.wisebed.wisedb.HibernateUtil;
 import eu.wisebed.wisedb.controller.TestbedControllerImpl;
 import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.test.OrderedRunner;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
