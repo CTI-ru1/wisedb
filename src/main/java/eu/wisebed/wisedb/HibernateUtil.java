@@ -149,6 +149,8 @@ public final class HibernateUtil {
         UserControllerImpl.getInstance().setSessionFactory(thisFactory);
         UserRoleControllerImpl.getInstance().setSessionFactory(thisFactory);
         VirtualNodeDescriptionControllerImpl.getInstance().setSessionFactory(thisFactory);
+
+        StatisticsControllerImpl.getInstance().setSessionFactory(thisFactory);
     }
 
     /**

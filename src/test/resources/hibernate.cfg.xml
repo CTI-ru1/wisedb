@@ -63,6 +63,7 @@
         <mapping class="eu.wisebed.wisedb.model.User"/>
         <mapping class="eu.wisebed.wisedb.model.UserRole"/>
         <mapping class="eu.wisebed.wisedb.model.VirtualNodeDescription"/>
+        <mapping class="eu.wisebed.wisedb.model.Statistics"/>
 
         <!--<mapping resource="eu/wisebed/wisedb/model/Testbed.hbm.xml"/>-->
         <!--<mapping resource="eu/wisebed/wisedb/model/Setup.hbm.xml"/>-->
