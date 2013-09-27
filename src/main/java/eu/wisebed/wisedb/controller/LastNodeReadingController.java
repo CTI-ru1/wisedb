@@ -1,10 +1,6 @@
 package eu.wisebed.wisedb.controller;
 
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.LastNodeReading;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Setup;
+import eu.wisebed.wisedb.model.*;
 
 import java.util.List;
 
@@ -15,6 +11,7 @@ import java.util.List;
  * Time: 1:00 PM
  */
 public interface LastNodeReadingController extends AbstractControllerInterface {
+    public boolean delete(final int id);
 
     public LastNodeReading getByID(final NodeCapability nodeCapability);
 

@@ -57,6 +57,15 @@ public class UserRoleControllerImpl extends AbstractController<UserRole> impleme
         super.delete(new UserRole(), id);
     }
 
+    @Override
+    public boolean isAdmin(User user) {
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(UserRole.class);
+        criteria.add(Restrictions.eq("user", user));
+        criteria.add(Restrictions.eq("authority", "ROLE_ADMIN"));
+        return criteria.list().size() > 0;
+    }
+
 
     public List<UserRole> list() {
         LOGGER.info("list()");

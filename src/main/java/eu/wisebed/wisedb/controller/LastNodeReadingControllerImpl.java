@@ -1,14 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import com.mysql.jdbc.NotImplemented;
-import eu.wisebed.wisedb.model.Capability;
-import eu.wisebed.wisedb.model.LastNodeReading;
-import eu.wisebed.wisedb.model.Link;
-import eu.wisebed.wisedb.model.LinkCapability;
-import eu.wisebed.wisedb.model.Node;
-import eu.wisebed.wisedb.model.NodeCapability;
-import eu.wisebed.wisedb.model.Setup;
-import eu.wisebed.wisedb.model.Testbed;
+import eu.wisebed.wisedb.model.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -62,6 +55,13 @@ public class LastNodeReadingControllerImpl extends AbstractController<LastNodeRe
         return ourInstance;
     }
 
+
+    @Override
+    public boolean delete(int id) {
+        LOGGER.info("delete(" + id + ")");
+        super.delete(new LastNodeReading(), id);
+        return true;
+    }
 
     /**
      * Returns the last reading row inserted in the persistence for a specific node & capability.

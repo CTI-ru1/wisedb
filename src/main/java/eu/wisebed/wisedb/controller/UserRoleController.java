@@ -18,6 +18,8 @@ public interface UserRoleController extends AbstractControllerInterface {
 
     public void update(final UserRole userRole);
 
+    public boolean isAdmin(final User username);
+
     public List<UserRole> list();
 
     public List<UserRole> list(User user);
