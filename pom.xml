@@ -8,7 +8,7 @@
     <artifactId>wisedb</artifactId>
 
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <url>http://uberdust.cti.gr</url>
 
@@ -119,7 +119,7 @@
         <dependency>
             <groupId>uberdust</groupId>
             <artifactId>Cache</artifactId>
-            <version>1.0</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <!-- database related dependencies -->
         <dependency>
