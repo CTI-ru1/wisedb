@@ -98,7 +98,14 @@ public class VirtualNodeDescriptionControllerImpl extends AbstractController<Vir
                         } else {
                             for (NodeCapability nodeCapability : nodeCapabilities) {
                                 try {
-                                    if (nodeCapability.getLastNodeReading().getStringReading().equals(capabilityValue)) {
+                                    if ( nodeCapability.getLastNodeReading().getStringReading().contains(",")) {
+                                        for (String aCapabilityValue : nodeCapability.getLastNodeReading().getStringReading().split(",")) {
+                                            if (aCapabilityValue.equals(capabilityValue)) {
+                                                curNodesFound.add(nodeCapability.getNode());
+                                                break;
+                                            }
+                                        }
+                                    } else if (nodeCapability.getLastNodeReading().getStringReading().equals(capabilityValue)) {
                                         curNodesFound.add(nodeCapability.getNode());
                                     }
                                 } catch (Exception e) {
