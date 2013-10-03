@@ -99,7 +99,7 @@ public final class LinkReading implements Serializable {
      *
      * @return string reading.
      */
-    @Column(name = "stringReading", nullable = false, length = 1000)
+    @Column(name = "stringReading", nullable = true, length = 1000)
     public String getStringReading() {
         return stringReading;
     }
