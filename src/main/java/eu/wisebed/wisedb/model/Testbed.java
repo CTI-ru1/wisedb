@@ -41,11 +41,6 @@ public final class Testbed implements Serializable {
     private String description;
 
     /**
-     * Testbed url.
-     */
-    private String url;
-
-    /**
      * URN prefix.
      */
     private String urnPrefix;
@@ -54,26 +49,6 @@ public final class Testbed implements Serializable {
      * URN Capability prefix.
      */
     private String urnCapabilityPrefix;
-
-    /**
-     * URL for SNAA endpoint.
-     */
-    private String snaaUrl;
-
-    /**
-     * URL for RS endpoint.
-     */
-    private String rsUrl;
-
-    /**
-     * URL for Session Management endpoint.
-     */
-    private String sessionUrl;
-
-    /**
-     * If the testbed is federated.
-     */
-    private Boolean federated;
 
     /**
      * Set of Setups belonging in Testbed.
@@ -142,61 +117,6 @@ public final class Testbed implements Serializable {
     }
 
     /**
-     * Get the URL of the testbed.
-     *
-     * @return the URL of the testbed.
-     */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "url", unique = false, nullable = false)
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * Get the URL of the SNAA endpoint.
-     *
-     * @return the URL of the SNAA endpoint.
-     */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "snaaUrl", unique = false, nullable = true)
-    public String getSnaaUrl() {
-        return snaaUrl;
-    }
-
-    /**
-     * Get the URL of the Reservation endpoint.
-     *
-     * @return the URL of the Reservation endpoint.
-     */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "rsUrl", unique = false, nullable = true)
-    public String getRsUrl() {
-        return rsUrl;
-    }
-
-    /**
-     * Get the URL of the Session Management endpoint.
-     *
-     * @return the URL of the Session Management endpoint.
-     */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "sessionUrl", unique = false, nullable = true)
-    public String getSessionUrl() {
-        return sessionUrl;
-    }
-
-    /**
-     * Get if the testbed is federated.
-     *
-     * @return true if the testbed is federated.
-     */
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "federated", unique = false, nullable = false)
-    public Boolean getFederated() {
-        return federated;
-    }
-
-    /**
      * Returns the testbed setup.
      *
      * @return the testbed setup.
@@ -261,51 +181,6 @@ public final class Testbed implements Serializable {
      */
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    /**
-     * Set the URL of the testbed.
-     *
-     * @param url the URL of the testbed.
-     */
-    public void setUrl(final String url) {
-        this.url = url;
-    }
-
-    /**
-     * Set the URL of the SNAA endpoint.
-     *
-     * @param snaaUrl the URL of the SNAA endpoint.
-     */
-    public void setSnaaUrl(final String snaaUrl) {
-        this.snaaUrl = snaaUrl;
-    }
-
-    /**
-     * Set the the URL of the Reservation endpoint.
-     *
-     * @param rsUrl the URL of the Reservation endpoint.
-     */
-    public void setRsUrl(final String rsUrl) {
-        this.rsUrl = rsUrl;
-    }
-
-    /**
-     * Set the URL of the Session Management endpoint.
-     *
-     * @param sessionUrl the URL of the Session Management endpoint.
-     */
-    public void setSessionUrl(final String sessionUrl) {
-        this.sessionUrl = sessionUrl;
-    }
-
-    /**
-     * Set if the testbed is federated.
-     *
-     * @param federated true if the testbed is federated.
-     */
-    public void setFederated(final Boolean federated) {
-        this.federated = federated;
     }
 
     /**

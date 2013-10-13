@@ -65,13 +65,10 @@ public class WiseDBTest extends BaseTestSetup {
         testbed.setName(TESTBED_NAME);
         LOGGER.info("Provide Testbed Description");
         testbed.setDescription("description2");
-        LOGGER.info("Provide Testbed's web page URL");
-        testbed.setUrl("www.new.testbed2.com");
         LOGGER.info("Provide Testbed's urnPrefix");
         testbed.setUrnPrefix(PREFIX);
         LOGGER.info("Using your default TimeZone : " + TimeZone.getDefault().getDisplayName());
         testbed.setTimeZone(TimeZone.getDefault());
-        testbed.setFederated(false);
         testbed.setUrnCapabilityPrefix(CAPABILITY_PREFIX);
         // import to db
         TestbedControllerImpl.getInstance().add(testbed);

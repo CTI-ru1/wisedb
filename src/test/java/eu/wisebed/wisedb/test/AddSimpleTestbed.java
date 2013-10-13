@@ -50,7 +50,6 @@ public class AddSimpleTestbed {
 
             LOGGER.info("Provide Testbed's web page URL");
 //            final String testbedWebPageUrl = br.readLine();
-            testbed.setUrl("www.new.testbed2.com");
 
             LOGGER.info("Provide Testbed's urnPrefix");
 //            final String urnPrefix = br.readLine();
@@ -58,8 +57,6 @@ public class AddSimpleTestbed {
 
             LOGGER.info("Using your default TimeZone : " + TimeZone.getDefault().getDisplayName());
             testbed.setTimeZone(TimeZone.getDefault());
-
-            testbed.setFederated(false);
 
             // set the testbed of the setup to be imported
             Setup setup = new Setup();

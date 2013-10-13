@@ -60,12 +60,8 @@ public class GetTestbed {
                 LOGGER.info("name: " + testbed.getName());
                 LOGGER.info("id: " + testbed.getId());
                 LOGGER.info("description: " + testbed.getDescription());
-                LOGGER.info("rsUrl: " + testbed.getRsUrl());
-                LOGGER.info("sessionUrl: " + testbed.getSessionUrl());
-                LOGGER.info("snaaUrl: " + testbed.getSnaaUrl());
-                LOGGER.info("url: " + testbed.getUrl());
                 LOGGER.info("urnPrefix: " + testbed.getUrnPrefix());
-                LOGGER.info("federated: " + testbed.getFederated());
+                LOGGER.info("urnCapabilityPrefix: " + testbed.getUrnCapabilityPrefix());
                 LOGGER.info("timeZone: " + testbed.getTimeZone().getDisplayName());
                 LOGGER.info("setupId: " + testbed.getSetup().getId());
             } else {
