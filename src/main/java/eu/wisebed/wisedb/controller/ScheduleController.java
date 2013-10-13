@@ -21,6 +21,7 @@ public interface ScheduleController extends AbstractControllerInterface {
     public List<Schedule> list();
 
     public List<Schedule> list(Setup setup, String username);
+    public List<Schedule> list(String username);
 
     public Schedule getByID(int entityId);
 }

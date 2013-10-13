@@ -79,6 +79,15 @@ public class ScheduleControllerImpl extends AbstractController<Schedule> impleme
         return criteria.list();
     }
 
+    @Override
+    public List<Schedule> list(String username) {
+        LOGGER.info("list()");
+        final Session session = getSessionFactory().getCurrentSession();
+        final Criteria criteria = session.createCriteria(Schedule.class);
+        criteria.add(Restrictions.eq(USERNAME, username));
+        return criteria.list();
+    }
+
     public Schedule getByID(int entityId) {
         LOGGER.info("getByID(" + entityId + ")");
         return super.getByID(new Schedule(), entityId);

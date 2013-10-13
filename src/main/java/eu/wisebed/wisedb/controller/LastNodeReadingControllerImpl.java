@@ -1,6 +1,7 @@
 package eu.wisebed.wisedb.controller;
 
 import com.mysql.jdbc.NotImplemented;
+import eu.uberdust.caching.Cachable;
 import eu.wisebed.wisedb.model.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -93,11 +94,15 @@ public class LastNodeReadingControllerImpl extends AbstractController<LastNodeRe
     }
 
     @Override
+    @Cachable
     public LastNodeReading getByNodeCapability(final Node node, final Capability capability) {
 
         LastNodeReading lnr = null;
         if (!node.getName().contains("virtual")) {
-            return NodeCapabilityControllerImpl.getInstance().getByID(node, capability).getLastNodeReading();
+            final NodeCapability cap = NodeCapabilityControllerImpl.getInstance().getByID(node, capability);
+            if (cap != null) {
+                lnr = cap.getLastNodeReading();
+            }
         } else {
 
             List<Link> links = LinkControllerImpl.getInstance().getBySource(node);
